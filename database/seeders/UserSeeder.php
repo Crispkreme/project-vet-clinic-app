@@ -19,13 +19,13 @@ class UserSeeder extends Seeder
                 'name'     => 'Marvin Ramos',
                 'usertype' => 'admin',
                 'email'    => 'admin@admin.com',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('admin'),
             ],
             [
                 'name'     => 'Tomomi Nagasu',
                 'usertype' => 'user',
                 'email'    => 'user@user.com',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('user'),
             ],
         ];
 
