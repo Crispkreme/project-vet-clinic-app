@@ -15,17 +15,20 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-
+// Admin routes
+Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return Inertia::render('Admin/Dashboard');
     })->name('admin.dashboard');
+});
 
+// User routes
+Route::middleware(['auth', 'verified', 'user'])->group(function () {
     Route::get('/user/dashboard', function () {
         return Inertia::render('User/Dashboard');
     })->name('user.dashboard');
-
 });
+
 
 
 Route::middleware('auth')->group(function () {

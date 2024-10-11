@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class Admin
+class UserMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,14 +16,16 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // Check if the user is authenticated
         if (!Auth::check()) {
-            return redirect('/login');
+            return redirect('/login'); // Redirect to login if not authenticated
         }
 
-        if (Auth::user()->usertype !== "admin") {
-            abort(403);
+        // Check if the user is not a regular user
+        if (Auth::user()->usertype !== 'user') {
+            abort(403); // Forbid access if the user is not a regular user
         }
-    
-        return $next($request);
+
+        return $next($request); // Allow regular users to proceed
     }
 }
