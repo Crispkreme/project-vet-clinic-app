@@ -9,7 +9,7 @@ import Sidebar from '@/Components/Sidebar';
 
 export default function Authenticated({
     header,
-    children,
+    children
 }: PropsWithChildren<{ header?: ReactNode }>) {
     const user = usePage().props.auth.user;
 
@@ -27,20 +27,22 @@ export default function Authenticated({
     }
 
     return (
-        <div className="min-h-screen bg-gray-100">
-
+        <>
+        
             <div className={`${darkMode && "dark"} font-sans`}>
+                <Header 
+                    toggleDarkMode={toggleDarkMode} 
+                    darkMode={darkMode}
+                    toogleSidebar={toogleSidebar}
+                />
 
-            <Header 
-                toggleDarkMode={toggleDarkMode} 
-                darkMode={darkMode}
-                toogleSidebar={toogleSidebar}
-            />
-
-            <Sidebar isSidebarOpen={isSidebarOpen} />
+                <div className="flex">
+                    <Sidebar isSidebarOpen={isSidebarOpen} />
+                    <main className="flex-1 min-h-screen bg-gray-100 p-4">
+                        {children}
+                    </main>
+                </div>
             </div>
-
-            <main>{children}</main>
-        </div>
+        </>
     );
 }

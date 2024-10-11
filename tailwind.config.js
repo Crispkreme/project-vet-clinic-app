@@ -14,11 +14,18 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Quicksand', ...defaultTheme.fontFamily.sans],
-                // quickSand: ["Quicksand", sans-serif]
+            },
+            screens: {
+                xs: '320px',
+                sm: '640px',
+                md: '768px',
+                lg: '1024px',
+                xl: '1280px',
+                '2xl': '1536px',
             },
         },
     },
 
     plugins: [forms],
-    darkMode: "class",
+    darkMode: 'class',
 };
