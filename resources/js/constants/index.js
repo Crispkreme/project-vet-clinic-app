@@ -24,7 +24,7 @@ const user03 = `${window.location.origin}/assets/user03.png`;
 
 export const links = [
   {
-    href: "#",
+    href: "/user/dashboard",
     icon: FaChartBar,
     text: "Dashboard",
   },
