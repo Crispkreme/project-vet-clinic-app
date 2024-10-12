@@ -1,12 +1,14 @@
 import React from 'react'
-import ShortcutItem from './ShortcutItem'
+import ShortcutItem from '../ShortcutItem'
 import { shortcutLink } from '@/constants'
 import { IoIosArrowForward } from 'react-icons/io'
+import Title from '../Title'
 
 const Shortcut = () => {
   return (
     <div className='flex gap-4 flex-col bg-white rounded-lg p-4 dark:bg-gray-600'>
-      <ShortcutItem />
+
+      <Title>Shortcuts</Title>
 
       {shortcutLink.map((list, index) => (
         <div key={index} className='flex justify-between items-center cursor-pointer rounded-sm'>

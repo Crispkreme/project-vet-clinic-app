@@ -4,8 +4,8 @@ import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
 import { PropsWithChildren, ReactNode, useState } from 'react';
-import Header from '@/Components/Header';
-import Sidebar from '@/Components/Sidebar';
+import Header from '@/Components/Header/Header';
+import Sidebar from '@/Components/Sidebar/Sidebar';
 
 export default function Authenticated({
     header,
@@ -35,13 +35,11 @@ export default function Authenticated({
                     darkMode={darkMode}
                     toogleSidebar={toogleSidebar}
                 />
+                <Sidebar isSidebarOpen={isSidebarOpen} />
 
-                <div className="flex">
-                    <Sidebar isSidebarOpen={isSidebarOpen} />
-                    <main className="flex-1 min-h-screen bg-gray-100 p-4">
-                        {children}
-                    </main>
-                </div>
+                <main className='text-gray-500 bg-gray-100 p-4 sm:ml-64 flex gap-2 flex-col lg:flex-row translate-all duration-300 mt-14 dark:bg-gray-800'>
+                    {children}
+                </main>
             </div>
         </>
     );

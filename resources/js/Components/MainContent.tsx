@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import Stats from './Stats'
+import Stats from './Stats/Stats'
 import Doctor from './Doctors/Doctor';
 import Event from './Events/Event';
 
@@ -7,7 +7,7 @@ const MainContent = () => {
   const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <div className=''>
+    <div className='flex-1 flex flex-col gap-5'>
       
       <Stats darkMode={darkMode}/>
 
