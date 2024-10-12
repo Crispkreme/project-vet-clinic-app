@@ -14,6 +14,7 @@ interface LinkItemProps {
 }
 
 const LinkItem: React.FC<LinkItemProps> = ({ href, icon: Icon, text, badge }) => {
+
   return (
     <li>
       <a 
