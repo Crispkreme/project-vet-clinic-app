@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -37,10 +39,10 @@ class RegisteredUserController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|lowercase|max:255|unique:'.User::class,
-                'phone_number' => 'required|string|size:13|regex:/^\+63\d{11}$/',
+                'phone_number' => 'required|string|regex:/^\+63\d{10}$/',
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
             ]);
-
+            
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -56,8 +58,13 @@ class RegisteredUserController extends Controller
 
             return redirect()->intended(route($user->usertype === 'admin' ? 'admin.dashboard' : 'user.dashboard'));
 
-        } catch (\Throwable $e) {
-            
+        } catch (Exception $e) {
+
+            Log::error('Error during registration: ' . $e->getMessage(), [
+                'exception' => $e,
+                'trace' => $e->getTraceAsString(),
+            ]);
+
             DB::rollback();
 
             return redirect()->back()->withErrors(['error' => 'An error occurred during registration.']);
