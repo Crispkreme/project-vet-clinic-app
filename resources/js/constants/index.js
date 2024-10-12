@@ -16,6 +16,7 @@ import {
   FaUsersCog,
   FaListAlt,
 } from "react-icons/fa";
+import { MdOutlinePets } from "react-icons/md";
 
 const user01 = `${window.location.origin}/assets/user01.png`;
 const user02 = `${window.location.origin}/assets/user02.png`;
@@ -26,6 +27,15 @@ export const links = [
     href: "#",
     icon: FaChartBar,
     text: "Dashboard",
+  },
+  {
+    href: "/user/petlist",
+    icon: MdOutlinePets,
+    text: "Pet",
+    badge: {
+      color: "bg-gray-100 text-gray-800",
+      darkColor: "dark:bg-gray-700 dark:text-gray-300",
+    },
   },
   {
     href: "#",
