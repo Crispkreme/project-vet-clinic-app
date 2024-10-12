@@ -3,30 +3,32 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
 export default function Register() {
-    const { data, setData, post, processing, errors, reset } = useForm({
+
+    const { props } = usePage();
+    const { errors } = props;
+
+    const { data, setData, post, processing } = useForm({
         name: '',
         email: '',
+        phone_number: '',
         password: '',
         password_confirmation: '',
     });
 
-    const submit: FormEventHandler = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-
-        post(route('register'), {
-            onFinish: () => reset('password', 'password_confirmation'),
-        });
+        post(route('register'));
     };
 
     return (
         <GuestLayout>
             <Head title="Register" />
 
-            <form onSubmit={submit}>
+            <form onSubmit={handleSubmit}>
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
 
@@ -42,6 +44,7 @@ export default function Register() {
                     />
 
                     <InputError message={errors.name} className="mt-2" />
+
                 </div>
 
                 <div className="mt-4">
@@ -59,6 +62,23 @@ export default function Register() {
                     />
 
                     <InputError message={errors.email} className="mt-2" />
+                </div>
+
+                <div className="mt-4">
+                    <InputLabel htmlFor="phone_number" value="Phone Number" />
+
+                    <TextInput
+                        id="phone_number"
+                        name="phone_number"
+                        value={data.phone_number}
+                        className="mt-1 block w-full"
+                        autoComplete="phone_number"
+                        isFocused={true}
+                        onChange={(e) => setData('phone_number', e.target.value)}
+                        required
+                    />
+
+                    <InputError message={errors.name} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
