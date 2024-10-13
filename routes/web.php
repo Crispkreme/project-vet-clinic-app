@@ -28,7 +28,10 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 // User routes
 Route::middleware(['auth', 'verified', 'user'])->group(function () {
     Route::get('/user/dashboard', [UserController::class, 'user'])->name('user.dashboard');
+
+    // PET LIST
     Route::get('/user/petlist', [PetController::class, 'petList'])->name('user.petlist');
+    Route::post('/user/store', [PetController::class, 'petStore'])->name('user.store');
 });
 
 Route::middleware('auth')->group(function () {
