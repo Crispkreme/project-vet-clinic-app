@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PetController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -24,12 +27,12 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 
 // User routes
 Route::middleware(['auth', 'verified', 'user'])->group(function () {
-    Route::get('/user/dashboard', function () {
-        return Inertia::render('User/Dashboard');
-    })->name('user.dashboard');
+    Route::get('/user/dashboard', [UserController::class, 'user'])->name('user.dashboard');
+
+    // PET LIST
+    Route::get('/user/petlist', [PetController::class, 'petList'])->name('user.petlist');
+    Route::post('/user/store', [PetController::class, 'petStore'])->name('user.store');
 });
-
-
 
 Route::middleware('auth')->group(function () {
 
