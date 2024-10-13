@@ -24,7 +24,7 @@ class PetRepository implements PetContract
     {
         return $this->model
             ->where('user_id', $id)
-            ->select('name', 'breed', 'age', 'weight', 'status')
+            ->select('name', 'breed', 'age', 'weight', 'status', 'medical_history')
             ->get();
     }
 
@@ -32,10 +32,11 @@ class PetRepository implements PetContract
     {
         return $this->model->updateOrCreate(
             [
-                'user_id' => $data['user_id'],
-                'name' => $data['name'],
+                'id' => $data['id'] ?? null,
             ],
             [
+                'user_id' => $data['user_id'],
+                'name' => $data['name'],
                 'breed' => $data['breed'],
                 'age' => $data['age'],
                 'weight' => $data['weight'],

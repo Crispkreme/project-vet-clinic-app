@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Title from '@/Components/Title';
 import { MdOutlinePets } from 'react-icons/md';
-import AddPet from './AddPet'; // Import the AddPet component
+import AddPet from './AddPet';
 
 interface Pet {
     id: number;
@@ -11,34 +11,47 @@ interface Pet {
     age: number;
     weight: number;
     status: string;
+    user_id?: number; 
+    medical_history?: string; 
 }
 
 interface PetListProps {
     pets: Pet[];
+    user?: { id: number }; 
 }
 
-const PetList: React.FC<PetListProps> = ({ pets }) => {
+const PetList: React.FC<PetListProps> = ({ pets, user }) => {
     const [showModal, setShowModal] = useState(false);
-    const [selectedPet, setSelectedPet] = useState<Pet | null>(null); 
+    const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
+    const [data, setData] = useState<Pet | null>(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [petList, setPetList] = useState<Pet[]>(pets);
 
-    // Toggle modal visibility
     const toggleModal = () => {
         setShowModal(!showModal);
     };
 
-    // Handle delete functionality
     const handleDelete = (petId: number) => {
         if (confirm("Are you sure you want to delete this pet?")) {
-            const updatedPets = pets.filter(pet => pet.id !== petId);
+            const updatedPets = petList.filter(pet => pet.id !== petId);
+            setPetList(updatedPets); 
             alert(`Pet with ID ${petId} has been deleted.`);
         }
     };
 
     const openEditModal = (pet: Pet) => {
         setSelectedPet(pet);
-        setData(pet);
-        setIsEditing(true); 
+        setData({
+            id: pet.id,
+            user_id: pet.user_id || user?.id,
+            name: pet.name,
+            breed: pet.breed,
+            age: pet.age, 
+            weight: pet.weight,
+            status: pet.status,
+            medical_history: pet.medical_history || "",
+        });
+        setIsEditing(true);
         toggleModal();
     };
 
@@ -48,15 +61,13 @@ const PetList: React.FC<PetListProps> = ({ pets }) => {
                 <div className="flex items-center justify-between mb-4">
                     <button
                         className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center gap-2"
-                        onClick={() => { setSelectedPet(null); setIsEditing(false); toggleModal(); }} // Reset modal for adding
+                        onClick={() => { setSelectedPet(null); setIsEditing(false); toggleModal(); }}
                     >
                         Add Pet{" "}
                         <span>
                             <MdOutlinePets />
                         </span>
                     </button>
-    
-                    {/* Title with icon */}
                     <Title>
                         Your Pets{" "}
                         <span className="flex justify-end">
@@ -64,9 +75,9 @@ const PetList: React.FC<PetListProps> = ({ pets }) => {
                         </span>
                     </Title>
                 </div>
-    
+
                 <div className="flex items-center gap-4">
-                    {pets.length === 0 ? (
+                    {petList.length === 0 ? (
                         <p>No pets found.</p>
                     ) : (
                         <table className="table-fixed w-full">
@@ -81,8 +92,8 @@ const PetList: React.FC<PetListProps> = ({ pets }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {pets.map((pet) => (
-                                    <tr key={pet.id}>
+                                {petList.map((pet) => (
+                                    <tr key={`${pet.id}-${pet.name}`}>
                                         <td className="border px-4 py-2">{pet.name}</td>
                                         <td className="border px-4 py-2">{pet.breed}</td>
                                         <td className="border px-4 py-2">{pet.age}</td>
@@ -109,12 +120,13 @@ const PetList: React.FC<PetListProps> = ({ pets }) => {
                     )}
                 </div>
             </div>
-    
+
             <AddPet 
                 showModal={showModal} 
                 toggleModal={toggleModal} 
                 selectedPet={selectedPet} 
                 isEditing={isEditing} 
+                data={data} 
             />
         </AuthenticatedLayout>
     );

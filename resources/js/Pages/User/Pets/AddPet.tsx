@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "@/Components/Modal";
 import { useForm, usePage } from "@inertiajs/react";
 import { FormEventHandler } from "react";
@@ -11,34 +11,32 @@ import Select from "@/Components/Select";
 import Textarea from "@/Components/Textarea";
 import toastr from "toastr";
 
+interface Pet {
+    id: number;
+    user_id: number | null;
+    name: string;
+    breed: string | null;
+    age: number | null;
+    weight: number | null;
+    medical_history: string | null;
+    status: 'Healthy' | 'Due for Vaccination' | 'Under Treatment' | 'Post-Surgery' | 'Needs Medication' | 'In Quarantine' | 'Emergency' | 'Adopted' | 'Lost' | 'Pending Vet Visit' | null;
+    created_at: string;
+    updated_at: string;
+}
+
 interface AddPetProps {
     showModal: boolean;
     toggleModal: () => void;
+    selectedPet: Pet | null;
+    isEditing: boolean;
 }
 
-const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal }) => {
+const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, isEditing }) => {
     const { props } = usePage();
     const { errors } = props;
     const user = usePage().props.auth.user;
     const [notification, setNotification] = useState<string | null>(null);
-
-    const [isEditing, setIsEditing] = useState(false);
-    const [selectedPet, setSelectedPet] = useState(null);
-
-    const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-
-        if (value === "") {
-            setData({ ...data, weight: value });
-            return;
-        }
-
-        if (/^\d*\.?\d{0,2}$/.test(value)) {
-            setData({ ...data, weight: value });
-        }
-    };
-
-    const { data, setData, post, processing } = useForm({
+    const { data, setData, post, processing, reset } = useForm({
         user_id: user.id,
         name: "",
         breed: "",
@@ -46,25 +44,44 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal }) => {
         weight: "",
         status: "",
         medical_history: "",
+        id: undefined, // Initialize id as undefined
     });
+
+    const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+    
+        if (value === "") {
+            setData(prevData => ({ ...prevData, weight: value }));
+            return;
+        }
+    
+        if (/^\d*\.?\d{0,2}$/.test(value)) {
+            setData(prevData => ({ ...prevData, weight: value }));
+        }
+    };
 
     const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-        const endpoint = isEditing
-            ? route("user.update", selectedPet.id)
-            : route("user.store");
+    
+        const isUpdating = isEditing && selectedPet;
 
-        post(endpoint, {
+        // Update the id in the data object
+        setData(prevData => ({
+            ...prevData,
+            id: isUpdating ? selectedPet?.id : undefined, 
+        }));
+    
+        post(route(isUpdating ? "user.update" : "user.store"), {
             data: {
                 ...data,
-                id: isEditing ? selectedPet.id : undefined,
             },
-            onSuccess: (response) => {
+            onSuccess: (response: { props: { message: string } }) => {
                 setNotification(response.props.message);
-                toggleModal(); 
+                toggleModal();
             },
-            onError: (error) => {
-                setNotification(error.props.error || "An error occurred.");
+            onError: (error: { props?: { error: string } }) => {
+                const errorMessage = error?.props?.error || "An error occurred.";
+                setNotification(errorMessage);
             },
         });
     };
@@ -82,23 +99,56 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal }) => {
         { value: "Pending Vet Visit", label: "Pending Vet Visit" },
     ];
 
-    const openEditModal = (pet) => {
-        setSelectedPet(pet);
-        setData(pet);
-        setIsEditing(true);
+    useEffect(() => {
+        if (showModal) {
+            if (selectedPet) {
+                setData(prevData => ({
+                    ...prevData,
+                    user_id: selectedPet.user_id || user.id,
+                    name: selectedPet.name || "",
+                    breed: selectedPet.breed || "",
+                    age: selectedPet.age ? selectedPet.age.toString() : "",
+                    weight: selectedPet.weight ? selectedPet.weight.toString() : "",
+                    status: selectedPet.status || "",
+                    medical_history: selectedPet.medical_history || "",
+                    id: selectedPet.id, // Set the id from selectedPet
+                }));
+            } else {
+                setData({
+                    user_id: user.id,
+                    name: "",
+                    breed: "",
+                    age: "",
+                    weight: "",
+                    status: "",
+                    medical_history: "",
+                    id: undefined, // Reset id
+                });
+            }
+        }
+    }, [showModal, selectedPet, user.id]);
+
+    const handleClose = () => {
+        reset();
         toggleModal();
     };
 
     return (
-        <Modal show={showModal} onClose={toggleModal}>
+        <Modal show={showModal} onClose={handleClose}>
             <div className="p-6">
+
                 <Title>
                     {isEditing ? "Edit Pet" : "Add New Pet"}{" "}
                     <span>
                         <MdOutlinePets />
                     </span>
                 </Title>
+
                 <form onSubmit={handleSubmit}>
+                    {/* Add a hidden input for the id */}
+                    {isEditing && (
+                        <input type="hidden" name="id" value={data.id} />
+                    )}
                     <div className="mt-2">
                         <InputLabel htmlFor="name" value="Pet Name" />
                         <TextInput
@@ -108,7 +158,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal }) => {
                             className="mt-1 block w-full"
                             autoComplete="name"
                             isFocused={true}
-                            onChange={(e) => setData("name", e.target.value)}
+                            onChange={(e) => setData(prevData => ({ ...prevData, name: e.target.value }))}
                             required
                         />
                         <InputError message={errors.name} className="mt-2" />
@@ -122,7 +172,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal }) => {
                             className="mt-1 block w-full"
                             autoComplete="breed"
                             isFocused={true}
-                            onChange={(e) => setData("breed", e.target.value)}
+                            onChange={(e) => setData(prevData => ({ ...prevData, breed: e.target.value }))}
                             required
                         />
                         <InputError message={errors.breed} className="mt-2" />
@@ -142,14 +192,16 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal }) => {
                                 value={data.age}
                                 onChange={(e) => {
                                     const value = e.target.value;
+
                                     if (
-                                        value.length <= 2 &&
-                                        (value === "" || /^\d+$/.test(value))
+                                        value.length <= 2 && 
+                                        (value === "" || /^\d+$/.test(value)) 
                                     ) {
-                                        setData({ ...data, age: value });
+                                        setData(prevData => ({ ...prevData, age: value }));
                                     }
                                 }}
                             />
+
                             <InputError message={errors.age} className="mt-2" />
                         </div>
                         <div className="w-1/2">
@@ -176,9 +228,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal }) => {
                             label=""
                             name="status"
                             value={data.status}
-                            onChange={(e) =>
-                                setData({ ...data, status: e.target.value })
-                            }
+                            onChange={(e) => setData(prevData => ({ ...prevData, status: e.target.value })) }
                             options={statusOptions}
                         />
                         <InputError message={errors.status} className="mt-2" />
@@ -192,12 +242,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal }) => {
                             id="medical_history"
                             name="medical_history"
                             value={data.medical_history}
-                            onChange={(e) =>
-                                setData({
-                                    ...data,
-                                    medical_history: e.target.value,
-                                })
-                            }
+                            onChange={(e) => setData(prevData => ({ ...prevData, medical_history: e.target.value })) }
                             placeholder="Enter medical history"
                             label=""
                         />
@@ -209,15 +254,14 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal }) => {
 
                     <button
                         type="submit"
-                        className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                        className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
+                        disabled={processing}
                     >
-                        {isEditing ? "Update" : "Submit"}
+                        {isEditing ? "Update Pet" : "Add Pet"}
                     </button>
-                </form>
 
-                {notification && (
-                    <div className="notification">{notification}</div>
-                )}
+                    {notification && <div className="mt-4 text-green-500">{notification}</div>}
+                </form>
             </div>
         </Modal>
     );

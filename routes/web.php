@@ -33,6 +33,7 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     // PET LIST
     Route::get('/user/petlist', [PetController::class, 'petList'])->name('user.petlist');
     Route::post('/user/store', [PetController::class, 'petStore'])->name('user.store');
+    Route::post('/user/update/{id}', [PetController::class, 'petStore'])->name('user.update');
 
     // APPOINTMENT
     Route::get('/user/appointment', [AppointmentController::class, 'appointment'])->name('user.appointment');
