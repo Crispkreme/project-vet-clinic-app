@@ -24,7 +24,7 @@ class PetRepository implements PetContract
     {
         return $this->model
             ->where('user_id', $id)
-            ->select('name', 'breed', 'age', 'weight', 'status', 'medical_history')
+            ->select('id', 'name', 'breed', 'age', 'weight', 'status', 'medical_history')
             ->get();
     }
 

@@ -66,12 +66,13 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
         const isUpdating = isEditing && selectedPet;
 
         // Update the id in the data object
-        setData(prevData => ({
+        setData((prevData: any) => ({
             ...prevData,
             id: isUpdating ? selectedPet?.id : undefined, 
         }));
-    
-        post(route(isUpdating ? "user.update" : "user.store"), {
+        
+        const url = route(isUpdating ? "user.update" : "user.store", isUpdating ? selectedPet.id : null);
+        post(url, {
             data: {
                 ...data,
             },
@@ -145,7 +146,6 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                 </Title>
 
                 <form onSubmit={handleSubmit}>
-                    {/* Add a hidden input for the id */}
                     {isEditing && (
                         <input type="hidden" name="id" value={data.id} />
                     )}

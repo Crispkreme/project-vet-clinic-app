@@ -6,13 +6,15 @@ import AddPet from './AddPet';
 
 interface Pet {
     id: number;
+    user_id?: number | null;
     name: string;
     breed: string;
     age: number;
     weight: number;
     status: string;
-    user_id?: number; 
     medical_history?: string; 
+    created_at: string; 
+    updated_at: string;
 }
 
 interface PetListProps {
@@ -23,36 +25,30 @@ interface PetListProps {
 const PetList: React.FC<PetListProps> = ({ pets, user }) => {
     const [showModal, setShowModal] = useState(false);
     const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
-    const [data, setData] = useState<Pet | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [petList, setPetList] = useState<Pet[]>(pets);
 
     const toggleModal = () => {
         setShowModal(!showModal);
     };
-
-    const handleDelete = (petId: number) => {
-        if (confirm("Are you sure you want to delete this pet?")) {
-            const updatedPets = petList.filter(pet => pet.id !== petId);
-            setPetList(updatedPets); 
-            alert(`Pet with ID ${petId} has been deleted.`);
+    
+    const openEditModal = (pet: Pet) => {
+        if (pet.user_id !== undefined) {
+            console.log(`User ID is defined: ${pet.user_id}`);
         }
+        setSelectedPet(pet); 
+        setIsEditing(true); 
+        setShowModal(true); 
     };
 
-    const openEditModal = (pet: Pet) => {
-        setSelectedPet(pet);
-        setData({
-            id: pet.id,
-            user_id: pet.user_id || user?.id,
-            name: pet.name,
-            breed: pet.breed,
-            age: pet.age, 
-            weight: pet.weight,
-            status: pet.status,
-            medical_history: pet.medical_history || "",
-        });
-        setIsEditing(true);
-        toggleModal();
+    const closeModal = () => {
+        setShowModal(false); 
+        setSelectedPet(null); 
+        setIsEditing(false);
+    };
+
+    const handleDelete = (id: number) => {
+        console.log(`Delete pet with id: ${id}`);
     };
 
     return (
@@ -75,59 +71,53 @@ const PetList: React.FC<PetListProps> = ({ pets, user }) => {
                         </span>
                     </Title>
                 </div>
-
-                <div className="flex items-center gap-4">
-                    {petList.length === 0 ? (
-                        <p>No pets found.</p>
-                    ) : (
-                        <table className="table-fixed w-full">
-                            <thead>
-                                <tr>
-                                    <th className="px-4 py-2">Name</th>
-                                    <th className="px-4 py-2">Breed</th>
-                                    <th className="px-4 py-2">Age</th>
-                                    <th className="px-4 py-2">Weight</th>
-                                    <th className="px-4 py-2">Status</th>
-                                    <th className="px-4 py-2">Actions</th> 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {petList.map((pet) => (
-                                    <tr key={`${pet.id}-${pet.name}`}>
-                                        <td className="border px-4 py-2">{pet.name}</td>
-                                        <td className="border px-4 py-2">{pet.breed}</td>
-                                        <td className="border px-4 py-2">{pet.age}</td>
-                                        <td className="border px-4 py-2">{pet.weight}</td>
-                                        <td className="border px-4 py-2">{pet.status}</td>
-                                        <td className="border px-4 py-2 flex gap-2">
-                                            <button
-                                                onClick={() => openEditModal(pet)} 
-                                                className="bg-yellow-500 text-white px-2 py-1 rounded-md"
-                                            >
-                                                Update
-                                            </button>
-                                            <button
-                                                onClick={() => handleDelete(pet.id)} 
-                                                className="bg-red-500 text-white px-2 py-1 rounded-md"
-                                            >
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    )}
-                </div>
+                <table className="table-auto w-full">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Breed</th>
+                            <th>Age</th>
+                            <th>Weight</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {petList.map((pet) => (
+                            <tr key={`${pet.id}-${pet.name}`}>
+                                <td className="border px-4 py-2">{pet.name}</td>
+                                <td className="border px-4 py-2">{pet.breed}</td>
+                                <td className="border px-4 py-2">{pet.age}</td>
+                                <td className="border px-4 py-2">{pet.weight}</td>
+                                <td className="border px-4 py-2">{pet.status}</td>
+                                <td className="border px-4 py-2 flex gap-2">
+                                    <button
+                                        onClick={() => openEditModal(pet)} 
+                                        className="bg-yellow-500 text-white px-2 py-1 rounded-md"
+                                    >
+                                        Update
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(pet.id)} 
+                                        className="bg-red-500 text-white px-2 py-1 rounded-md"
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
 
-            <AddPet 
-                showModal={showModal} 
-                toggleModal={toggleModal} 
-                selectedPet={selectedPet} 
-                isEditing={isEditing} 
-                data={data} 
-            />
+            {showModal && (
+                <AddPet
+                    showModal={showModal}
+                    toggleModal={closeModal}
+                    selectedPet={selectedPet}
+                    isEditing={isEditing}
+                />
+            )}
         </AuthenticatedLayout>
     );
 };

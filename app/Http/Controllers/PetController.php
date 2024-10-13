@@ -39,9 +39,7 @@ class PetController extends Controller
     }
 
     public function petStore(Request $request, $id = null) 
-    {
-        dd($request);
-        
+    {   
         DB::beginTransaction();
 
         try {
