@@ -38,12 +38,11 @@ class PetController extends Controller
         ]);
     }
 
-    public function petStore(Request $request)
-    {
+    public function petStore(Request $request, $id = null) 
+    {   
         DB::beginTransaction();
 
         try {
-
             $validated = $request->validate([
                 'user_id' => 'nullable|exists:users,id',
                 'name' => 'required|string|max:50',
@@ -54,7 +53,12 @@ class PetController extends Controller
                 'status' => 'nullable|in:Healthy,Due for Vaccination,Under Treatment,Post-Surgery,Needs Medication,In Quarantine,Emergency,Adopted,Lost,Pending Vet Visit',
             ]);
 
-            $this->petContract->createOrUpdatePet($validated);
+            if ($id) {
+                $validated['id'] = $id; 
+                $this->petContract->createOrUpdatePet($validated);
+            } else {
+                $this->petContract->createOrUpdatePet($validated);
+            }
 
             DB::commit();
 
@@ -62,7 +66,6 @@ class PetController extends Controller
             return response()->json(['success' => true]);
 
         } catch (Exception $e) {
-
             Log::error('Error during petStore: ' . $e->getMessage(), [
                 'exception' => $e,
                 'trace' => $e->getTraceAsString(),
@@ -74,4 +77,5 @@ class PetController extends Controller
             return response()->json(['error' => true]);
         }
     }
+
 }

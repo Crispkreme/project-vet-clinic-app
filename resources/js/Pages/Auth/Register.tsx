@@ -65,13 +65,12 @@ export default function Register() {
                 <div className="mt-4">
                     <InputLabel htmlFor="phone_number" value="Phone Number" />
                     <InputMask
-                        mask="+63 999 999 9999" // mask to control the format
+                        mask="+63 999 999 9999"
                         maskChar={null}
                         value={data.phone_number}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             let value = e.target.value;
                             
-                            // Ensure only valid digits after +63
                             if (value.startsWith('+63 0')) {
                                 value = '+63 ' + value.substring(5);
                             }
@@ -79,10 +78,8 @@ export default function Register() {
                                 value = '+63 9' + value.substring(5);
                             }
 
-                            // Remove spaces for storing into the database
                             const cleanedValue = value.replace(/\s+/g, '');
 
-                            // Limit to the first 12 characters (e.g., +63905288521)
                             const finalValue = cleanedValue.substring(0, 13);
 
                             setData('phone_number', finalValue);
