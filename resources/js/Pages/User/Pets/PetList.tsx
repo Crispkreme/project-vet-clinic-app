@@ -18,10 +18,9 @@ interface PetListProps {
 }
 
 const PetList: React.FC<PetListProps> = ({ pets }) => {
-    // State to manage modal visibility and selected pet
     const [showModal, setShowModal] = useState(false);
-    const [selectedPet, setSelectedPet] = useState<Pet | null>(null); // For editing
-    const [isEditing, setIsEditing] = useState(false); // For distinguishing between add and edit
+    const [selectedPet, setSelectedPet] = useState<Pet | null>(null); 
+    const [isEditing, setIsEditing] = useState(false);
 
     // Toggle modal visibility
     const toggleModal = () => {
