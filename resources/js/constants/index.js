@@ -1,5 +1,6 @@
 import { GoGoal } from "react-icons/go";
 import { GrPlan } from "react-icons/gr";
+import { BsCalendar2Range } from "react-icons/bs";
 import {
   IoIosStats,
   IoIosSettings,
@@ -32,6 +33,15 @@ export const links = [
     href: "/user/petlist",
     icon: MdOutlinePets,
     text: "Pet",
+    badge: {
+      color: "bg-gray-100 text-gray-800",
+      darkColor: "dark:bg-gray-700 dark:text-gray-300",
+    },
+  },
+  {
+    href: "/user/appointment",
+    icon: BsCalendar2Range,
+    text: "Appointment",
     badge: {
       color: "bg-gray-100 text-gray-800",
       darkColor: "dark:bg-gray-700 dark:text-gray-300",

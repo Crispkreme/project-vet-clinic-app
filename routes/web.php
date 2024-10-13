@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PetController;
@@ -32,6 +33,9 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     // PET LIST
     Route::get('/user/petlist', [PetController::class, 'petList'])->name('user.petlist');
     Route::post('/user/store', [PetController::class, 'petStore'])->name('user.store');
+
+    // APPOINTMENT
+    Route::get('/user/appointment', [AppointmentController::class, 'appointment'])->name('user.appointment');
 });
 
 Route::middleware('auth')->group(function () {
