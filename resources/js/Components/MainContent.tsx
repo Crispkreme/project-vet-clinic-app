@@ -50,7 +50,10 @@ const MainContent: React.FC<MainContentProps> = ({ pets, appointments, allAppoin
           pets={pets} 
           usertype={usertype}
         />
-        <Event appointments={appointments} />
+        <Event 
+          appointments={appointments} 
+          usertype={usertype}
+        />
       </div>
     </div>
   );

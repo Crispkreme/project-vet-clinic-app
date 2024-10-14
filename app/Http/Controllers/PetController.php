@@ -31,11 +31,19 @@ class PetController extends Controller
         }
 
         $userId = $user->id;
-        $pets = $this->petContract->getPetByOwner($userId);
+        $userType = $user->usertype;
 
-        return Inertia::render('User/Pets/PetList', [
-            'pets' => $pets,
-        ]);
+        if ($userType === 'admin') {
+            $pets = $this->petContract->getAllPet();
+            return Inertia::render('Admin/Pets/PetList', [
+                'pets' => $pets,
+            ]);
+        } else {
+            $pets = $this->petContract->getPetByOwner($userId);
+            return Inertia::render('User/Pets/PetList', [
+                'pets' => $pets,
+            ]);
+        }
     }
 
     public function petStore(Request $request, $id = null) 
