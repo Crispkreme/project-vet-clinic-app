@@ -38,7 +38,7 @@ class AppointmentController extends Controller
         }
 
         $userId = $user->id;
-        $appointments = $this->appointmentContract->getAppointmentsByOwner($userId);
+        $appointments = $this->appointmentContract->getAllAppointmentsByOwner($userId);
         $doctors = $this->userContract->getAllDoctor();
         $pets = $this->petContract->getPetByOwner($userId);
 

@@ -5,6 +5,9 @@ namespace App\Contracts;
 interface AppointmentContract {
 
     public function getAllAppointment();
-    public function getAppointmentsByOwner($id);
+    public function getAllAppointmentsByOwner($id);
+    public function getActiveAppointmentsByOwner($id);
     public function createOrUpdateAppointment($data);
+    public function getCountAllAppointmentsByOwner($id);
+    public function getCountAllPendingAppointmentsByOwner($id);
 }

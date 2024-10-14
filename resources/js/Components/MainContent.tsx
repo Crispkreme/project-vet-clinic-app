@@ -11,21 +11,36 @@ interface Pet {
   status: string;
 }
 
-interface MainContentProps {
-  pets: Pet[]; 
+interface Appointment {
+  id: number;
+  vet_id: number | null;       
+  pet_id: number | null; 
+  title: string;
+  appointment_date: string;  
+  appointment_start: string;
+  appointment_end: string;
+  status: 'Pending' | 'Confirmed' | 'Cancelled' | 'Completed';
+  notes?: string | null;
 }
 
-const MainContent: React.FC<MainContentProps> = ({ pets }) => {
+interface MainContentProps {
+  pets: Pet[]; 
+  appointments: Appointment[]; 
+  allAppointments: number;
+  pendingAppointments: number;
+}
+
+const MainContent: React.FC<MainContentProps> = ({ pets, appointments, allAppointments, pendingAppointments }) => {
   
   const [darkMode, setDarkMode] = useState(false);
 
   return (
     <div className='flex-1 flex flex-col gap-5'>
-      <Stats darkMode={darkMode}/>
+      <Stats darkMode={darkMode} allAppointments={allAppointments} pendingAppointment={pendingAppointments} />
 
       <div className='flex flex-col gap-3 lg:flex-row'>
         <PetComponent pets={pets} />
-        <Event />
+        <Event appointments={appointments} />
       </div>
     </div>
   );
