@@ -44,7 +44,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
         weight: "",
         status: "",
         medical_history: "",
-        id: undefined, // Initialize id as undefined
+        id: undefined,
     });
 
     const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,10 +62,8 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
 
     const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-    
         const isUpdating = isEditing && selectedPet;
 
-        // Update the id in the data object
         setData((prevData: any) => ({
             ...prevData,
             id: isUpdating ? selectedPet?.id : undefined, 
@@ -103,7 +101,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
     useEffect(() => {
         if (showModal) {
             if (selectedPet) {
-                setData(prevData => ({
+                setData((prevData: any) => ({
                     ...prevData,
                     user_id: selectedPet.user_id || user.id,
                     name: selectedPet.name || "",
@@ -112,7 +110,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                     weight: selectedPet.weight ? selectedPet.weight.toString() : "",
                     status: selectedPet.status || "",
                     medical_history: selectedPet.medical_history || "",
-                    id: selectedPet.id, // Set the id from selectedPet
+                    id: selectedPet.id,
                 }));
             } else {
                 setData({
@@ -123,7 +121,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                     weight: "",
                     status: "",
                     medical_history: "",
-                    id: undefined, // Reset id
+                    id: undefined,
                 });
             }
         }

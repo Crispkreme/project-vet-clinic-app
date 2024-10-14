@@ -1,6 +1,7 @@
 import { GoGoal } from "react-icons/go";
 import { GrPlan } from "react-icons/gr";
-import { BsCalendar2Range } from "react-icons/bs";
+import { LuCalendarDays } from "react-icons/lu";
+import { PiWechatLogo } from "react-icons/pi";
 import {
   IoIosStats,
   IoIosSettings,
@@ -40,7 +41,7 @@ export const links = [
   },
   {
     href: "/user/appointment",
-    icon: BsCalendar2Range,
+    icon: LuCalendarDays,
     text: "Appointment",
     badge: {
       color: "bg-gray-100 text-gray-800",
@@ -49,20 +50,9 @@ export const links = [
   },
   {
     href: "#",
-    icon: FaCalendarAlt,
-    text: "Kanban",
+    icon: PiWechatLogo,
+    text: "Message",
     badge: {
-      text: "Pro",
-      color: "bg-gray-100 text-gray-800",
-      darkColor: "dark:bg-gray-700 dark:text-gray-300",
-    },
-  },
-  {
-    href: "#",
-    icon: FaFacebookMessenger,
-    text: "Inbox",
-    badge: {
-      text: "4",
       color: "bg-blue-100 text-blue-800",
       darkColor: "dark:bg-blue-900 dark:text-blue-300",
     },

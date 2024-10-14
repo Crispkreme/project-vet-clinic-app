@@ -40,15 +40,18 @@ class AppointmentRepository implements AppointmentContract
     {
         return $this->model->updateOrCreate(
             [
-                'pet_id' => $data['pet_id'],
-                'appointment_date' => $data['appointment_date'],
+                'id' => $data['id'] ?? null, 
             ],
             [
-                'vet_id' => $data['vet_id'],
-                'status' => $data['status'],
+                'vet_id' => $data['vet_id'] ?? null, 
+                'pet_id' => $data['pet_id'] ?? null, 
+                'title' => $data['title'],
+                'appointment_date' => $data['appointment_date'],
+                'appointment_start' => $data['appointment_start'],
+                'appointment_end' => $data['appointment_end'],
+                'status' => $data['status'] ?? 'Pending',
                 'notes' => $data['notes'] ?? null,
             ]
         );
     }
-
 }
