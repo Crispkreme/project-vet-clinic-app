@@ -11,16 +11,31 @@ interface Pet {
     status: string;
 }
 
-interface DashboardProps {
-    pets: Pet[]; 
+interface Appointment {
+    id: number;
+    vet_id: number | null;       
+    pet_id: number | null; 
+    title: string;
+    appointment_date: string;  
+    appointment_start: string;
+    appointment_end: string;
+    status: 'Pending' | 'Confirmed' | 'Cancelled' | 'Completed';
+    notes?: string | null;
 }
 
-export default function Dashboard({ pets }: DashboardProps) {
-    console.log(pets);
+interface DashboardProps {
+    pets: Pet[]; 
+    appointments: Appointment[]; 
+    allAppointments: number;
+    pendingAppointments: number;
+}
+
+export default function Dashboard({ pets, appointments, allAppointments, pendingAppointments }: DashboardProps) {
+    console.log(appointments);
 
     return (
         <AuthenticatedLayout>
-            <MainContent pets={pets}/>
+            <MainContent pets={pets} appointments={appointments} allAppointments={allAppointments} pendingAppointments={pendingAppointments}/>
             <UserProfile />
         </AuthenticatedLayout>
     );
