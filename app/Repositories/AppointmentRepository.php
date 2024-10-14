@@ -79,11 +79,26 @@ class AppointmentRepository implements AppointmentContract
             ->count();
     }
 
+    public function getCountAllAppointments()
+    {
+        return $this->model
+            ->join('pets', 'appointments.pet_id', '=', 'pets.id')
+            ->count();
+    }
+
     public function getCountAllPendingAppointmentsByOwner($ownerId)
     {
         return $this->model
             ->join('pets', 'appointments.pet_id', '=', 'pets.id')
             ->where('pets.user_id', $ownerId)
+            ->where('appointments.status', 'Pending')
+            ->count();
+    }
+
+    public function getCountAllPendingAppointments()
+    {
+        return $this->model
+            ->join('pets', 'appointments.pet_id', '=', 'pets.id')
             ->where('appointments.status', 'Pending')
             ->count();
     }

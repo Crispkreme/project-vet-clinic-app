@@ -1,14 +1,9 @@
-import { FaUsersCog, FaListAlt } from 'react-icons/fa';
+import { FaChartBar } from 'react-icons/fa';
 
 export const getLinks = (userType) => [
   {
-    href: userType === 'admin' ? "/admin/users" : "/user/users", 
-    icon: FaUsersCog,
+    href: userType === 'admin' ? "/admin/dashboard" : "/user/dashboard", 
+    icon: FaChartBar,
     text: "Users",
-  },
-  {
-    href: userType === 'admin' ? "/admin/products" : "/user/products", 
-    icon: FaListAlt,
-    text: "Products",
   },
 ];

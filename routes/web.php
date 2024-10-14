@@ -21,9 +21,7 @@ Route::get('/', function () {
 
 // Admin routes
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return Inertia::render('Admin/Dashboard');
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [HomeController::class, 'dashboard'])->name('admin.dashboard');
 });
 
 // User routes

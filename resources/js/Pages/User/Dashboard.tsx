@@ -31,7 +31,6 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ pets, appointments, allAppointments, pendingAppointments }: DashboardProps) {
-    console.log(appointments);
 
     return (
         <AuthenticatedLayout>

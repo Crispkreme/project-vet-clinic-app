@@ -10,4 +10,6 @@ interface AppointmentContract {
     public function createOrUpdateAppointment($data);
     public function getCountAllAppointmentsByOwner($id);
     public function getCountAllPendingAppointmentsByOwner($id);
+    public function getCountAllAppointments();
+    public function getCountAllPendingAppointments();
 }
