@@ -64,7 +64,7 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => 
                         </span>
                     </Title>
                 </div>
-                <div className="overflow-x-auto"> {/* Makes table scrollable on small screens */}
+                <div className="overflow-x-auto">
                     <table className="min-w-full table-auto">
                         <thead>
                             <tr className="bg-gray-200 dark:bg-gray-700">

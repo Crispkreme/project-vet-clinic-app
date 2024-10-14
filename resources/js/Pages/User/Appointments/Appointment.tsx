@@ -59,14 +59,14 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pe
                             toggleModal();
                         }}
                     >
-                        Add Appointment{" "}
-                        <span>
+                        Add Appointment
+                        <span className="ml-2">
                             <LuCalendarDays />
                         </span>
                     </button>
                     <Title>
-                        Appointments{" "}
-                        <span className="flex justify-end">
+                        Appointments
+                        <span className="ml-4">
                             <MdOutlinePets />
                         </span>
                     </Title>

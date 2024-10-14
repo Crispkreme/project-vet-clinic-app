@@ -80,14 +80,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ showModal, toggleMo
             <div className="p-6">
                 <Title>Add Appointment</Title>
                 <form onSubmit={handleSubmit}>
-                    <div className="hidden">
-                        <input
-                            type="hidden"
-                            id="status"
-                            name="status"
-                            value="In-Progress"
-                        />
-                    </div>
                     <div className="mt-2">
                         <InputLabel htmlFor="title" value="Title" />
                         <TextInput
@@ -174,6 +166,18 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ showModal, toggleMo
                             />
                             <InputError message={errors.title} className="mt-2" />
                         </div>
+                    </div>
+                    <div className="mt-2">
+                        <InputLabel htmlFor="status" value="Status" />
+                        <Select
+                            id="status"
+                            label=""
+                            name="status"
+                            value={data.status}
+                            onChange={(e) => setData(prevData => ({ ...prevData, status: e.target.value }))}
+                            options={statusOptions}
+                        />
+                        <InputError message={errors.status} className="mt-2" />
                     </div>
                     <div className="mb-4">
                         <InputLabel htmlFor="notes" value="Notes" />

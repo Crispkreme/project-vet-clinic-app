@@ -81,6 +81,15 @@ export const getLinks = (userType) => {
         color: "bg-gray-100 text-gray-800",
         darkColor: "dark:bg-gray-700 dark:text-gray-300",
       },
+    },
+    {
+      href: userType === 'admin' ? "/admin/petlist" : "/user/calendar",
+      icon: LuCalendarDays,
+      text: "Calendar",
+      badge: {
+        color: "bg-gray-100 text-gray-800",
+        darkColor: "dark:bg-gray-700 dark:text-gray-300",
+      },
     }
   ];
 

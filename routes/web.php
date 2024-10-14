@@ -41,7 +41,7 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     Route::post('/user/update/{id}', [PetController::class, 'petStore'])->name('user.update');
 
     // APPOINTMENT
-    Route::get('/user/appointment', [AppointmentController::class, 'appointment'])->name('user.appointment');
+    Route::get('/user/calendar', [AppointmentController::class, 'ownerCalendar'])->name('user.calendar');
     Route::post('/user/appointment/store', [AppointmentController::class, 'storeAppointment'])->name('user.appointment.store');
 });
 

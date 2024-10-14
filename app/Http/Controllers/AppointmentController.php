@@ -29,7 +29,7 @@ class AppointmentController extends Controller
         $this->petContract = $petContract;
     }
 
-    public function appointment() 
+    public function ownerCalendar() 
     {
         $user = Auth::user();
 
@@ -61,7 +61,7 @@ class AppointmentController extends Controller
                 'appointment_date' => 'required|date',
                 'appointment_start' => 'required|date_format:H:i', 
                 'appointment_end' => 'required|date_format:H:i|after:appointment_start', 
-                'status' => 'nullable|in:Pending,Confirmed,Cancelled,Completed',
+                'status' => 'nullable|in:In-Process,Pending,Confirmed,Cancelled,Completed',
                 'notes' => 'nullable|string',
             ]);
 
@@ -72,7 +72,7 @@ class AppointmentController extends Controller
             $validated['appointment_start'] = $validated['appointment_start'] . ':00';
             $validated['appointment_end'] = $validated['appointment_end'] . ':00';
 
-            $this->appointmentContract->createOrUpdateAppointment($validated);
+            $sata = $this->appointmentContract->createOrUpdateAppointment($validated);
 
             DB::commit();
 
