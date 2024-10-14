@@ -22,6 +22,10 @@ Route::get('/', function () {
 // Admin routes
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/admin/dashboard', [HomeController::class, 'dashboard'])->name('admin.dashboard');
+    
+    Route::get('/admin/petlist', [PetController::class, 'petList'])->name('admin.petlist');
+    Route::post('/admin/store', [PetController::class, 'petStore'])->name('admin.store');
+    Route::post('/admin/update/{id}', [PetController::class, 'petStore'])->name('admin.update');
 });
 
 // User routes

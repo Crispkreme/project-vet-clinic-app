@@ -32,15 +32,6 @@ export const links = [
     text: "Dashboard",
   },
   {
-    href: "/user/petlist",
-    icon: MdOutlinePets,
-    text: "Pet",
-    badge: {
-      color: "bg-gray-100 text-gray-800",
-      darkColor: "dark:bg-gray-700 dark:text-gray-300",
-    },
-  },
-  {
     href: "/user/appointment",
     icon: LuCalendarDays,
     text: "Appointment",
@@ -75,6 +66,19 @@ export const getLinks = (userType) => [
     href: userType === 'admin' ? "/admin/dashboard" : "/user/dashboard", 
     icon: BiCustomize,
     text: "Users",
+    badge: {
+      color: "bg-gray-100 text-gray-800",
+      darkColor: "dark:bg-gray-700 dark:text-gray-300",
+    },
+  },
+  {
+    href: userType === 'admin' ? "/admin/petlist" : "/user/petlist", 
+    icon: MdOutlinePets,
+    text: "Pet",
+    badge: {
+      color: "bg-gray-100 text-gray-800",
+      darkColor: "dark:bg-gray-700 dark:text-gray-300",
+    },
   },
 ]
 
