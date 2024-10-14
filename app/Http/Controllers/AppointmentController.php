@@ -98,4 +98,19 @@ class AppointmentController extends Controller
             return redirect()->back()->withErrors(['error' => 'An error occurred during appointment saving.']);
         }
     }
+
+    public function appointmentList()
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        $appointments = $this->appointmentContract->getAllAppointment();
+
+        return Inertia::render('Admin/Appointments/Appointment', [
+            'appointments' => $appointments,
+        ]);
+    }
 }

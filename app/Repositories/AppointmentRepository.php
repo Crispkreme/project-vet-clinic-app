@@ -17,7 +17,15 @@ class AppointmentRepository implements AppointmentContract
 
     public function getAllAppointment()
     {
-        return $this->model->get();
+        return $this->model
+            ->join('pets', 'appointments.pet_id', '=', 'pets.id') 
+            ->join('users', 'appointments.vet_id', '=', 'users.id')
+            ->select(
+                'appointments.*', 
+                'pets.name as pet_name', 
+                'users.name as vet_name'
+            )
+            ->get();
     }
 
     public function getAllAppointmentsByOwner($ownerId)

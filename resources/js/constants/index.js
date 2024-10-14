@@ -3,6 +3,7 @@ import { GrPlan } from "react-icons/gr";
 import { LuCalendarDays } from "react-icons/lu";
 import { PiWechatLogo } from "react-icons/pi";
 import { BiCustomize } from "react-icons/bi";
+import { AiOutlineFileDone } from "react-icons/ai";
 import {
   IoIosStats,
   IoIosSettings,
@@ -61,26 +62,42 @@ export const links = [
   },
 ];
 
-export const getLinks = (userType) => [
-  {
-    href: userType === 'admin' ? "/admin/dashboard" : "/user/dashboard", 
-    icon: BiCustomize,
-    text: "Users",
-    badge: {
-      color: "bg-gray-100 text-gray-800",
-      darkColor: "dark:bg-gray-700 dark:text-gray-300",
+export const getLinks = (userType) => {
+  const links = [
+    {
+      href: userType === 'admin' ? "/admin/dashboard" : "/user/dashboard",
+      icon: BiCustomize,
+      text: "Users",
+      badge: {
+        color: "bg-gray-100 text-gray-800",
+        darkColor: "dark:bg-gray-700 dark:text-gray-300",
+      },
     },
-  },
-  {
-    href: userType === 'admin' ? "/admin/petlist" : "/user/petlist", 
-    icon: MdOutlinePets,
-    text: "Pet",
-    badge: {
-      color: "bg-gray-100 text-gray-800",
-      darkColor: "dark:bg-gray-700 dark:text-gray-300",
-    },
-  },
-]
+    {
+      href: userType === 'admin' ? "/admin/petlist" : "/user/petlist",
+      icon: MdOutlinePets,
+      text: "Pet",
+      badge: {
+        color: "bg-gray-100 text-gray-800",
+        darkColor: "dark:bg-gray-700 dark:text-gray-300",
+      },
+    }
+  ];
+
+  if (userType === 'admin') {
+    links.push({
+      href: "/admin/appointment",
+      icon: AiOutlineFileDone,
+      text: "Appointments",
+      badge: {
+        color: "bg-gray-100 text-gray-800",
+        darkColor: "dark:bg-gray-700 dark:text-gray-300",
+      },
+    });
+  }
+
+  return links;
+};
 
 export const empolyeesData = [
   {
