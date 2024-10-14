@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('vet_id')->nullable(); 
             $table->unsignedBigInteger('pet_id')->nullable(); 
-            $table->dateTime('appointment_date');
+            $table->string('title');
+            $table->date('appointment_date');
+            $table->time('appointment_start');
+            $table->time('appointment_end');
             $table->enum('status', [
                 'Pending', 
                 'Confirmed', 

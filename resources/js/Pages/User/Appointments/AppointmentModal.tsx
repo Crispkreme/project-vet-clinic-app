@@ -9,24 +9,36 @@ import InputError from "@/Components/InputError";
 import { useForm, usePage } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 
+interface Doctor {
+    id: number;
+    name: string;
+}
+
+interface Pet {
+    id: number;
+    name: string;
+}
+
 interface AppointmentModalProps {
     showModal: boolean;
     toggleModal: () => void;
+    doctors: Doctor[];
+    pets: Pet[];
 }
 
-const AppointmentModal: React.FC<AppointmentModalProps> = ({ showModal, toggleModal, selectedAppointment }) => {
+const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment, showModal, toggleModal, doctors, pets }) => {
+
     const { props } = usePage();
     const { errors } = props;
-    const user = props.auth.user;
-
     const [notification, setNotification] = useState<string | null>(null);
-    const [isEditing, setIsEditing] = useState(false);
-    const [selectedPet, setSelectedPet] = useState(null); 
 
     const { data, setData, post, processing } = useForm({
         vet_id: "",
         pet_id: "",
+        title: "",
         appointment_date: "",
+        appointment_start: "",
+        appointment_end: "",
         status: "Pending",
         notes: "",
     });
@@ -38,113 +50,153 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ showModal, toggleMo
         { value: "Completed", label: "Completed" },
     ];
 
-    const vetOptions = [
-        // Example data; should be fetched dynamically
-        { value: "1", label: "Dr. Smith" },
-        { value: "2", label: "Dr. Doe" },
-    ];
+    const vetOptions = doctors.map((doctor: Doctor) => ({
+        value: String(doctor.id),
+        label: doctor.name
+    }));
 
-    const petOptions = [
-        // Example data; should be fetched dynamically
-        { value: "1", label: "Buddy" },
-        { value: "2", label: "Bella" },
-    ];
+    const petOptions = pets.map((pet: Pet) => ({
+        value: String(pet.id),
+        label: pet.name
+    }));
 
     const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-        const endpoint = isEditing
-            ? route("user.update", selectedPet.id)
-            : route("user.store");
-
-        post(endpoint, {
-            data: {
-                ...data,
-                id: isEditing ? selectedPet.id : undefined,
-            },
+    
+        post(route('user.appointment.store'), {
             onSuccess: (response) => {
-                setNotification(response.props.message);
+                setNotification(response.message); 
                 toggleModal();
             },
-            onError: (error) => {
-                setNotification(error.props.error || "An error occurred.");
+            onError: (errors) => {
+                setNotification(errors.message || "An error occurred."); 
             },
         });
     };
+    
 
     return (
         <Modal show={showModal} onClose={toggleModal}>
             <div className="p-6">
-                <Title>{isEditing ? "Edit Appointment" : "Add Appointment"}</Title>
+                <Title>Add Appointment</Title>
                 <form onSubmit={handleSubmit}>
                     <div className="mt-2">
-                        <InputLabel htmlFor="vet_id" value="Doctor Name" />
-                        <Select
-                            id="vet_id"
-                            name="vet_id"
-                            value={data.vet_id}
-                            onChange={(e) => setData("vet_id", e.target.value)}
-                            options={vetOptions}
-                        />
-                        <InputError message={errors.vet_id} className="mt-2" />
-                    </div>
-
-                    <div className="mt-2">
-                        <InputLabel htmlFor="pet_id" value="Pet Name" />
-                        <Select
-                            id="pet_id"
-                            name="pet_id"
-                            value={data.pet_id}
-                            onChange={(e) => setData("pet_id", e.target.value)}
-                            options={petOptions}
-                        />
-                        <InputError message={errors.pet_id} className="mt-2" />
-                    </div>
-
-                    <div className="mt-2">
-                        <InputLabel htmlFor="appointment_date" value="Appointment Date" />
+                        <InputLabel htmlFor="title" value="Title" />
                         <TextInput
-                            id="appointment_date"
-                            name="appointment_date"
-                            value={data.appointment_date}
+                            id="title"
+                            name="title"
+                            value={data.title}
                             className="mt-1 block w-full"
-                            autoComplete="appointment_date"
+                            autoComplete="title"
                             isFocused={true}
-                            onChange={(e) => setData("appointment_date", e.target.value)}
+                            onChange={(e) => setData(prevData => ({ ...prevData, title: e.target.value }))}
                             required
                         />
-                        <InputError message={errors.appointment_date} className="mt-2" />
+                        <InputError message={errors.title} className="mt-2" />
                     </div>
-
+                    <div className="mt-2 flex gap-4">
+                        <div className="w-1/2">
+                            <InputLabel htmlFor="pet_id" value="Pet Name" />
+                            <Select
+                                label=""
+                                id="pet_id"
+                                name="pet_id"
+                                value={data.pet_id}
+                                onChange={(e) => setData(prevData => ({ ...prevData, pet_id: e.target.value }))}
+                                options={petOptions}
+                            />
+                            <InputError message={errors.pet_id} className="mt-2" />
+                        </div>
+                        <div className="w-1/2">
+                            <InputLabel htmlFor="vet_id" value="Doctor Name" />
+                            <Select
+                                label=""
+                                id="vet_id"
+                                name="vet_id"
+                                value={data.vet_id}
+                                onChange={(e) => setData(prevData => ({ ...prevData, vet_id: e.target.value }))}
+                                options={vetOptions}
+                            />
+                            <InputError message={errors.vet_id} className="mt-2" />
+                        </div>
+                    </div>
+                    <div className="mt-2 flex gap-4">
+                        <div className="w-3/4">
+                            <InputLabel htmlFor="appointment_date" value="Date" />
+                            <TextInput
+                                type="date"
+                                id="appointment_date"
+                                name="appointment_date"
+                                value={data.appointment_date}
+                                className="mt-1 block w-full"
+                                autoComplete="appointment_date"
+                                isFocused={true}
+                                onChange={(e) => setData(prevData => ({ ...prevData, appointment_date: e.target.value }))}
+                                required
+                            />
+                            <InputError message={errors.title} className="mt-2" />
+                        </div>
+                        <div className="w-3/4">
+                            <InputLabel htmlFor="appointment_start" value="Start" />
+                            <TextInput
+                                type="time"
+                                id="appointment_start"
+                                name="appointment_start"
+                                value={data.appointment_start}
+                                className="mt-1 block w-full"
+                                autoComplete="appointment_start"
+                                isFocused={true}
+                                onChange={(e) => setData(prevData => ({ ...prevData, appointment_start: e.target.value }))}
+                                required
+                            />
+                            <InputError message={errors.title} className="mt-2" />
+                        </div>
+                        <div className="w-3/4">
+                            <InputLabel htmlFor="appointment_end" value="End" />
+                            <TextInput
+                                type="time"
+                                id="appointment_end"
+                                name="appointment_end"
+                                value={data.appointment_end}
+                                className="mt-1 block w-full"
+                                autoComplete="appointment_end"
+                                isFocused={true}
+                                onChange={(e) => setData(prevData => ({ ...prevData, appointment_end: e.target.value }))}
+                                required
+                            />
+                            <InputError message={errors.title} className="mt-2" />
+                        </div>
+                    </div>
                     <div className="mt-2">
                         <InputLabel htmlFor="status" value="Status" />
                         <Select
                             id="status"
+                            label=""
                             name="status"
                             value={data.status}
-                            onChange={(e) => setData("status", e.target.value)}
+                            onChange={(e) => setData(prevData => ({ ...prevData, status: e.target.value }))}
                             options={statusOptions}
                         />
                         <InputError message={errors.status} className="mt-2" />
                     </div>
-
                     <div className="mb-4">
                         <InputLabel htmlFor="notes" value="Notes" />
                         <Textarea
                             id="notes"
                             name="notes"
+                            label=""
                             value={data.notes}
-                            onChange={(e) => setData("notes", e.target.value)}
+                            onChange={(e) => setData(prevData => ({ ...prevData, notes: e.target.value }))}
                             placeholder="Enter appointment notes"
                         />
                         <InputError message={errors.notes} className="mt-2" />
                     </div>
-
                     <button
                         type="submit"
                         className="bg-blue-500 text-white px-4 py-2 rounded-md"
                         disabled={processing}
                     >
-                        {isEditing ? "Update" : "Submit"}
+                        Submit
                     </button>
                 </form>
 

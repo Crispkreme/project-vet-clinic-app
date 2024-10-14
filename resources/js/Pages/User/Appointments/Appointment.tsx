@@ -7,43 +7,46 @@ import Title from '@/Components/Title';
 import interactionPlugin from '@fullcalendar/interaction';
 import { MdOutlinePets } from "react-icons/md";
 import AppointmentModal from './AppointmentModal';
-import { BsCalendar2Range } from "react-icons/bs";
+import { LuCalendarDays } from "react-icons/lu";
 
 interface Appointment {
     id: number;
-    name: string;
-    breed: string;
-    age: number;
-    weight: number;
+    title: string;
+    appointment_date: string; 
+    appointment_start: string;
+    appointment_end: string;  
     status: string;
 }
 
-interface AppointmentListProps {
-    appointments: Appointment[];
+interface Booking {
+    title: string;
+    start: string;
+    end: string;
 }
 
-const Appointment: React.FC<AppointmentListProps> = ({ appointments }) => {
-    // State management inside the component
+interface AppointmentListProps {
+    showModal: boolean;
+    toggleModal: () => void;
+    selectedAppointment: Appointment | null;
+    doctors: any[];
+    pets: any[]; 
+    appointments: any[]; 
+}
+
+const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pets }) => {
+    
     const [showModal, setShowModal] = useState(false);
-    const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
-    const [isEditing, setIsEditing] = useState(false);
+    const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null); // Correct type
 
     const toggleModal = () => {
         setShowModal(!showModal);
     };
 
-    const booking = [
-        {
-            title: 'Pet Appointment',
-            start: '2024-10-15',
-            end: '2024-10-15',
-        },
-        {
-            title: 'Vaccination',
-            start: '2024-10-20',
-            end: '2024-10-20',
-        },
-    ];
+    const booking = appointments.map((appointment: Appointment) => ({
+        title: appointment.title,
+        start: `${appointment.appointment_date}T${appointment.appointment_start}`,
+        end: `${appointment.appointment_date}T${appointment.appointment_end}`,    
+    }));
 
     return (
         <AuthenticatedLayout>
@@ -53,13 +56,12 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments }) => {
                         className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center gap-2"
                         onClick={() => {
                             setSelectedAppointment(null);
-                            setIsEditing(false);
                             toggleModal();
                         }}
                     >
                         Add Appointment{" "}
                         <span>
-                            <BsCalendar2Range />
+                            <LuCalendarDays />
                         </span>
                     </button>
                     <Title>
@@ -80,21 +82,17 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments }) => {
                         end: "dayGridMonth,timeGridWeek,timeGridDay"
                     }}
                     events={booking}
-                    selectable={true}
-                    selectHelper={true}
-                    select={(info) => {
-                        console.log('Selected from', info.startStr, 'to', info.endStr);
-                    }}
+                    selectable={false}
                 />
             </div>
 
-            {/* Conditionally render the modal */}
             {showModal && (
                 <AppointmentModal
                     showModal={showModal}
                     toggleModal={toggleModal}
                     selectedAppointment={selectedAppointment}
-                    isEditing={isEditing}
+                    doctors={doctors}
+                    pets={pets}
                 />
             )}
         </AuthenticatedLayout>

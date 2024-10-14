@@ -37,6 +37,7 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
 
     // APPOINTMENT
     Route::get('/user/appointment', [AppointmentController::class, 'appointment'])->name('user.appointment');
+    Route::post('/user/appointment/store', [AppointmentController::class, 'storeAppointment'])->name('user.appointment.store');
 });
 
 Route::middleware('auth')->group(function () {
