@@ -4,6 +4,7 @@ import Title from '@/Components/Title';
 import { MdOutlinePets } from 'react-icons/md';
 import { FaRegTrashAlt, FaRegHospital } from "react-icons/fa";
 import { LuClipboardEdit } from "react-icons/lu";
+import { GrFormView } from "react-icons/gr";
 
 interface Appointment {
     id: number;
@@ -83,11 +84,11 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => 
                                     <td className="border px-4 py-2 text-sm">{appointment.vet_name}</td>
                                     <td className="border px-4 py-2 text-sm">{appointment.pet_name}</td>
                                     <td className="border px-4 py-2 text-sm">{appointment.title}</td>
-                                    <td className="border px-4 py-2 text-sm">{appointment.notes}</td>
+                                    <td className="border px-4 py-2 text-sm max-h-24 overflow-hidden overflow-ellipsis whitespace-nowrap">{appointment.notes}</td>
                                     <td className="border px-4 py-2 text-sm">{appointment.appointment_date}</td>
                                     <td className="border px-4 py-2 text-sm">{appointment.appointment_start} - {appointment.appointment_end}</td>
                                     <td className="border px-4 py-2 text-sm">{appointment.status}</td>
-                                    <td className="border px-4 py-2 flex gap-2">
+                                    <td className="border px-4 py-2 flex flex-col sm:flex-row gap-2">
                                         {appointment.status !== 'Completed' && (
                                             <button
                                                 onClick={() => openEditModal(appointment)} 
@@ -103,6 +104,13 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => 
                                         >
                                             <LuClipboardEdit className='mr-1' /> 
                                             <span className="text-xs">Update</span>
+                                        </button>
+                                        <button
+                                            onClick={() => openEditModal(appointment)} 
+                                            className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs"
+                                        >
+                                            <GrFormView className='mr-1' /> 
+                                            <span className="text-xs">View</span>
                                         </button>
                                         <button
                                             onClick={() => handleDelete(appointment.id)} 
