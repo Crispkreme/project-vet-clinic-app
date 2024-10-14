@@ -28,7 +28,6 @@ export default function Authenticated({
 
     return (
         <>
-        
             <div className={`${darkMode && "dark"} font-sans`}>
                 <Header 
                     toggleDarkMode={toggleDarkMode} 

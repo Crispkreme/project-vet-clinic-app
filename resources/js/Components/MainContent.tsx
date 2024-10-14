@@ -28,18 +28,28 @@ interface MainContentProps {
   appointments: Appointment[]; 
   allAppointments: number;
   pendingAppointments: number;
+  usertype: string;
 }
 
-const MainContent: React.FC<MainContentProps> = ({ pets, appointments, allAppointments, pendingAppointments }) => {
+const MainContent: React.FC<MainContentProps> = ({ pets, appointments, allAppointments, pendingAppointments, usertype }) => {
   
   const [darkMode, setDarkMode] = useState(false);
 
   return (
     <div className='flex-1 flex flex-col gap-5'>
-      <Stats darkMode={darkMode} allAppointments={allAppointments} pendingAppointment={pendingAppointments} />
+
+      <Stats 
+        darkMode={darkMode} 
+        allAppointments={allAppointments} 
+        pendingAppointment={pendingAppointments} 
+        usertype={usertype}
+      />
 
       <div className='flex flex-col gap-3 lg:flex-row'>
-        <PetComponent pets={pets} />
+        <PetComponent 
+          pets={pets} 
+          usertype={usertype}
+        />
         <Event appointments={appointments} />
       </div>
     </div>

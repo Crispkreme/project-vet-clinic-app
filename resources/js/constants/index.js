@@ -2,6 +2,7 @@ import { GoGoal } from "react-icons/go";
 import { GrPlan } from "react-icons/gr";
 import { LuCalendarDays } from "react-icons/lu";
 import { PiWechatLogo } from "react-icons/pi";
+import { BiCustomize } from "react-icons/bi";
 import {
   IoIosStats,
   IoIosSettings,
@@ -68,6 +69,14 @@ export const links = [
     text: "Products",
   },
 ];
+
+export const getLinks = (userType) => [
+  {
+    href: userType === 'admin' ? "/admin/dashboard" : "/user/dashboard", 
+    icon: BiCustomize,
+    text: "Users",
+  },
+]
 
 export const empolyeesData = [
   {
