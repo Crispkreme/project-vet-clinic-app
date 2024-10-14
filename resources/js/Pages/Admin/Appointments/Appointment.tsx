@@ -16,7 +16,7 @@ interface Appointment {
     appointment_date: string;
     appointment_start: string;
     appointment_end: string;
-    status: 'Pending' | 'Confirmed' | 'Cancelled' | 'Completed';
+    status: 'In-Process' | 'Pending' | 'Confirmed' | 'Cancelled' | 'Completed';
     notes?: string | null;
     created_at: string;
     updated_at: string;
@@ -89,7 +89,7 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => 
                                     <td className="border px-4 py-2 text-sm">{appointment.appointment_start} - {appointment.appointment_end}</td>
                                     <td className="border px-4 py-2 text-sm">{appointment.status}</td>
                                     <td className="border px-4 py-2 flex flex-col sm:flex-row gap-2">
-                                        {appointment.status !== 'Completed' && (
+                                        {appointment.status === 'In-Process' && (
                                             <button
                                                 onClick={() => openEditModal(appointment)} 
                                                 className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs"
