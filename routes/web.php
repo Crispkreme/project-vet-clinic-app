@@ -26,6 +26,9 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/admin/petlist', [PetController::class, 'petList'])->name('admin.petlist');
     Route::post('/admin/store', [PetController::class, 'petStore'])->name('admin.store');
     Route::post('/admin/update/{id}', [PetController::class, 'petStore'])->name('admin.update');
+
+    // APPOINTMENT
+    Route::get('/admin/appointment', [AppointmentController::class, 'appointmentList'])->name('admin.appointment');
 });
 
 // User routes
