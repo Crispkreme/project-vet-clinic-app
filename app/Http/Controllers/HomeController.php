@@ -31,14 +31,14 @@ class HomeController extends Controller
 
         $pets = $this->petContract->getAllPet();
         $appointments = $this->appointmentContract->getAllAppointment();
-        $allAppointments = $this->appointmentContract->getCountAllAppointments();
-        $pendingAppointments = $this->appointmentContract->getCountAllPendingAppointments();
+        $countAll = $this->appointmentContract->getCountAllAppointments();
+        $countCurrent = $this->appointmentContract->getCountAllPendingAppointments();
 
         return Inertia::render('Admin/Dashboard', [
             'pets' => $pets,
             'appointments' => $appointments,
-            'allAppointments' => $allAppointments,
-            'pendingAppointments' => $pendingAppointments,
+            'countAll' => $countAll,
+            'countCurrent' => $countCurrent,
         ]);
     }
 }

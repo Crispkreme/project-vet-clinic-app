@@ -5,6 +5,7 @@ import { MdOutlinePets } from 'react-icons/md';
 import { FaRegTrashAlt, FaRegHospital } from "react-icons/fa";
 import { LuClipboardEdit } from "react-icons/lu";
 import { GrFormView } from "react-icons/gr";
+import AppointmentModal from './AppointmentModal';
 
 interface Appointment {
     id: number;
@@ -30,7 +31,9 @@ interface AppointmentListProps {
 const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => {
     const [showModal, setShowModal] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+    const [isViewing, setIsViewing] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [isAdmitting, setIsAdmitting] = useState(false);
     const [appointmentList, setappointmentList] = useState<Appointment[]>(appointments);
 
     const toggleModal = () => {
@@ -40,13 +43,33 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => 
     const openEditModal = (appointment: Appointment) => {
         setSelectedAppointment(appointment); 
         setIsEditing(true); 
-        setShowModal(true); 
+        setIsViewing(false);
+        setIsAdmitting(false);
+        setShowModal(true);  // Open modal
+    };
+
+    const openAdmitModal = (appointment: Appointment) => {
+        setSelectedAppointment(appointment); 
+        setIsEditing(false); 
+        setIsViewing(false);
+        setIsAdmitting(true);
+        setShowModal(true);  // Open modal
+    };
+
+    const openViewModal = (appointment: Appointment) => {
+        setSelectedAppointment(appointment); 
+        setIsEditing(false); 
+        setIsViewing(true);
+        setIsAdmitting(false);
+        setShowModal(true);  // Open modal
     };
 
     const closeModal = () => {
         setShowModal(false); 
         setSelectedAppointment(null); 
         setIsEditing(false);
+        setIsViewing(false);
+        setIsAdmitting(false);
     };
 
     const handleDelete = (id: number) => {
@@ -91,7 +114,7 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => 
                                     <td className="border px-4 py-2 flex flex-col sm:flex-row gap-2">
                                         {appointment.status === 'In-Process' && (
                                             <button
-                                                onClick={() => openEditModal(appointment)} 
+                                                onClick={() => openAdmitModal(appointment)} 
                                                 className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs"
                                             >
                                                 <FaRegHospital className='mr-1' /> 
@@ -106,7 +129,7 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => 
                                             <span className="text-xs">Update</span>
                                         </button>
                                         <button
-                                            onClick={() => openEditModal(appointment)} 
+                                            onClick={() => openViewModal(appointment)} 
                                             className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs"
                                         >
                                             <GrFormView className='mr-1' /> 
@@ -126,8 +149,19 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => 
                     </table>
                 </div>
             </div>
+
+            {showModal && (
+                <AppointmentModal
+                    showModal={showModal}
+                    toggleModal={closeModal}
+                    selectedAppointment={selectedAppointment}
+                    isEditing={isEditing}
+                    isAdmitting={isAdmitting}
+                    isViewing={isViewing}
+                />
+            )}
         </AuthenticatedLayout>
     );
 };
 
-export default Appointment
+export default Appointment;
