@@ -29,6 +29,7 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 
     // APPOINTMENT
     Route::get('/admin/appointment', [AppointmentController::class, 'appointmentList'])->name('admin.appointment');
+    Route::get('/admin/calendar', [AppointmentController::class, 'appointmentCalendar'])->name('admin.calendar');
     Route::post('/admin/appointment/store', [AppointmentController::class, 'storeAppointment'])->name('admin.appointment.store');
     Route::post('/admin/appointment/update/{id}', [AppointmentController::class, 'storeAppointment'])->name('admin.appointment.update');
     Route::post('/admin/admit/appointment/{id}', [AppointmentController::class, 'admitAppointment'])->name('admin.admit.appointment');

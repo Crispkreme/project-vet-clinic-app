@@ -3,6 +3,7 @@ import Modal from "@/Components/Modal";
 import Title from "@/Components/Title";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
+import Select from "@/Components/Select";
 import Textarea from "@/Components/Textarea";
 import InputError from "@/Components/InputError";
 import { useForm, usePage } from "@inertiajs/react";
@@ -248,6 +249,19 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                             />
                             <InputError message={errors.appointment_end} className="mt-2" />
                         </div>
+                    </div>
+
+                    <div className="mt-2">
+                        <InputLabel htmlFor="status" value="Status" />
+                        <Select
+                            id="status"
+                            label=""
+                            name="status"
+                            value={data.status}
+                            onChange={(e) => setData(prevData => ({ ...prevData, status: e.target.value }))}
+                            options={statusOptions}
+                        />
+                        <InputError message={errors.status} className="mt-2" />
                     </div>
 
                     <div className="mt-2">

@@ -51,7 +51,6 @@ class AppointmentController extends Controller
 
     public function storeAppointment(Request $request, $id = null)
     {
-
         DB::beginTransaction();
 
         try {
@@ -60,8 +59,8 @@ class AppointmentController extends Controller
                 'pet_id' => 'nullable|exists:pets,id',
                 'title' => 'required|string|max:255',
                 'appointment_date' => 'required|date',
-                'appointment_start' => 'required|date_format:H:i', 
-                'appointment_end' => 'required|date_format:H:i|after:appointment_start', 
+                'appointment_start' => 'required|date_format:H:i:s', 
+                'appointment_end' => 'required|date_format:H:i:s|after:appointment_start', 
                 'status' => 'nullable|in:In-Process,Pending,Confirmed,Cancelled,Completed',
                 'notes' => 'nullable|string',
             ]);
@@ -69,9 +68,6 @@ class AppointmentController extends Controller
             if ($id) {
                 $validated['id'] = $id;
             }
-
-            $validated['appointment_start'] = $validated['appointment_start'] . ':00';
-            $validated['appointment_end'] = $validated['appointment_end'] . ':00';
 
             $this->appointmentContract->createOrUpdateAppointment($validated);
 
@@ -82,6 +78,7 @@ class AppointmentController extends Controller
             }
 
             Session::flash('success', 'Appointment saved successfully!');
+            return redirect()->back();
 
         } catch (Exception $e) {
             Log::error('Error during storeAppointment: ' . $e->getMessage(), [
@@ -92,13 +89,14 @@ class AppointmentController extends Controller
             DB::rollBack();
 
             if ($request->wantsJson()) {
-                return response()->json(['error' => true], 500);
+                return response()->json(['error' => true, 'message' => 'An error occurred during appointment saving.'], 500);
             }
 
             Session::flash('error', 'An error occurred during appointment saving.');
             return redirect()->back()->withErrors(['error' => 'An error occurred during appointment saving.']);
         }
     }
+
 
     public function appointmentList()
     {
@@ -153,5 +151,21 @@ class AppointmentController extends Controller
             Session::flash('error', 'An error occurred during appointment admitting.');
             return redirect()->back()->withErrors(['error' => 'An error occurred during appointment admitting.']);
         }
+    }
+
+    public function appointmentCalendar()
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        $userId = $user->id;
+        $appointments = $this->appointmentContract->getAllAppointmentsByDoctor($userId);
+
+        return Inertia::render('Admin/Appointments/CalendarAppointment', [
+            'appointments' => $appointments,
+        ]);
     }
 }

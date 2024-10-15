@@ -83,7 +83,7 @@ export const getLinks = (userType) => {
       },
     },
     {
-      href: userType === 'admin' ? "/admin/petlist" : "/user/calendar",
+      href: userType === 'admin' ? "/admin/calendar" : "/user/calendar",
       icon: LuCalendarDays,
       text: "Calendar",
       badge: {
