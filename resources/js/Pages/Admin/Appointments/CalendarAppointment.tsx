@@ -6,8 +6,6 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import Title from '@/Components/Title';
 import interactionPlugin from '@fullcalendar/interaction';
 import { MdOutlinePets } from "react-icons/md";
-import AppointmentModal from './AppointmentModal';
-import { LuCalendarDays } from "react-icons/lu";
 
 interface Appointment {
     id: number;
@@ -22,15 +20,13 @@ interface AppointmentListProps {
     showModal: boolean;
     toggleModal: () => void;
     selectedAppointment: Appointment | null;
-    doctors: any[];
-    pets: any[]; 
     appointments: any[]; 
 }
 
-const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pets }) => {
-    
+const CalendarAppointment: React.FC<AppointmentListProps> = ({ appointments }) => {
+    console.log(appointments);
     const [showModal, setShowModal] = useState(false);
-    const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null); // Correct type
+    const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
 
     const toggleModal = () => {
         setShowModal(!showModal);
@@ -46,18 +42,6 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pe
         <AuthenticatedLayout>
             <div className="container bg-white p-6 rounded-2xl dark:bg-gray-600 dark:text-gray-400">
                 <div className="flex items-center justify-between mb-4">
-                    <button
-                        className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center gap-2"
-                        onClick={() => {
-                            setSelectedAppointment(null);
-                            toggleModal();
-                        }}
-                    >
-                        Add Appointment
-                        <span className="ml-2">
-                            <LuCalendarDays />
-                        </span>
-                    </button>
                     <Title>
                         Appointments
                         <span className="ml-4">
@@ -78,18 +62,8 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pe
                     selectable={false}
                 />
             </div>
-
-            {showModal && (
-                <AppointmentModal
-                    showModal={showModal}
-                    toggleModal={toggleModal}
-                    selectedAppointment={selectedAppointment}
-                    doctors={doctors}
-                    pets={pets}
-                />
-            )}
         </AuthenticatedLayout>
     );
 };
 
-export default Appointment;
+export default CalendarAppointment;

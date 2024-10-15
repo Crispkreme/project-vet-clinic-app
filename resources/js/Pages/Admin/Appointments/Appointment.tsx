@@ -5,6 +5,8 @@ import { MdOutlinePets } from 'react-icons/md';
 import { FaRegTrashAlt, FaRegHospital } from "react-icons/fa";
 import { LuClipboardEdit } from "react-icons/lu";
 import { GrFormView } from "react-icons/gr";
+import { LuCalendarDays } from "react-icons/lu";
+import AppointmentModal from './AppointmentModal';
 
 interface Appointment {
     id: number;
@@ -16,7 +18,7 @@ interface Appointment {
     appointment_date: string;
     appointment_start: string;
     appointment_end: string;
-    status: 'Pending' | 'Confirmed' | 'Cancelled' | 'Completed';
+    status: 'In-Process' | 'Pending' | 'Confirmed' | 'Cancelled' | 'Completed';
     notes?: string | null;
     created_at: string;
     updated_at: string;
@@ -25,28 +27,63 @@ interface Appointment {
 interface AppointmentListProps {
     appointments: Appointment[];
     user?: { id: number }; 
+    doctors: any[];
+    pets: any[]; 
 }
 
-const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => {
+const Appointment: React.FC<AppointmentListProps> = ({ appointments, user, doctors, pets }) => {
     const [showModal, setShowModal] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+    const [isViewing, setIsViewing] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [isAdmitting, setIsAdmitting] = useState(false);
+    const [isCreating, setIsCreating] = useState(false);
     const [appointmentList, setappointmentList] = useState<Appointment[]>(appointments);
 
     const toggleModal = () => {
         setShowModal(!showModal);
     };
     
+    const openCreateModal = (appointment: Appointment) => {
+        setSelectedAppointment(null); 
+        setIsEditing(true); 
+        setIsViewing(false);
+        setIsAdmitting(false);
+        setShowModal(true);
+        setIsCreating(true);
+    };
+
     const openEditModal = (appointment: Appointment) => {
         setSelectedAppointment(appointment); 
         setIsEditing(true); 
-        setShowModal(true); 
+        setIsViewing(false);
+        setIsAdmitting(false);
+        setShowModal(true);
+    };
+
+    const openAdmitModal = (appointment: Appointment) => {
+        console.log("Opening Admit Modal:", appointment);
+        setSelectedAppointment(appointment); 
+        setIsEditing(false); 
+        setIsViewing(false);
+        setIsAdmitting(true);
+        setShowModal(true);
+    };
+
+    const openViewModal = (appointment: Appointment) => {
+        setSelectedAppointment(appointment); 
+        setIsEditing(false); 
+        setIsViewing(true);
+        setIsAdmitting(false);
+        setShowModal(true);
     };
 
     const closeModal = () => {
         setShowModal(false); 
         setSelectedAppointment(null); 
         setIsEditing(false);
+        setIsViewing(false);
+        setIsAdmitting(false);
     };
 
     const handleDelete = (id: number) => {
@@ -57,14 +94,26 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => 
         <AuthenticatedLayout>
             <div className="container bg-white p-6 rounded-2xl dark:bg-gray-600 dark:text-gray-400">
                 <div className="flex items-center justify-between mb-4">
+                    <button
+                        className="bg-blue-500 text-white px-4 py-2 rounded-md inline-flex items-center gap-2"
+                        onClick={() => {
+                            setSelectedAppointment(null);
+                            toggleModal();
+                        }}
+                    >
+                        Appointment
+                        <span className="inline-flex items-center">
+                            <LuCalendarDays />
+                        </span>
+                    </button>
                     <Title>
-                        <span>Appointments</span>
-                        <span className="ml-2">
+                        Appointments
+                        <span className="ml-4">
                             <MdOutlinePets />
                         </span>
                     </Title>
                 </div>
-                <div className="overflow-x-auto"> {/* Makes table scrollable on small screens */}
+                <div className="overflow-x-auto">
                     <table className="min-w-full table-auto">
                         <thead>
                             <tr className="bg-gray-200 dark:bg-gray-700">
@@ -89,33 +138,21 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => 
                                     <td className="border px-4 py-2 text-sm">{appointment.appointment_start} - {appointment.appointment_end}</td>
                                     <td className="border px-4 py-2 text-sm">{appointment.status}</td>
                                     <td className="border px-4 py-2 flex flex-col sm:flex-row gap-2">
-                                        {appointment.status !== 'Completed' && (
-                                            <button
-                                                onClick={() => openEditModal(appointment)} 
-                                                className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs"
-                                            >
+                                        {appointment.status === 'In-Process' && (
+                                            <button onClick={() => openAdmitModal(appointment)} className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs">
                                                 <FaRegHospital className='mr-1' /> 
                                                 <span className="text-xs">Admit</span>
                                             </button>
                                         )}
-                                        <button
-                                            onClick={() => openEditModal(appointment)} 
-                                            className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs"
-                                        >
+                                        <button onClick={() => openEditModal(appointment)} className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs">
                                             <LuClipboardEdit className='mr-1' /> 
                                             <span className="text-xs">Update</span>
                                         </button>
-                                        <button
-                                            onClick={() => openEditModal(appointment)} 
-                                            className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs"
-                                        >
+                                        <button onClick={() => openViewModal(appointment)} className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs">
                                             <GrFormView className='mr-1' /> 
                                             <span className="text-xs">View</span>
                                         </button>
-                                        <button
-                                            onClick={() => handleDelete(appointment.id)} 
-                                            className="bg-red-500 text-white px-2 py-1 rounded-md flex items-center text-xs"
-                                        >
+                                        <button onClick={() => handleDelete(appointment.id)} className="bg-red-500 text-white px-2 py-1 rounded-md flex items-center text-xs">
                                             <FaRegTrashAlt className='mr-1' /> 
                                             <span className="text-xs">Delete</span>
                                         </button>
@@ -126,8 +163,22 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => 
                     </table>
                 </div>
             </div>
+
+            {showModal && (
+                <AppointmentModal
+                    showModal={showModal}
+                    toggleModal={closeModal}
+                    selectedAppointment={selectedAppointment}
+                    isEditing={isEditing}
+                    isAdmitting={isAdmitting}
+                    isCreating={isCreating}
+                    isViewing={isViewing}
+                    doctors={doctors}
+                    pets={pets}
+                />
+            )}
         </AuthenticatedLayout>
     );
 };
 
-export default Appointment
+export default Appointment;

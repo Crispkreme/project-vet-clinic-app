@@ -1,13 +1,13 @@
 import React, { ReactNode } from 'react';
 
 interface CardProps {
-    allAppointments: number; 
-    pendingAppointment: number; 
+    countAll: number; 
+    countCurrent: number; 
     title: string;
     icon: ReactNode;
 }
   
-const Card: React.FC<CardProps> = ({ allAppointments, pendingAppointment, title, icon }) => {
+const Card: React.FC<CardProps> = ({ countAll, countCurrent, title, icon }) => {
 
     return (
         <div className='bg-white p-6 rounded-2xl flex items-center gap-4 dark:bg-gray-600 dark:text-gray-400'>
@@ -16,8 +16,8 @@ const Card: React.FC<CardProps> = ({ allAppointments, pendingAppointment, title,
             </span>
             <div>
                 <h2 className='text-xl flex items-center'>
-                    <span className='text-2xl font-bold'>{pendingAppointment}</span>
-                    <span className='mx-1'>/{allAppointments}</span>
+                    <span className='text-2xl font-bold'>{countCurrent}</span>
+                    <span className='mx-1'>/{countAll}</span>
                 </h2>
                 <p className='font-bold'>{title}</p>
             </div>

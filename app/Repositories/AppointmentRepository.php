@@ -103,6 +103,15 @@ class AppointmentRepository implements AppointmentContract
             ->count();
     }
 
+    public function getAllAppointmentsByDoctor($doctorId) 
+    {
+        return $this->model
+            ->join('users', 'appointments.vet_id', '=', 'users.id')
+            ->where('appointments.vet_id', $doctorId)
+            ->where('appointments.status', 'Pending')
+            ->get();
+    }
+
     public function getCountAllPendingAppointments()
     {
         return $this->model
@@ -111,4 +120,9 @@ class AppointmentRepository implements AppointmentContract
             ->count();
     }
 
+    public function updateAppointmentStatus($status, $id)
+    {
+        $appointment = $this->model->findOrFail($id);
+        return $appointment->update(['status' => $status]);
+    }
 }

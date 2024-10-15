@@ -20,6 +20,7 @@ return new class extends Migration
             $table->time('appointment_start');
             $table->time('appointment_end');
             $table->enum('status', [
+                'In-Process', 
                 'Pending', 
                 'Confirmed', 
                 'Cancelled', 

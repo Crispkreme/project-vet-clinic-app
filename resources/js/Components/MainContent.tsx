@@ -26,12 +26,12 @@ interface Appointment {
 interface MainContentProps {
   pets: Pet[]; 
   appointments: Appointment[]; 
-  allAppointments: number;
-  pendingAppointments: number;
+  countAll: number;
+  countCurrent: number;
   usertype: string;
 }
 
-const MainContent: React.FC<MainContentProps> = ({ pets, appointments, allAppointments, pendingAppointments, usertype }) => {
+const MainContent: React.FC<MainContentProps> = ({ pets, appointments, countAll, countCurrent, usertype }) => {
   
   const [darkMode, setDarkMode] = useState(false);
 
@@ -40,8 +40,8 @@ const MainContent: React.FC<MainContentProps> = ({ pets, appointments, allAppoin
 
       <Stats 
         darkMode={darkMode} 
-        allAppointments={allAppointments} 
-        pendingAppointment={pendingAppointments} 
+        countAll={countAll} 
+        countCurrent={countCurrent} 
         usertype={usertype}
       />
 

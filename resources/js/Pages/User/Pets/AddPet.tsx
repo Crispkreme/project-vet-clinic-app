@@ -243,6 +243,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                             onChange={(e) => setData(prevData => ({ ...prevData, medical_history: e.target.value })) }
                             placeholder="Enter medical history"
                             label=""
+                            disabled={false}
                         />
                         <InputError
                             message={errors.medical_history}

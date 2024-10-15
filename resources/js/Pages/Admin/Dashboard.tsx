@@ -27,11 +27,11 @@ interface Appointment {
 interface DashboardProps {
     pets: Pet[]; 
     appointments: Appointment[]; 
-    allAppointments: number;
-    pendingAppointments: number;
+    countAll: number;
+    countCurrent: number;
 }
 
-export default function Dashboard({ pets, appointments, allAppointments, pendingAppointments }: DashboardProps) {
+export default function Dashboard({ pets, appointments, countAll, countCurrent }: DashboardProps) {
 
     const user = usePage().props.auth.user;
 
@@ -41,8 +41,8 @@ export default function Dashboard({ pets, appointments, allAppointments, pending
             <MainContent 
                 pets={pets} 
                 appointments={appointments} 
-                allAppointments={allAppointments} 
-                pendingAppointments={pendingAppointments}
+                countAll={countAll} 
+                countCurrent={countCurrent}
                 usertype={user.usertype}
             />
             <UserProfile />

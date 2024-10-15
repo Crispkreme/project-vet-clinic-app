@@ -9,9 +9,10 @@ interface TextareaProps {
     rows?: number;
     className?: string;
     label: string;
+    disabled: boolean;
 }
 
-const Textarea: React.FC<TextareaProps> = ({ id, name, value, onChange, placeholder, rows = 4, className, label }) => {
+const Textarea: React.FC<TextareaProps> = ({ id, name, value, onChange, placeholder, rows = 4, className, label, disabled }) => {
     return (
         <div className={`mb-4 ${className}`}>
             <label htmlFor={id} className="block text-sm font-medium">
@@ -24,6 +25,7 @@ const Textarea: React.FC<TextareaProps> = ({ id, name, value, onChange, placehol
                 onChange={onChange}
                 placeholder={placeholder}
                 rows={rows}
+                disabled={disabled}
                 className="w-full px-3 py-2 border rounded-md"
             ></textarea>
         </div>
