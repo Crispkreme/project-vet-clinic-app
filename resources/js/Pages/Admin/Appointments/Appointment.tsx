@@ -26,9 +26,11 @@ interface Appointment {
 interface AppointmentListProps {
     appointments: Appointment[];
     user?: { id: number }; 
+    doctors: any[];
+    pets: any[]; 
 }
 
-const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => {
+const Appointment: React.FC<AppointmentListProps> = ({ appointments, user, doctors, pets }) => {
     const [showModal, setShowModal] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
     const [isViewing, setIsViewing] = useState(false);
@@ -45,15 +47,16 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => 
         setIsEditing(true); 
         setIsViewing(false);
         setIsAdmitting(false);
-        setShowModal(true);  // Open modal
+        setShowModal(true);
     };
 
     const openAdmitModal = (appointment: Appointment) => {
+        console.log("Opening Admit Modal:", appointment);
         setSelectedAppointment(appointment); 
         setIsEditing(false); 
         setIsViewing(false);
         setIsAdmitting(true);
-        setShowModal(true);  // Open modal
+        setShowModal(true);
     };
 
     const openViewModal = (appointment: Appointment) => {
@@ -61,7 +64,7 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => 
         setIsEditing(false); 
         setIsViewing(true);
         setIsAdmitting(false);
-        setShowModal(true);  // Open modal
+        setShowModal(true);
     };
 
     const closeModal = () => {
@@ -113,32 +116,20 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => 
                                     <td className="border px-4 py-2 text-sm">{appointment.status}</td>
                                     <td className="border px-4 py-2 flex flex-col sm:flex-row gap-2">
                                         {appointment.status === 'In-Process' && (
-                                            <button
-                                                onClick={() => openAdmitModal(appointment)} 
-                                                className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs"
-                                            >
+                                            <button onClick={() => openAdmitModal(appointment)} className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs">
                                                 <FaRegHospital className='mr-1' /> 
                                                 <span className="text-xs">Admit</span>
                                             </button>
                                         )}
-                                        <button
-                                            onClick={() => openEditModal(appointment)} 
-                                            className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs"
-                                        >
+                                        <button onClick={() => openEditModal(appointment)} className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs">
                                             <LuClipboardEdit className='mr-1' /> 
                                             <span className="text-xs">Update</span>
                                         </button>
-                                        <button
-                                            onClick={() => openViewModal(appointment)} 
-                                            className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs"
-                                        >
+                                        <button onClick={() => openViewModal(appointment)} className="bg-yellow-500 text-white px-2 py-1 rounded-md flex items-center text-xs">
                                             <GrFormView className='mr-1' /> 
                                             <span className="text-xs">View</span>
                                         </button>
-                                        <button
-                                            onClick={() => handleDelete(appointment.id)} 
-                                            className="bg-red-500 text-white px-2 py-1 rounded-md flex items-center text-xs"
-                                        >
+                                        <button onClick={() => handleDelete(appointment.id)} className="bg-red-500 text-white px-2 py-1 rounded-md flex items-center text-xs">
                                             <FaRegTrashAlt className='mr-1' /> 
                                             <span className="text-xs">Delete</span>
                                         </button>
@@ -158,6 +149,8 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user }) => 
                     isEditing={isEditing}
                     isAdmitting={isAdmitting}
                     isViewing={isViewing}
+                    doctors={doctors}
+                    pets={pets}
                 />
             )}
         </AuthenticatedLayout>

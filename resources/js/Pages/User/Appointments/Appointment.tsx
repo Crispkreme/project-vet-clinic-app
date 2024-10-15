@@ -18,12 +18,6 @@ interface Appointment {
     status: string;
 }
 
-interface Booking {
-    title: string;
-    start: string;
-    end: string;
-}
-
 interface AppointmentListProps {
     showModal: boolean;
     toggleModal: () => void;
@@ -64,7 +58,7 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pe
                             <LuCalendarDays />
                         </span>
                     </button>
-                    <Title className="flex items-center gap-2">
+                    <Title>
                         Appointments
                         <span className="ml-4">
                             <MdOutlinePets />
