@@ -111,4 +111,9 @@ class AppointmentRepository implements AppointmentContract
             ->count();
     }
 
+    public function updateAppointmentStatus($status, $id)
+    {
+        $appointment = $this->model->findOrFail($id);
+        return $appointment->update(['status' => $status]);
+    }
 }

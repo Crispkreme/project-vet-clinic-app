@@ -5,6 +5,7 @@ import { MdOutlinePets } from 'react-icons/md';
 import { FaRegTrashAlt, FaRegHospital } from "react-icons/fa";
 import { LuClipboardEdit } from "react-icons/lu";
 import { GrFormView } from "react-icons/gr";
+import { LuCalendarDays } from "react-icons/lu";
 import AppointmentModal from './AppointmentModal';
 
 interface Appointment {
@@ -36,12 +37,22 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user, docto
     const [isViewing, setIsViewing] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [isAdmitting, setIsAdmitting] = useState(false);
+    const [isCreating, setIsCreating] = useState(false);
     const [appointmentList, setappointmentList] = useState<Appointment[]>(appointments);
 
     const toggleModal = () => {
         setShowModal(!showModal);
     };
     
+    const openCreateModal = (appointment: Appointment) => {
+        setSelectedAppointment(null); 
+        setIsEditing(true); 
+        setIsViewing(false);
+        setIsAdmitting(false);
+        setShowModal(true);
+        setIsCreating(true);
+    };
+
     const openEditModal = (appointment: Appointment) => {
         setSelectedAppointment(appointment); 
         setIsEditing(true); 
@@ -83,9 +94,21 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user, docto
         <AuthenticatedLayout>
             <div className="container bg-white p-6 rounded-2xl dark:bg-gray-600 dark:text-gray-400">
                 <div className="flex items-center justify-between mb-4">
+                    <button
+                        className="bg-blue-500 text-white px-4 py-2 rounded-md inline-flex items-center gap-2"
+                        onClick={() => {
+                            setSelectedAppointment(null);
+                            toggleModal();
+                        }}
+                    >
+                        Appointment
+                        <span className="inline-flex items-center">
+                            <LuCalendarDays />
+                        </span>
+                    </button>
                     <Title>
-                        <span>Appointments</span>
-                        <span className="ml-2">
+                        Appointments
+                        <span className="ml-4">
                             <MdOutlinePets />
                         </span>
                     </Title>
@@ -148,6 +171,7 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user, docto
                     selectedAppointment={selectedAppointment}
                     isEditing={isEditing}
                     isAdmitting={isAdmitting}
+                    isCreating={isCreating}
                     isViewing={isViewing}
                     doctors={doctors}
                     pets={pets}

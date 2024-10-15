@@ -24,9 +24,10 @@ interface AppointmentModalProps {
     toggleModal: () => void;
     doctors: Doctor[];
     pets: Pet[];
+    selectedAppointment: any;
 }
 
-const AppointmentModal: React.FC<AppointmentModalProps> = ({ showModal, toggleModal, doctors, pets }) => {
+const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment, showModal, toggleModal, doctors, pets }) => {
 
     const { props } = usePage();
     const { errors } = props;

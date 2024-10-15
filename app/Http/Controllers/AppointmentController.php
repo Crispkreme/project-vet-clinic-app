@@ -51,6 +51,7 @@ class AppointmentController extends Controller
 
     public function storeAppointment(Request $request, $id = null)
     {
+
         DB::beginTransaction();
 
         try {
@@ -72,7 +73,7 @@ class AppointmentController extends Controller
             $validated['appointment_start'] = $validated['appointment_start'] . ':00';
             $validated['appointment_end'] = $validated['appointment_end'] . ':00';
 
-            $sata = $this->appointmentContract->createOrUpdateAppointment($validated);
+            $this->appointmentContract->createOrUpdateAppointment($validated);
 
             DB::commit();
 
@@ -112,5 +113,45 @@ class AppointmentController extends Controller
         return Inertia::render('Admin/Appointments/Appointment', [
             'appointments' => $appointments,
         ]);
+    }
+
+    public function admitAppointment(Request $request, $id)
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        DB::beginTransaction();
+
+        try {
+
+            $status = "Pending";
+            $data = $this->appointmentContract->updateAppointmentStatus($status, $id);
+
+            DB::commit();
+
+            if ($request->wantsJson()) {
+                return response()->json(['success' => true]);
+            }
+
+            Session::flash('success', 'Appointment admitted successfully!');
+
+        } catch (Exception $e) {
+            Log::error('Error during admitAppointment: ' . $e->getMessage(), [
+                'exception' => $e,
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            DB::rollBack();
+
+            if ($request->wantsJson()) {
+                return response()->json(['error' => true], 500);
+            }
+
+            Session::flash('error', 'An error occurred during appointment admitting.');
+            return redirect()->back()->withErrors(['error' => 'An error occurred during appointment admitting.']);
+        }
     }
 }
