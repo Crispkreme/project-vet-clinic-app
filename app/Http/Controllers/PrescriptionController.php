@@ -38,10 +38,10 @@ class PrescriptionController extends Controller
         }
         
         $status = 'Pending';
-        $prescriptions = $this->appointmentContract->getAppointmentStatus($status);
+        $appointments = $this->appointmentContract->getAppointmentStatus($status);
 
         return Inertia::render('Admin/Prescriptions/Prescription', [
-            'prescriptions' => $prescriptions,
+            'appointments' => $appointments,
         ]);
     }
 

@@ -59,8 +59,8 @@ class AppointmentController extends Controller
                 'pet_id' => 'nullable|exists:pets,id',
                 'title' => 'required|string|max:255',
                 'appointment_date' => 'required|date',
-                'appointment_start' => 'required|date_format:H:i:s', 
-                'appointment_end' => 'required|date_format:H:i:s|after:appointment_start', 
+                'appointment_start' => 'required|date_format:H:i', 
+                'appointment_end' => 'required|date_format:H:i|after:appointment_start', 
                 'status' => 'nullable|in:In-Process,Pending,Confirmed,Cancelled,Completed',
                 'notes' => 'nullable|string',
             ]);

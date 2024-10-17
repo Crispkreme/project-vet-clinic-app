@@ -39,6 +39,8 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     // PRESCRIPTION
     Route::get('/admin/prescription', [PrescriptionController::class, 'prescription'])->name('admin.prescription');
     Route::post('/admin/create/prescription/{id}', [PrescriptionController::class, 'createOrUpdatePrescription'])->name('admin.create.prescription');
+
+    Route::get('/admin/client/doctor', [UserController::class, 'getClient'])->name('admin.client.doctor');
 });
 
 // User routes
@@ -53,6 +55,9 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     // APPOINTMENT
     Route::get('/user/calendar', [AppointmentController::class, 'ownerCalendar'])->name('user.calendar');
     Route::post('/user/appointment/store', [AppointmentController::class, 'storeAppointment'])->name('user.appointment.store');
+
+    // DOCTOR
+    Route::get('/user/doctor', [UserController::class, 'getDoctor'])->name('user.doctor');
 });
 
 Route::middleware('auth')->group(function () {
