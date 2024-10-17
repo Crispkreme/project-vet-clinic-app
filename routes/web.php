@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PetController;
+use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 
 
 Route::get('/', function () {
@@ -33,6 +35,10 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::post('/admin/appointment/store', [AppointmentController::class, 'storeAppointment'])->name('admin.appointment.store');
     Route::post('/admin/appointment/update/{id}', [AppointmentController::class, 'storeAppointment'])->name('admin.appointment.update');
     Route::post('/admin/admit/appointment/{id}', [AppointmentController::class, 'admitAppointment'])->name('admin.admit.appointment');
+
+    // PRESCRIPTION
+    Route::get('/admin/prescription', [PrescriptionController::class, 'prescription'])->name('admin.prescription');
+    Route::post('/admin/create/prescription/{id}', [PrescriptionController::class, 'createOrUpdatePrescription'])->name('admin.create.prescription');
 });
 
 // User routes

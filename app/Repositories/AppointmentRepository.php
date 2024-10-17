@@ -18,11 +18,11 @@ class AppointmentRepository implements AppointmentContract
     public function getAllAppointment()
     {
         return $this->model
-            ->join('pets', 'appointments.pet_id', '=', 'pets.id') 
+            ->join('pets', 'appointments.pet_id', '=', 'pets.id')
             ->join('users', 'appointments.vet_id', '=', 'users.id')
             ->select(
-                'appointments.*', 
-                'pets.name as pet_name', 
+                'appointments.*',
+                'pets.name as pet_name',
                 'users.name as vet_name'
             )
             ->get();
@@ -31,13 +31,14 @@ class AppointmentRepository implements AppointmentContract
     public function getAllAppointmentsByOwner($ownerId)
     {
         return $this->model
-            ->join('pets', 'appointments.pet_id', '=', 'pets.id') 
+            ->join('pets', 'appointments.pet_id', '=', 'pets.id')
             ->where('pets.user_id', $ownerId)
             ->select(
-                'appointments.*', 
-                'pets.name as pet_name', 
-                'pets.breed', 'pets.age', 
-                'pets.weight', 
+                'appointments.*',
+                'pets.name as pet_name',
+                'pets.breed',
+                'pets.age',
+                'pets.weight',
                 'pets.status as pet_status'
             )
             ->get();
@@ -46,15 +47,15 @@ class AppointmentRepository implements AppointmentContract
     public function getActiveAppointmentsByOwner($ownerId)
     {
         return $this->model
-            ->join('pets', 'appointments.pet_id', '=', 'pets.id') 
+            ->join('pets', 'appointments.pet_id', '=', 'pets.id')
             ->where('pets.user_id', $ownerId)
             ->where('appointments.status', 'Pending')
             ->select(
-                'appointments.*', 
-                'pets.name as pet_name', 
-                'pets.breed', 
-                'pets.age', 
-                'pets.weight', 
+                'appointments.*',
+                'pets.name as pet_name',
+                'pets.breed',
+                'pets.age',
+                'pets.weight',
                 'pets.status as pet_status'
             )
             ->get();
@@ -64,11 +65,11 @@ class AppointmentRepository implements AppointmentContract
     {
         return $this->model->updateOrCreate(
             [
-                'id' => $data['id'] ?? null, 
+                'id' => $data['id'] ?? null,
             ],
             [
-                'vet_id' => $data['vet_id'] ?? null, 
-                'pet_id' => $data['pet_id'] ?? null, 
+                'vet_id' => $data['vet_id'] ?? null,
+                'pet_id' => $data['pet_id'] ?? null,
                 'title' => $data['title'],
                 'appointment_date' => $data['appointment_date'],
                 'appointment_start' => $data['appointment_start'],
@@ -103,7 +104,7 @@ class AppointmentRepository implements AppointmentContract
             ->count();
     }
 
-    public function getAllAppointmentsByDoctor($doctorId) 
+    public function getAllAppointmentsByDoctor($doctorId)
     {
         return $this->model
             ->join('users', 'appointments.vet_id', '=', 'users.id')
@@ -124,5 +125,19 @@ class AppointmentRepository implements AppointmentContract
     {
         $appointment = $this->model->findOrFail($id);
         return $appointment->update(['status' => $status]);
+    }
+
+    public function getAppointmentStatus($status)
+    {
+        return $this->model
+            ->join('pets', 'appointments.pet_id', '=', 'pets.id')
+            ->join('users', 'appointments.vet_id', '=', 'users.id')
+            ->select(
+                'appointments.*',
+                'pets.name as pet_name',
+                'users.name as vet_name'
+            )
+            ->where('appointments.status', $status)
+            ->get();
     }
 }

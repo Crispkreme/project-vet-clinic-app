@@ -126,7 +126,7 @@ class AppointmentController extends Controller
         try {
 
             $status = "Pending";
-            $data = $this->appointmentContract->updateAppointmentStatus($status, $id);
+            $this->appointmentContract->updateAppointmentStatus($status, $id);
 
             DB::commit();
 
