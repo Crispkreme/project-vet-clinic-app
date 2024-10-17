@@ -32,7 +32,7 @@ interface AppointmentModalProps {
     toggleModal: () => void;
     doctors: Doctor[];
     pets: Pet[];
-    selectedAppointment: any; // Adjust type as necessary
+    selectedAppointment: any;
 }
 
 const AppointmentModal: React.FC<AppointmentModalProps> = ({ 
@@ -43,13 +43,12 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     isEditing, 
     showModal, 
     toggleModal, 
-    doctors = [], // Default to empty array
-    pets = []     // Default to empty array
+    doctors = [],
+    pets = []    
 }) => {
     const { props } = usePage();
     const { errors } = props;
     const [notification, setNotification] = useState<string | null>(null);
-    console.log(selectedAppointment);
 
     const { data, setData, post, processing } = useForm({
         vet_id: selectedAppointment?.vet_id || "",

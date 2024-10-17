@@ -4,6 +4,7 @@ import { LuCalendarDays } from "react-icons/lu";
 import { PiWechatLogo } from "react-icons/pi";
 import { BiCustomize } from "react-icons/bi";
 import { AiOutlineFileDone } from "react-icons/ai";
+import { FaRegHospital } from "react-icons/fa6";
 import {
   IoIosStats,
   IoIosSettings,
@@ -98,6 +99,16 @@ export const getLinks = (userType) => {
       href: "/admin/appointment",
       icon: AiOutlineFileDone,
       text: "Appointments",
+      badge: {
+        color: "bg-gray-100 text-gray-800",
+        darkColor: "dark:bg-gray-700 dark:text-gray-300",
+      },
+    });
+
+    links.push({
+      href: "/admin/prescription",
+      icon: FaRegHospital,
+      text: "Admission",
       badge: {
         color: "bg-gray-100 text-gray-800",
         darkColor: "dark:bg-gray-700 dark:text-gray-300",

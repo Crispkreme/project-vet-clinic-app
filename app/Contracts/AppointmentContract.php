@@ -13,5 +13,6 @@ interface AppointmentContract {
     public function getCountAllAppointments();
     public function getCountAllPendingAppointments();
     public function updateAppointmentStatus($status, $id);
+    public function getAppointmentStatus($status);
     public function getAllAppointmentsByDoctor($id);
 }

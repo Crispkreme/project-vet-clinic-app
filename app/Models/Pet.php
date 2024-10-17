@@ -31,4 +31,9 @@ class Pet extends Model
         return $this->hasMany(Appointment::class, 'pet_id');
     }
 
+    public function prescriptions()
+    {
+        return $this->hasMany(Prescription::class, 'pet_id');
+    }
+
 }
