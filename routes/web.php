@@ -39,6 +39,8 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     // PRESCRIPTION
     Route::get('/admin/prescription', [PrescriptionController::class, 'prescription'])->name('admin.prescription');
     Route::post('/admin/create/prescription/{id}', [PrescriptionController::class, 'createOrUpdatePrescription'])->name('admin.create.prescription');
+
+    Route::get('/admin/client/doctor', [UserController::class, 'getClient'])->name('admin.client.doctor');
 });
 
 // User routes
