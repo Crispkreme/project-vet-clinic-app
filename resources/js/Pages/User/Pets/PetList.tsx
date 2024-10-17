@@ -64,13 +64,14 @@ const PetList: React.FC<PetListProps> = ({ pets, user }) => {
                             <MdOutlinePets />
                         </span>
                     </button>
-                    <Title>
-                        Your Pets{" "}
-                        <span className="flex justify-end">
+                    <div className="flex items-center gap-2">
+                        <Title>Your Pets</Title>
+                        <span>
                             <MdOutlinePets />
                         </span>
-                    </Title>
+                    </div>
                 </div>
+
                 <table className="table-auto w-full">
                     <thead>
                         <tr>

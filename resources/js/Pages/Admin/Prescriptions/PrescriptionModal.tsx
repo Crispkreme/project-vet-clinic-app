@@ -2,46 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Title from "@/Components/Title";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
-import Select from "@/Components/Select";
 import Textarea from "@/Components/Textarea";
 import InputError from "@/Components/InputError";
 import { Inertia } from '@inertiajs/inertia';
+import { PrescriptionModalProps } from '@/Interfaces';
 
-interface Doctor {
-  id: number;
-  name: string;
-}
-
-interface Pet {
-  id: number;
-  name: string;
-}
-
-interface Prescription {
-  id?: number;
-  vet_id?: number;
-  pet_id?: number;
-  diagnosis?: string;
-  treatment_plan?: string;
-  prescribed_medication?: string;
-}
-
-interface PrescriptionModalProps {
-  showModal: boolean;
-  toggleModal: () => void;
-  selectedPrescription?: Prescription;
-  doctors: Doctor[];
-  pets: Pet[];
-}
-
-const PrescriptionModal: React.FC<PrescriptionModalProps> = ({
-  showModal,
-  toggleModal,
-  selectedPrescription,
-  doctors = [],
-  pets = []
-}) => {
+const PrescriptionModal = ({ showModal, toggleModal, selectedPrescription, doctors = [], pets = []}: PrescriptionModalProps) => {
   
+  const [id, setId] = useState<number | ''>('');
   const [vetId, setVetId] = useState<number | ''>('');
   const [petId, setPetId] = useState<number | ''>('');
   const [diagnosis, setDiagnosis] = useState<string>('');
@@ -51,6 +19,7 @@ const PrescriptionModal: React.FC<PrescriptionModalProps> = ({
 
   useEffect(() => {
     if (selectedPrescription) {
+      setId(selectedPrescription.id || '');
       setVetId(selectedPrescription.vet_id || '');
       setPetId(selectedPrescription.pet_id || '');
       setDiagnosis(selectedPrescription.diagnosis || '');
@@ -81,14 +50,12 @@ const PrescriptionModal: React.FC<PrescriptionModalProps> = ({
     formData.append('treatment_plan', treatmentPlan);
     formData.append('prescribed_medication', prescribedMedication);
   
-    Inertia.post(route('admin.create.prescription', selectedPrescription.id), formData, {
+    Inertia.post(route('admin.create.prescription', id), formData, {
       onSuccess: (response: { props: { message: string } }) => {
-        // setNotification(response.props.message);
         toggleModal();
       },
       onError: (error: { props?: { error: string } }) => {
         const errorMessage = error?.props?.error || "An error occurred.";
-        // setNotification(errorMessage);
       },
     });
   };
@@ -101,6 +68,7 @@ const PrescriptionModal: React.FC<PrescriptionModalProps> = ({
         <Title>{selectedPrescription ? 'Edit Prescription' : 'Add Prescription'}</Title>
 
         <form onSubmit={handleSubmit}>
+          <input type="hidden" value={id}/>
           <div className="mb-4">
             <InputLabel htmlFor="vetId" value="Doctor" />
             <TextInput
@@ -133,7 +101,7 @@ const PrescriptionModal: React.FC<PrescriptionModalProps> = ({
               name="diagnosis"
               value={diagnosis}
               onChange={(e) => setDiagnosis(e.target.value)}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block w-full  focus:ring-indigo-500 focus:border-indigo-500"
               rows={3}
             />
             <InputError message={errors.diagnosis} className="mt-2" />
@@ -147,7 +115,7 @@ const PrescriptionModal: React.FC<PrescriptionModalProps> = ({
               value={treatmentPlan}
               onChange={(e) => setTreatmentPlan(e.target.value)}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block w-full  focus:ring-indigo-500 focus:border-indigo-500"
               rows={3}
             />
             <InputError message={errors.treatmentPlan} className="mt-2" />
@@ -161,7 +129,7 @@ const PrescriptionModal: React.FC<PrescriptionModalProps> = ({
               value={prescribedMedication}
               onChange={(e) => setPrescribedMedication(e.target.value)}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block w-full focus:ring-indigo-500 focus:border-indigo-500"
               rows={3}
             />
             <InputError message={errors.prescribedMedication} className="mt-2" />

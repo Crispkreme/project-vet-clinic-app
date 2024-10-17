@@ -53,6 +53,9 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     // APPOINTMENT
     Route::get('/user/calendar', [AppointmentController::class, 'ownerCalendar'])->name('user.calendar');
     Route::post('/user/appointment/store', [AppointmentController::class, 'storeAppointment'])->name('user.appointment.store');
+
+    // DOCTOR
+    Route::get('/user/doctor', [UserController::class, 'getDoctor'])->name('user.doctor');
 });
 
 Route::middleware('auth')->group(function () {
