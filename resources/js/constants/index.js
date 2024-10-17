@@ -1,7 +1,7 @@
 import { GoGoal } from "react-icons/go";
 import { GrPlan } from "react-icons/gr";
 import { LuCalendarDays } from "react-icons/lu";
-import { PiWechatLogo } from "react-icons/pi";
+import { PiWechatLogo, PiUsersThreeBold } from "react-icons/pi";
 import { BiCustomize } from "react-icons/bi";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { FaRegHospital } from "react-icons/fa6";
@@ -91,6 +91,17 @@ export const getLinks = (userType) => {
   ];
 
   if (userType === 'admin') {
+
+    links.push({
+      href: "/admin/client/doctor",
+      icon: PiUsersThreeBold,
+      text: "Clients",
+      badge: {
+        color: "bg-gray-100 text-gray-800",
+        darkColor: "dark:bg-gray-700 dark:text-gray-300",
+      },
+    });
+
     links.push({
       href: "/admin/appointment",
       icon: AiOutlineFileDone,

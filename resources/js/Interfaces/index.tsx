@@ -59,3 +59,20 @@ export interface PrescriptionModalProps {
     doctors: Doctor[];
     pets: Pet[];
 }
+
+export interface PetInfo {
+    id: number;
+    pet_name: string;
+    owner_name: string;
+    breed: string;
+    age: number;
+    weight: string;
+}
+
+export interface DoctorInfo {
+    id: number;
+    name: string;
+    usertype: string;
+    phone_number: string;
+    email: string;
+}
