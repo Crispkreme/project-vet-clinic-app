@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'usertype',
         'email',
+        'phone_number',
         'password',
     ];
 
@@ -46,4 +47,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'vet_id');
+    }
+
 }

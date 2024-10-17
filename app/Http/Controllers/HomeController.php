@@ -2,17 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\AppointmentContract;
+use App\Contracts\PetContract;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class HomeController extends Controller
 {
-    public function admin()
-    {
-        return view('admin.index');
+    protected $petContract;
+    protected $appointmentContract;
+
+    public function __construct(
+        PetContract $petContract,
+        AppointmentContract $appointmentContract,
+    ) {
+        $this->petContract = $petContract;
+        $this->appointmentContract = $appointmentContract;
     }
 
-    public function user()
+    public function dashboard()
     {
-        return view('user.index');
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        $pets = $this->petContract->getAllPet();
+        $appointments = $this->appointmentContract->getAllAppointment();
+        $countAll = $this->appointmentContract->getCountAllAppointments();
+        $countCurrent = $this->appointmentContract->getCountAllPendingAppointments();
+
+        return Inertia::render('Admin/Dashboard', [
+            'pets' => $pets,
+            'appointments' => $appointments,
+            'countAll' => $countAll,
+            'countCurrent' => $countCurrent,
+        ]);
     }
 }

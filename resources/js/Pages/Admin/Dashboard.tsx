@@ -1,29 +1,52 @@
+import MainContent from '@/Components/MainContent';
+import UserProfile from '@/Components/Profile/UserProfile';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 
-export default function Dashboard() {
+interface Pet {
+    id: number;
+    name: string;
+    breed: string;
+    age: number;
+    weight: number;
+    status: string;
+}
+
+interface Appointment {
+    id: number;
+    vet_id: number | null;       
+    pet_id: number | null; 
+    title: string;
+    appointment_date: string;  
+    appointment_start: string;
+    appointment_end: string;
+    status: 'Pending' | 'Confirmed' | 'Cancelled' | 'Completed';
+    notes?: string | null;
+}
+
+interface DashboardProps {
+    pets: Pet[]; 
+    appointments: Appointment[]; 
+    countAll: number;
+    countCurrent: number;
+}
+
+export default function Dashboard({ pets, appointments, countAll, countCurrent }: DashboardProps) {
+
+    const user = usePage().props.auth.user;
+
     return (
-        <AuthenticatedLayout
-            header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Dashboard
-                </h2>
-            }
-        >
-            <Head title="Dashboard" />
+        <AuthenticatedLayout>
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            You're logged in!
-                        </div>
-                        <div className="p-6 text-gray-900">
-                            Welcome Admin
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <MainContent 
+                pets={pets} 
+                appointments={appointments} 
+                countAll={countAll} 
+                countCurrent={countCurrent}
+                usertype={user.usertype}
+            />
+            <UserProfile />
+
         </AuthenticatedLayout>
     );
 }

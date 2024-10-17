@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -30,27 +33,42 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        DB::beginTransaction();
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|lowercase|max:255|unique:'.User::class,
+                'phone_number' => 'required|string|regex:/^\+63\d{10}$/',
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            ]);
+            
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'password' => Hash::make($request->password),
+            ]);
 
-        event(new Registered($user));
+            DB::commit();
 
-        Auth::login($user);
+            event(new Registered($user));
 
-        if(Auth::user()->usertype == 'admin')
-        {
-            return redirect()->intended(route('admin.dashboard', absolute: false));
-        } else {
-            return redirect()->intended(route('user.dashboard', absolute: false));
+            Auth::login($user);
+
+            return redirect()->intended(route($user->usertype === 'admin' ? 'admin.dashboard' : 'user.dashboard'));
+
+        } catch (Exception $e) {
+
+            Log::error('Error during registration: ' . $e->getMessage(), [
+                'exception' => $e,
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            DB::rollback();
+
+            return redirect()->back()->withErrors(['error' => 'An error occurred during registration.']);
         }
     }
+
 }
