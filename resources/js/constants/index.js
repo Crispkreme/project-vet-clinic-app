@@ -5,21 +5,17 @@ import { PiWechatLogo } from "react-icons/pi";
 import { BiCustomize } from "react-icons/bi";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { FaRegHospital } from "react-icons/fa6";
+import { TbUserShield } from "react-icons/tb";
 import {
   IoIosStats,
   IoIosSettings,
   IoIosPerson,
   IoIosPersonAdd,
-  IoIosEyeOff,
-  IoIosLogIn,
-  IoIosLogOut,
+  IoIosEyeOff
 } from "react-icons/io";
 import {
-  FaChartBar,
-  FaCalendarAlt,
-  FaFacebookMessenger,
-  FaUsersCog,
-  FaListAlt,
+  FaChartBar, FaUsersCog,
+  FaListAlt
 } from "react-icons/fa";
 import { MdOutlinePets } from "react-icons/md";
 
@@ -68,7 +64,7 @@ export const getLinks = (userType) => {
     {
       href: userType === 'admin' ? "/admin/dashboard" : "/user/dashboard",
       icon: BiCustomize,
-      text: "Users",
+      text: "Dashboard",
       badge: {
         color: "bg-gray-100 text-gray-800",
         darkColor: "dark:bg-gray-700 dark:text-gray-300",
@@ -109,6 +105,18 @@ export const getLinks = (userType) => {
       href: "/admin/prescription",
       icon: FaRegHospital,
       text: "Admission",
+      badge: {
+        color: "bg-gray-100 text-gray-800",
+        darkColor: "dark:bg-gray-700 dark:text-gray-300",
+      },
+    });
+  }
+
+  if (userType === 'user') {
+    links.push({
+      href: "/user/doctor",
+      icon: TbUserShield,
+      text: "Doctors",
       badge: {
         color: "bg-gray-100 text-gray-800",
         darkColor: "dark:bg-gray-700 dark:text-gray-300",

@@ -58,12 +58,14 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pe
                             <LuCalendarDays />
                         </span>
                     </button>
-                    <Title>
-                        Appointments
-                        <span className="ml-4">
-                            <MdOutlinePets />
-                        </span>
-                    </Title>
+                    <div className="flex items-center gap-2">
+                        <Title>
+                            Appointments
+                            <span className="ml-4">
+                                <MdOutlinePets />
+                            </span>
+                        </Title>
+                    </div>
                 </div>
                 <div className='mt-2'></div>
                 <FullCalendar
