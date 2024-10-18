@@ -5,7 +5,6 @@ import { MdOutlinePets } from 'react-icons/md';
 import { FaRegTrashAlt, FaRegHospital } from "react-icons/fa";
 import { LuClipboardEdit } from "react-icons/lu";
 import { GrFormView } from "react-icons/gr";
-import { LuCalendarDays } from "react-icons/lu";
 import AppointmentModal from './AppointmentModal';
 
 interface Appointment {
@@ -94,7 +93,7 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user, docto
         <AuthenticatedLayout>
             <div className="container bg-white p-6 rounded-2xl dark:bg-gray-600 dark:text-gray-400">
                 <div className="flex items-center justify-between mb-4">
-                    <button
+                    {/* <button
                         className="bg-blue-500 text-white px-4 py-2 rounded-md inline-flex items-center gap-2"
                         onClick={() => {
                             setSelectedAppointment(null);
@@ -105,7 +104,7 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user, docto
                         <span className="inline-flex items-center">
                             <LuCalendarDays />
                         </span>
-                    </button>
+                    </button> */}
                     <Title>
                         Appointments
                         <span className="ml-4">
