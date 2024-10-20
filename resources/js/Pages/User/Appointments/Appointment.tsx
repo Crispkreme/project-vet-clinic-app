@@ -8,6 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { MdOutlinePets } from "react-icons/md";
 import AppointmentModal from './AppointmentModal';
 import { LuCalendarDays } from "react-icons/lu";
+import { useTranslation } from 'react-i18next';
 
 interface Appointment {
     id: number;
@@ -28,6 +29,8 @@ interface AppointmentListProps {
 }
 
 const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pets }) => {
+    const { t } = useTranslation();
+
     
     const [showModal, setShowModal] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null); // Correct type
@@ -53,13 +56,13 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pe
                             toggleModal();
                         }}
                     >
-                        Add Appointment
+                        {t('Add Appointment')}
                         <span className="ml-2">
                             <LuCalendarDays />
                         </span>
                     </button>
                     <Title>
-                        Appointments
+                        {t('Appointments')}
                         <span className="ml-4">
                             <MdOutlinePets />
                         </span>
