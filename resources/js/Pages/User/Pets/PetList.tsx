@@ -1,27 +1,10 @@
-import React, { useState, useTransition } from 'react';
+import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Title from '@/Components/Title';
 import { MdOutlinePets } from 'react-icons/md';
 import AddPet from './AddPet';
 import { useTranslation } from 'react-i18next';
-
-interface Pet {
-    id: number;
-    user_id?: number | null;
-    name: string;
-    breed: string;
-    age: number;
-    weight: number;
-    status: string;
-    medical_history?: string; 
-    created_at: string; 
-    updated_at: string;
-}
-
-interface PetListProps {
-    pets: Pet[];
-    user?: { id: number }; 
-}
+import { PetListProps, Pet } from "@/Interfaces";
 
 const PetList: React.FC<PetListProps> = ({ pets, user }) => {
     const { t } = useTranslation();

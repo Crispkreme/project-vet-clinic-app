@@ -4,8 +4,6 @@ import ClientCard from "@/Pages/Admin/Clients/ClientCard";
 
 const Client = ({ clients }: { clients: PetInfo[] }) => { 
 
-    console.log(clients);
-
     return (
         <Authenticated>
             <div className="container mx-auto px-4">
