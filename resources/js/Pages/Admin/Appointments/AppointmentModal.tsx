@@ -12,28 +12,7 @@ import { TbUserPlus } from "react-icons/tb";
 import { FiUserCheck } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import { MdPostAdd } from "react-icons/md";
-
-interface Doctor {
-    id: number;
-    name: string;
-}
-
-interface Pet {
-    id: number;
-    name: string;
-}
-
-interface AppointmentModalProps {
-    showModal: boolean;
-    isViewing: boolean;
-    isAdmitting: boolean;
-    isCreating: boolean;
-    isEditing: boolean;
-    toggleModal: () => void;
-    doctors: Doctor[];
-    pets: Pet[];
-    selectedAppointment: any;
-}
+import { User, Pet, AppointmentModalProps } from "@/Interfaces";
 
 const AppointmentModal: React.FC<AppointmentModalProps> = ({ 
     selectedAppointment, 
@@ -62,10 +41,9 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     });
 
     const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+
         e.preventDefault();
-    
         const isUpdating = isEditing && selectedAppointment;
-    
         const formData = {
             ...data,
             id: isUpdating ? selectedAppointment?.id : undefined,
@@ -103,7 +81,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     ];
 
     // Use optional chaining to map doctors and pets
-    const vetOptions = doctors?.map((doctor: Doctor) => ({
+    const vetOptions = doctors?.map((doctor: User) => ({
         value: String(doctor.id),
         label: doctor.name
     })) || [];
@@ -267,6 +245,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                         <InputLabel htmlFor="notes" value="Notes" />
                         <Textarea
                             id="notes"
+                            placeholder=''
+                            label=''
                             name="notes"
                             value={data.notes}
                             className="mt-1 block w-full"
