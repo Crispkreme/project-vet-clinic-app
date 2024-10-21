@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useTransition } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Title from '@/Components/Title';
 import { MdOutlinePets } from 'react-icons/md';
 import AddPet from './AddPet';
+import { useTranslation } from 'react-i18next';
 
 interface Pet {
     id: number;
@@ -23,6 +24,8 @@ interface PetListProps {
 }
 
 const PetList: React.FC<PetListProps> = ({ pets, user }) => {
+    const { t } = useTranslation();
+
     const [showModal, setShowModal] = useState(false);
     const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -59,14 +62,14 @@ const PetList: React.FC<PetListProps> = ({ pets, user }) => {
                         className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center gap-2"
                         onClick={() => { setSelectedPet(null); setIsEditing(false); toggleModal(); }}
                     >
-                        Add Pet{" "}
+                        {t('Add Pet')}{" "}
                         <span>
                             <MdOutlinePets />
                         </span>
                     </button>
                     <div className="flex items-center gap-2">
-                        <Title>Your Pets</Title>
-                        <span>
+                        <Title>{t('Your Pets')}{" "}</Title>
+                        <span className="flex justify-end">
                             <MdOutlinePets />
                         </span>
                     </div>
@@ -75,12 +78,12 @@ const PetList: React.FC<PetListProps> = ({ pets, user }) => {
                 <table className="table-auto w-full">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Breed</th>
-                            <th>Age</th>
-                            <th>Weight</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th>{t('Name')}</th>
+                            <th>{t('Breed')}</th>
+                            <th>{t('Age')}</th>
+                            <th>{t('Weight')}</th>
+                            <th>{t('Status')}</th>
+                            <th>{t('Actions')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -96,13 +99,13 @@ const PetList: React.FC<PetListProps> = ({ pets, user }) => {
                                         onClick={() => openEditModal(pet)} 
                                         className="bg-yellow-500 text-white px-2 py-1 rounded-md"
                                     >
-                                        Update
+                                        {t('Update')}
                                     </button>
                                     <button
                                         onClick={() => handleDelete(pet.id)} 
                                         className="bg-red-500 text-white px-2 py-1 rounded-md"
                                     >
-                                        Delete
+                                        {t('Delete')}
                                     </button>
                                 </td>
                             </tr>

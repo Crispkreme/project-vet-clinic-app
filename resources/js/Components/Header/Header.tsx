@@ -4,6 +4,8 @@ import { HiOutlineMenuAlt2 } from 'react-icons/hi';
 import { TbDogBowl } from "react-icons/tb";
 import { usePage } from '@inertiajs/react';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
+import LanguageSwitcher from '@/Components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {
   darkMode: boolean;
@@ -19,6 +21,8 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, toogleSidebar
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
+
+  const { t } = useTranslation();
 
   return (
     <nav className='fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700'>
@@ -38,6 +42,11 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, toogleSidebar
               </span>
             </a>
           </div>
+
+          <div className=''>
+            <LanguageSwitcher />
+          </div>
+
           <div className='flex items-center'>
             <button
               className='dark:bg-slate-50 dark:text-slate-700 rounded-full p-2 me-4'
@@ -67,14 +76,14 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, toogleSidebar
 
                   <div className="mt-3 space-y-1">
                     <ResponsiveNavLink href={route('profile.edit')}>
-                      Profile
+                      {t('Profile')}
                     </ResponsiveNavLink>
                     <ResponsiveNavLink
                       method="post"
                       href={route('logout')}
                       as="button"
                     >
-                      Log Out
+                      {t('LogOut')}
                     </ResponsiveNavLink>
                   </div>
                 </div>

@@ -3,12 +3,14 @@ import ShortcutItem from '../ShortcutItem'
 import { shortcutLink } from '@/constants'
 import { IoIosArrowForward } from 'react-icons/io'
 import Title from '../Title'
+import { useTranslation } from 'react-i18next'
 
 const Shortcut = () => {
+  const { t } = useTranslation();
   return (
     <div className='flex gap-4 flex-col bg-white rounded-lg p-4 dark:bg-gray-600'>
 
-      <Title>Shortcuts</Title>
+      <Title>{t('Shortcuts')}</Title>
 
       {shortcutLink.map((list, index) => (
         <div key={index} className='flex justify-between items-center cursor-pointer rounded-sm'>
