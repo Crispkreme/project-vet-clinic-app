@@ -39,8 +39,10 @@ class InvoiceRepository implements InvoiceContract
             ->where('pets.user_id', $userId)
             ->select(
                 'invoices.id', 
+                'invoices.prescription_id', 
                 'users.name as user_name',
                 'pets.name as pet_name',
+                'pets.status as medical_status',
                 'invoices.total_amount', 
                 'invoices.status', 
                 'invoices.created_at', 
