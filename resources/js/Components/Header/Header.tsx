@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { HiOutlineMenuAlt2 } from 'react-icons/hi';
-import { MdSpaceDashboard } from 'react-icons/md';
+import { TbDogBowl } from "react-icons/tb";
 import { usePage } from '@inertiajs/react';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import LanguageSwitcher from '@/Components/LanguageSwitcher';
@@ -36,9 +36,9 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode, toogleSidebar
               <HiOutlineMenuAlt2 className='text-2xl' />
             </button>
             <a href="#" className='flex ms-2 md:me-24'>
-              <MdSpaceDashboard className='h-8 me-3 text-xl text-violet-500' />
+              <TbDogBowl className='h-8 me-3 text-xl text-violet-500' />
               <span className='self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white'>
-                DaxBod
+                HelloPets
               </span>
             </a>
           </div>

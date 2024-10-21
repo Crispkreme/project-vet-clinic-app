@@ -38,4 +38,16 @@ class PrescriptionRepository implements PrescriptionContract
             ]
         );
     }
+
+    public function getAllOwnerByDoctorID($id)
+    {
+        return $this->model
+            ->select('pets.name as pet_name', 'vets.name as owner_name', 'pets.breed', 'pets.age', 'pets.weight')
+            ->join('pets', 'prescriptions.pet_id', '=', 'pets.id')
+            ->join('users as vets', 'prescriptions.vet_id', '=', 'vets.id')
+            ->where('prescriptions.vet_id', $id)
+            ->groupBy('prescriptions.pet_id', 'pets.name', 'vets.name', 'pets.breed', 'pets.age', 'pets.weight')
+            ->get();
+    }
+    
 }
