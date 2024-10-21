@@ -117,3 +117,9 @@ export interface DashboardProps {
     countAll: number;
     countCurrent: number;
 }
+
+export interface PaymentModalProps {
+    showModal: boolean;
+    toggleModal: () => void;
+    selectedPayment?: Invoice;
+}
