@@ -37,6 +37,15 @@ export interface Appointment {
     updated_at: string;
 }
 
+export interface Invoice {
+    id: number;
+    prescription_id?: number | null;
+    total_amount: number;
+    user_name: string;
+    pet_name: string;
+    status: 'Pending' | 'Paid' | 'Unpaid' | 'Failed';
+}
+
 export interface AppointmentListProps {
     appointments: Appointment[];
     user?: { id: number };
@@ -107,4 +116,10 @@ export interface DashboardProps {
     appointments: Appointment[]; 
     countAll: number;
     countCurrent: number;
+}
+
+export interface PaymentModalProps {
+    showModal: boolean;
+    toggleModal: () => void;
+    selectedPayment?: Invoice;
 }
