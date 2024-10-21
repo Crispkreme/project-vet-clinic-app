@@ -4,6 +4,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -40,7 +41,10 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/admin/prescription', [PrescriptionController::class, 'prescription'])->name('admin.prescription');
     Route::post('/admin/create/prescription/{id}', [PrescriptionController::class, 'createOrUpdatePrescription'])->name('admin.create.prescription');
 
+    // DOCTOR
     Route::get('/admin/client/doctor', [UserController::class, 'getClient'])->name('admin.client.doctor');
+
+    Route::get('/admin/payment', [PaymentController::class, 'getPayment'])->name('admin.payment');
 });
 
 // User routes
@@ -58,6 +62,9 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
 
     // DOCTOR
     Route::get('/user/doctor', [UserController::class, 'getDoctor'])->name('user.doctor');
+
+    // PAYMENT
+    Route::get('/user/payment', [PaymentController::class, 'getPaymentByUser'])->name('user.payment');
 });
 
 Route::middleware('auth')->group(function () {

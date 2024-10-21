@@ -17,18 +17,37 @@ class InvoiceRepository implements InvoiceContract
 
     public function getAllInvoice()
     {
-        return $this->model->get();
+        return $this->model
+            ->join('prescriptions', 'invoices.prescription_id', '=', 'prescriptions.id')
+            ->join('pets', 'prescriptions.pet_id', '=', 'pets.id')
+            ->join('users', 'pets.user_id', '=', 'users.id')
+            ->select(
+                'users.name as user_name',
+                'pets.name as pet_name',
+                'invoices.total_amount',
+                'invoices.status'
+            )
+            ->get();
     }
 
     public function getInvoiceByOwner($userId)
     {
         return $this->model
             ->join('prescriptions', 'invoices.prescription_id', '=', 'prescriptions.id')
-            ->where('prescriptions.user_id', $userId)
-            ->select('invoices.id', 'invoices.total_amount', 'invoices.status', 'invoices.created_at', 'invoices.updated_at')
+            ->join('pets', 'prescriptions.pet_id', '=', 'pets.id')
+            ->join('users', 'pets.user_id', '=', 'users.id')
+            ->where('pets.user_id', $userId)
+            ->select(
+                'invoices.id', 
+                'users.name as user_name',
+                'pets.name as pet_name',
+                'invoices.total_amount', 
+                'invoices.status', 
+                'invoices.created_at', 
+                'invoices.updated_at'
+            )
             ->get();
     }
-
 
     public function createOrUpdateInvoice($data)
     {
