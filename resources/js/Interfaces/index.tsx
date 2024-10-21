@@ -39,10 +39,11 @@ export interface Appointment {
 
 export interface Invoice {
     id: number;
-    prescription_id?: number | null;
+    prescription_id: number;
     total_amount: number;
     user_name: string;
     pet_name: string;
+    medical_status: 'Healthy' | 'Due for Vaccination' | 'Under Treatment' | 'Post-Surgery' | 'Needs Medication' | 'In Quarantine' | 'Emergency' | 'Adopted' | 'Lost' | 'Pending Vet Visit';
     status: 'Pending' | 'Paid' | 'Unpaid' | 'Failed';
 }
 

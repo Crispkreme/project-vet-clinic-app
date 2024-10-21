@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -65,6 +66,10 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
 
     // PAYMENT
     Route::get('/user/payment', [PaymentController::class, 'getPaymentByUser'])->name('user.payment');
+    Route::post('/user/pay/paypal', [PaypalController::class, 'payPaypal'])->name('user.pay.paypal');
+    Route::get('/user/paypal/success', [PaypalController::class, 'paypalSuccess'])->name('user.paypal.success');
+    Route::get('/user/paypal/cancel', [PaypalController::class, 'paypalCancel'])->name('user.paypal.cancel');
+
 });
 
 Route::middleware('auth')->group(function () {

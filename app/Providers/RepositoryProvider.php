@@ -8,11 +8,13 @@ use App\Contracts\InvoiceContract;
 use App\Contracts\PetContract;
 use App\Contracts\PrescriptionContract;
 use App\Contracts\UserContract;
+use App\Contracts\PaypalContract;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\PetRepository;
 use App\Repositories\PrescriptionRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\PaypalRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryProvider extends ServiceProvider
@@ -23,6 +25,7 @@ class RepositoryProvider extends ServiceProvider
         UserContract::class => UserRepository::class,
         PrescriptionContract::class => PrescriptionRepository::class,
         InvoiceContract::class => InvoiceRepository::class,
+        PaypalContract::class => PaypalRepository::class,
     ];
 
     /**

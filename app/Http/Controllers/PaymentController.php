@@ -41,7 +41,7 @@ class PaymentController extends Controller
         }
         
         $payments = $this->invoiceContract->getInvoiceByOwner($user->id);
-
+        
         return Inertia::render('User/Payments/Payment', [
             'payments' => $payments,
         ]);

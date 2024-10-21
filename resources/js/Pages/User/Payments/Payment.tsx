@@ -20,7 +20,6 @@ const Payment = ({ payments }: { payments: Invoice[] }) => {
   };
 
   const openPaymentModal = (payment: Invoice) => {
-    console.log("Opening Payment Modal:", payment);
     setSelectedPayment(payment); 
     setShowModal(true);
   };
