@@ -6,25 +6,9 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import Title from '@/Components/Title';
 import interactionPlugin from '@fullcalendar/interaction';
 import { MdOutlinePets } from "react-icons/md";
-
-interface Appointment {
-    id: number;
-    title: string;
-    appointment_date: string; 
-    appointment_start: string;
-    appointment_end: string;  
-    status: string;
-}
-
-interface AppointmentListProps {
-    showModal: boolean;
-    toggleModal: () => void;
-    selectedAppointment: Appointment | null;
-    appointments: any[]; 
-}
+import { Appointment, AppointmentListProps } from "@/Interfaces";
 
 const CalendarAppointment: React.FC<AppointmentListProps> = ({ appointments }) => {
-    console.log(appointments);
     const [showModal, setShowModal] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
 

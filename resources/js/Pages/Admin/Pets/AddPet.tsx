@@ -9,27 +9,7 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import Select from "@/Components/Select";
 import Textarea from "@/Components/Textarea";
-import toastr from "toastr";
-
-interface Pet {
-    id: number;
-    user_id: number | null;
-    name: string;
-    breed: string | null;
-    age: number | null;
-    weight: number | null;
-    medical_history: string | null;
-    status: 'Healthy' | 'Due for Vaccination' | 'Under Treatment' | 'Post-Surgery' | 'Needs Medication' | 'In Quarantine' | 'Emergency' | 'Adopted' | 'Lost' | 'Pending Vet Visit' | null;
-    created_at: string;
-    updated_at: string;
-}
-
-interface AddPetProps {
-    showModal: boolean;
-    toggleModal: () => void;
-    selectedPet: Pet | null;
-    isEditing: boolean;
-}
+import { AddPetProps } from "@/Interfaces";
 
 const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, isEditing }) => {
     const { props } = usePage();
@@ -237,6 +217,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                             value="Medical History"
                         />
                         <Textarea
+                            disabled={false}
                             id="medical_history"
                             name="medical_history"
                             value={data.medical_history}

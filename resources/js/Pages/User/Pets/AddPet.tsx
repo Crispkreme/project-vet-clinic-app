@@ -9,28 +9,8 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import Select from "@/Components/Select";
 import Textarea from "@/Components/Textarea";
-import toastr from "toastr";
 import { useTranslation } from "react-i18next";
-
-interface Pet {
-    id: number;
-    user_id: number | null;
-    name: string;
-    breed: string | null;
-    age: number | null;
-    weight: number | null;
-    medical_history: string | null;
-    status: 'Healthy' | 'Due for Vaccination' | 'Under Treatment' | 'Post-Surgery' | 'Needs Medication' | 'In Quarantine' | 'Emergency' | 'Adopted' | 'Lost' | 'Pending Vet Visit' | null;
-    created_at: string;
-    updated_at: string;
-}
-
-interface AddPetProps {
-    showModal: boolean;
-    toggleModal: () => void;
-    selectedPet: Pet | null;
-    isEditing: boolean;
-}
+import { AddPetProps } from "@/Interfaces";
 
 const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, isEditing }) => {
     const  { t } = useTranslation();

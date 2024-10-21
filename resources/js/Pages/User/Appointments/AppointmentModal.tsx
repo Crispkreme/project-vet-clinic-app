@@ -9,24 +9,7 @@ import InputError from "@/Components/InputError";
 import { useForm, usePage } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 import { useTranslation } from 'react-i18next';
-
-interface Doctor {
-    id: number;
-    name: string;
-}
-
-interface Pet {
-    id: number;
-    name: string;
-}
-
-interface AppointmentModalProps {
-    showModal: boolean;
-    toggleModal: () => void;
-    doctors: Doctor[];
-    pets: Pet[];
-    selectedAppointment: any;
-}
+import { Pet, User, AppointmentModalProps } from "@/Interfaces";
 
 const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment, showModal, toggleModal, doctors, pets }) => {
     const { t } = useTranslation();
@@ -53,7 +36,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment
         { value: "Completed", label: "Completed" },
     ];
 
-    const vetOptions = doctors.map((doctor: Doctor) => ({
+    const vetOptions = doctors.map((doctor: User) => ({
         value: String(doctor.id),
         label: doctor.name
     }));
@@ -184,6 +167,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment
                             id="notes"
                             name="notes"
                             label=""
+                            disabled={false}
                             value={data.notes}
                             onChange={(e) => setData(prevData => ({ ...prevData, notes: e.target.value }))}
                             placeholder={t('Enter appointment notes')}
