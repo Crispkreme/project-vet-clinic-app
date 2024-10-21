@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Contracts\PaypalContract;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PaypalController extends Controller
@@ -25,8 +27,19 @@ class PaypalController extends Controller
             'medical_status' => 'nullable|in:Healthy,Due for Vaccination,Under Treatment,Post-Surgery,Needs Medication,In Quarantine,Emergency,Adopted,Lost,Pending Vet Visit',
         ]);
         
-        $this->paypalContract->createPaypal($validated);        
+        $response = $this->paypalContract->createPaypal($validated);        
 
+        if (isset($response['id']) && !empty($response['id'])) {
+            foreach ($response['links'] as $link) {
+                if (isset($link['rel']) && strtolower($link['rel']) === 'approve') {
+                    session()->put('product_name', $validated['medical_status']);
+                    session()->put('quantity', 1);
+                    return Inertia::location($link['href']);
+                }
+            }
+        } else {
+            return redirect()->route('user.paypal.cancel');
+        }
     }
     
     public function paypalSuccess(Request $request)
