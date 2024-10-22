@@ -21,23 +21,29 @@ export default function Edit({
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
-                        <UpdateProfileInformationForm
-                            mustVerifyEmail={mustVerifyEmail}
-                            status={status}
-                            className="max-w-xl"
-                        />
-                    </div>
+                    
+                    <div className="flex flex-col lg:flex-row lg:space-x-6 space-y-6 lg:space-y-0">
 
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
-                        <UpdatePasswordForm className="max-w-xl" />
-                    </div>
+                        <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8 flex-1 min-h-[500px] relative">
+                            <UpdateProfileInformationForm
+                                mustVerifyEmail={mustVerifyEmail}
+                                status={status}
+                                className="max-w-xl mt-16"
+                            />
+                        </div>
 
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
-                        <DeleteUserForm className="max-w-xl" />
+                        <div className="flex-1 space-y-6">
+                            <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
+                                <UpdatePasswordForm className="max-w-xl" />
+                            </div>
+                            <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
+                                <DeleteUserForm className="max-w-xl" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </AuthenticatedLayout>
     );
 }
