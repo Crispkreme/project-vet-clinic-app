@@ -34,7 +34,8 @@ class PetSeeder extends Seeder
                 'user_id' => 2, 
                 'name' => $faker->name,  
                 'breed' => $faker->word,  
-                'age' => $faker->numberBetween(1, 15),  
+                'birthday' => $faker->dateTimeBetween('-12 years', '-1 month')->format('Y-m-d'),
+                // 'age' => $faker->numberBetween(1, 15),  
                 'weight' => $faker->numberBetween(5, 50),  
                 'medical_history' => $faker->sentence, 
                 'status' => $faker->randomElement($statusOptions), 
@@ -42,5 +43,12 @@ class PetSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         }
+
+        DB::table('pets')
+        ->whereNull('birthday')
+        ->update([
+            'birthday' => $faker->dateTimeBetween('-15 years', '-1 month')->format('Y-m-d'),
+            'updated_at' => now(),
+        ]);
     }
 }

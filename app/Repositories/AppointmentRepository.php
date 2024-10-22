@@ -37,7 +37,7 @@ class AppointmentRepository implements AppointmentContract
                 'appointments.*',
                 'pets.name as pet_name',
                 'pets.breed',
-                'pets.age',
+                'pets.birthday',
                 'pets.weight',
                 'pets.status as pet_status'
             )
@@ -54,7 +54,7 @@ class AppointmentRepository implements AppointmentContract
                 'appointments.*',
                 'pets.name as pet_name',
                 'pets.breed',
-                'pets.age',
+                'pets.birthday',
                 'pets.weight',
                 'pets.status as pet_status'
             )

@@ -11,6 +11,7 @@ export interface Pet {
     user_id?: number | null;
     name: string;
     breed?: string | null;
+    birthday?: string | null;
     age?: number | null;
     weight?: number | null;
     medical_history?: string | null;
@@ -88,6 +89,7 @@ export interface PetInfo {
     pet_name: string;
     owner_name: string;
     breed: string;
+    birthday: string;
     age: number;
     weight: string;
 }
