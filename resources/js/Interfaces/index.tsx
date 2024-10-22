@@ -37,6 +37,16 @@ export interface Appointment {
     updated_at: string;
 }
 
+export interface Invoice {
+    id: number;
+    prescription_id: number;
+    total_amount: number;
+    user_name: string;
+    pet_name: string;
+    medical_status: 'Healthy' | 'Due for Vaccination' | 'Under Treatment' | 'Post-Surgery' | 'Needs Medication' | 'In Quarantine' | 'Emergency' | 'Adopted' | 'Lost' | 'Pending Vet Visit';
+    status: 'Pending' | 'Paid' | 'Unpaid' | 'Failed';
+}
+
 export interface AppointmentListProps {
     appointments: Appointment[];
     user?: { id: number };
@@ -107,4 +117,10 @@ export interface DashboardProps {
     appointments: Appointment[]; 
     countAll: number;
     countCurrent: number;
+}
+
+export interface PaymentModalProps {
+    showModal: boolean;
+    toggleModal: () => void;
+    selectedPayment?: Invoice;
 }
