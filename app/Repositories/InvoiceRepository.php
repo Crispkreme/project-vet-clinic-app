@@ -64,4 +64,15 @@ class InvoiceRepository implements InvoiceContract
             ]
         );
     }
+
+    public function updateInvoiceStatus($id, $status) 
+    {
+        $invoice = $this->model->where('prescription_id', $id)->first();
+
+        if ($invoice) {
+            return $invoice->update(['status' => $status]);
+        }
+        
+        return false;
+    }
 }
