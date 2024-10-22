@@ -2,9 +2,11 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
+import AddProfileModal from '@/Pages/Profile/Partials/AddProfileModal';
 import { Transition } from '@headlessui/react';
 import { Link, useForm, usePage } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState } from 'react';
+import { FaUserPen } from "react-icons/fa6";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -16,21 +18,32 @@ export default function UpdateProfileInformation({
     className?: string;
 }) {
     const user = usePage().props.auth.user;
-
+    const [modalOpen, setModalOpen] = useState(false);
     const { data, setData, patch, errors, processing, recentlySuccessful } =
-        useForm({
-            name: user.name,
-            email: user.email,
-        });
+    useForm({
+        name: user.name,
+        email: user.email,
+    });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-
         patch(route('profile.update'));
     };
 
+    
     return (
         <section className={className}>
+
+            <div className="relative flex justify-center mt-5">
+                <div className="absolute -top-36 w-[120px] h-[120px] rounded-full overflow-hidden border-4 border-white shadow-md">
+                    <img src="https://via.placeholder.com/150" alt="Profile" className="w-full h-full object-cover" />
+                </div>
+                <button className='absolute bottom-2 left-0 right-0 m-auto w-fit p-[.35rem] rounded-full bg-gray-800 hover:bg-gray-700 border border-gray-600' title='Change Profile' onClick={() => setModalOpen(true)}>
+                    <FaUserPen />
+                </button>
+                {modalOpen && <AddProfileModal closeModal={() => setModalOpen(false)} />}
+            </div>
+
             <header>
                 <h2 className="text-lg font-medium text-gray-900">
                     Profile Information
