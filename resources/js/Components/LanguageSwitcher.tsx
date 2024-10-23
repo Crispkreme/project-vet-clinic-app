@@ -3,7 +3,6 @@ import i18n from "./localizations/i18n";
 import { useApplicationSettingsStore, Languages } from "./useApplicationSettingStore";
 import { useTranslation } from "react-i18next";
 
-
 const LanguageSwitcher = () => {
     const { t } = useTranslation();
     const { selectedLanguage, setLanguage } = useApplicationSettingsStore();

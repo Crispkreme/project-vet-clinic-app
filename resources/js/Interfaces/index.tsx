@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface User {
     id: number;
     name: string;
@@ -11,7 +13,7 @@ export interface Pet {
     user_id?: number | null;
     name: string;
     breed?: string | null;
-    age?: number | null;
+    birthday: string;
     weight?: number | null;
     medical_history?: string | null;
     status?: 'Healthy' | 'Due for Vaccination' | 'Under Treatment' | 'Post-Surgery' | 'Needs Medication' | 'In Quarantine' | 'Emergency' | 'Adopted' | 'Lost' | 'Pending Vet Visit';
@@ -88,6 +90,7 @@ export interface PetInfo {
     pet_name: string;
     owner_name: string;
     breed: string;
+    birthday: string;
     age: number;
     weight: string;
 }
@@ -110,6 +113,12 @@ export interface AddPetProps {
 export interface PetListProps {
     pets: Pet[];
     user?: { id: number }; 
+    flash: {
+        message: {
+            success?: string;
+            error?: string;
+        };
+    };
 }
 
 export interface DashboardProps {
@@ -117,10 +126,51 @@ export interface DashboardProps {
     appointments: Appointment[]; 
     countAll: number;
     countCurrent: number;
+    allAppointments: number;
+    pendingAppointments: number;
 }
 
 export interface PaymentModalProps {
     showModal: boolean;
     toggleModal: () => void;
     selectedPayment?: Invoice;
+}
+
+export interface MainContentProps {
+    pets: Pet[]; 
+    appointments: Appointment[]; 
+    countAll: number;
+    countCurrent: number;
+    usertype: string;
+}
+
+export interface StatsProps {
+    darkMode: boolean;
+    countAll: number;
+    countCurrent: number;
+    usertype: string;
+}
+
+export interface SidebarProps {
+    isSidebarOpen: boolean;
+}
+
+export interface Badge {
+    text: string;
+    color: string;
+    darkColor: string;
+}
+  
+export interface LinkItemProps {
+    href: string;
+    icon: React.ElementType;
+    text: string;
+    badge?: Badge; 
+}
+
+export interface CardProps {
+    countAll: number; 
+    countCurrent: number; 
+    title: string;
+    icon: ReactNode;
 }

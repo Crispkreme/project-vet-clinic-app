@@ -12,6 +12,7 @@ export default function Register() {
     const { errors } = props;
 
     const { data, setData, post, processing } = useForm({
+        usertype: '',
         name: '',
         email: '',
         phone_number: '',
@@ -34,6 +35,34 @@ export default function Register() {
 
             <form onSubmit={handleSubmit}>
                 <div>
+                    <InputLabel htmlFor="usertype" value="User_Type" />
+                    <div className='flex'>
+                        <label className='ml-1'>
+                            <input 
+                                type="radio"
+                                name="usertype"
+                                value="admin"
+                                checked={data.usertype === 'admin'}
+                                onChange={(e) => setData('usertype', e.target.value)}
+                                required
+                            />
+                            Veterinarian
+                        </label>
+                        <label className='ml-5'>
+                            <input 
+                                type="radio"
+                                name="usertype"
+                                value="user"
+                                checked={data.usertype === 'user'}
+                                onChange={(e) => setData('usertype', e.target.value)}
+                                required
+                            />
+                            PetOwner
+                        </label>
+                    </div>
+                    <InputError message={errors.usertype} className="mt-2" />
+                </div>
+                <div className='mt-4'>
                     <InputLabel htmlFor="name" value="Name" />
                     <TextInput
                         id="name"

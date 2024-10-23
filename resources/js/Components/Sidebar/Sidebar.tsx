@@ -1,11 +1,8 @@
-import React from 'react'
+import React from 'react';
 import { getLinks } from '../../constants';
 import LinkItem from './LinkItem';
 import { usePage } from '@inertiajs/react';
-
-interface SidebarProps {
-    isSidebarOpen: boolean;
-}
+import { SidebarProps } from "@/Interfaces";
 
 const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
 

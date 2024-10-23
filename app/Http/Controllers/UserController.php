@@ -76,7 +76,7 @@ class UserController extends Controller
         }
 
         $clients = $this->prescriptionContract->getAllOwnerByDoctorID($user->id);
-        
+ 
         return Inertia::render('Admin/Clients/Client', [
             'clients' => $clients,
         ]);

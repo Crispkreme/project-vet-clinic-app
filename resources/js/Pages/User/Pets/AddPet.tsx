@@ -23,12 +23,54 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
         user_id: user.id,
         name: "",
         breed: "",
-        age: "",
+        birthday: "",
+        // age: "",
         weight: "",
         status: "",
         medical_history: "",
         id: undefined,
     });
+
+    const [birthday, setBirthday] = useState<string | null>(null);
+    // const [age, setAge] = useState<number| null>(null);
+
+    // const handleBirthdayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setBirthday(e.target.value);
+    // }
+
+    // const handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setAge(Number(e.target.value));
+    // }
+
+    
+
+    const calculateAge = (birthday: string) => {
+        const today = new Date();
+        const birthDate = new Date(birthday);
+
+        let ageYears = today.getFullYear() - birthDate.getFullYear();
+        const ageMonths = today.getMonth() - birthDate.getMonth();
+        const ageDays = today.getDate() - birthDate.getDate();
+
+        if (ageMonths < 0 || (ageMonths === 0 && ageDays < 0)) {
+            ageYears--;
+        }
+        
+        let months = ageMonths < 0 ? 12 + ageMonths : ageMonths;
+
+        if (ageYears === 0) {
+            return `${months} months`;
+        } else {
+            return `${ageYears} years ${months} months`;
+        }
+    }
+
+    useEffect(() => {
+        if(data.birthday) {
+            const age = calculateAge(data.birthday);
+            setData(prevData => ({ ...prevData, age }));
+        }
+    }, [data.birthday]);
 
     const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -53,10 +95,9 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
         }));
         
         const url = route(isUpdating ? "user.update" : "user.store", isUpdating ? selectedPet.id : null);
+        
         post(url, {
-            data: {
-                ...data,
-            },
+            data,
             onSuccess: (response: { props: { message: string } }) => {
                 setNotification(response.props.message);
                 toggleModal();
@@ -69,16 +110,16 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
     };
 
     const statusOptions = [
-        { value: "Healthy", label: "Healthy" },
-        { value: "Due for Vaccination", label: "Due for Vaccination" },
-        { value: "Under Treatment", label: "Under Treatment" },
-        { value: "Post-Surgery", label: "Post-Surgery" },
-        { value: "Needs Medication", label: "Needs Medication" },
-        { value: "In Quarantine", label: "In Quarantine" },
-        { value: "Emergency", label: "Emergency" },
-        { value: "Adopted", label: "Adopted" },
-        { value: "Lost", label: "Lost" },
-        { value: "Pending Vet Visit", label: "Pending Vet Visit" },
+        { value: "Healthy", label: t('Healthy') },
+        { value: "Due for Vaccination", label: t('Due for Vaccination') },
+        { value: "Under Treatment", label: t('Under Treatment') },
+        { value: "Post-Surgery", label: t('Post-Surgery') },
+        { value: "Needs Medication", label: t('Needs Medication') },
+        { value: "In Quarantine", label: t('In Quarantine') },
+        { value: "Emergency", label: t('Emergency') },
+        { value: "Adopted", label: t('Adopted') },
+        { value: "Lost", label: t('Lost') },
+        { value: "Pending Vet Visit", label: t('Pending Vet Visit') },
     ];
 
     useEffect(() => {
@@ -89,7 +130,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                     user_id: selectedPet.user_id || user.id,
                     name: selectedPet.name || "",
                     breed: selectedPet.breed || "",
-                    age: selectedPet.age ? selectedPet.age.toString() : "",
+                    birthday: selectedPet.birthday || "",
                     weight: selectedPet.weight ? selectedPet.weight.toString() : "",
                     status: selectedPet.status || "",
                     medical_history: selectedPet.medical_history || "",
@@ -100,11 +141,11 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                     user_id: user.id,
                     name: "",
                     breed: "",
-                    age: "",
+                    birthday: "",
                     weight: "",
                     status: "",
                     medical_history: "",
-                    id: undefined,
+                    id: "",
                 });
             }
         }
@@ -160,11 +201,30 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                     </div>
                     <div className="mt-2 flex gap-4">
                         <div className="w-1/2">
+                            <InputLabel htmlFor="birthday" value={t('Birthday')} />
+                            <TextInput
+                                id="birthday"
+                                name="birthday"
+                                type="date"
+                                className="mt-1 block w-full px-3 py-2 border rounded-md"
+                                placeholder="Choose Birthday"
+                                value={data.birthday}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+
+                                    setData(prevData => ({ ...prevData, birthday: value }));
+                                    
+                                }}
+                            />
+
+                            <InputError message={errors.birthday} className="mt-2" />
+                        </div>
+                        {/* <div className="w-1/3">
                             <InputLabel htmlFor="age" value={t('Age')} />
                             <TextInput
                                 id="age"
                                 name="age"
-                                type="number"
+                                type="string"
                                 className="mt-1 block w-full px-3 py-2 border rounded-md"
                                 placeholder="Enter age"
                                 min="0"
@@ -181,12 +241,12 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                                         setData(prevData => ({ ...prevData, age: value }));
                                     }
                                 }}
+                                disabled={!!birthday}
                             />
-
                             <InputError message={errors.age} className="mt-2" />
-                        </div>
+                        </div> */}
                         <div className="w-1/2">
-                            <InputLabel htmlFor="weight" value={t('Weight')} />
+                            <InputLabel htmlFor="weight" value={t('Weight(Kg)')} />
                             <TextInput
                                 id="weight"
                                 name="weight"
