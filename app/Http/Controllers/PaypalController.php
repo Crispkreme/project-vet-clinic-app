@@ -102,12 +102,8 @@ class PaypalController extends Controller
 
                 DB::rollBack();
 
-                if ($request->wantsJson()) {
-                    return response()->json(['error' => true, 'message' => 'An error occurred during appointment saving.'], 500);
-                }
-
                 Session::flash('error', 'An error occurred during appointment saving.');
-                return redirect()->back()->withErrors(['error' => 'An error occurred during appointment saving.']);
+                return redirect()->back();
             }
         }
     }

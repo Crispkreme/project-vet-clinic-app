@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -36,6 +37,7 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
+        Session::flash('success', 'Profile updated successfully!');
 
         return Redirect::route('profile.edit');
     }

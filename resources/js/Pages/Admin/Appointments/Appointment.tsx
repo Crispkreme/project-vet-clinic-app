@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { FaRegTrashAlt, FaRegHospital } from "react-icons/fa";
 import { LuClipboardEdit } from "react-icons/lu";
@@ -6,8 +6,10 @@ import { GrFormView } from "react-icons/gr";
 import AppointmentModal from './AppointmentModal';
 import type { Appointment, AppointmentListProps } from '@/Interfaces';
 import { useTranslation } from 'react-i18next';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
-const Appointment: React.FC<AppointmentListProps> = ({ appointments, user, doctors, pets }) => {
+const Appointment: React.FC<AppointmentListProps> = ({ appointments, user, doctors, pets, flash }) => {
     const { t } = useTranslation();
     const [showModal, setShowModal] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
@@ -67,8 +69,18 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, user, docto
         console.log(`Delete pet with id: ${id}`);
     };
 
+    useEffect(() => {
+        if(flash.message.success) {
+        toast.success(flash.message.success);
+        }
+        if(flash.message.error) {
+        toast.error(flash.message.error);
+        }
+    }, [flash]);
+
     return (
         <AuthenticatedLayout>
+            <ToastContainer />
             <div className="container bg-white p-6 rounded-2xl dark:bg-gray-600 dark:text-gray-400">
                 <div className="overflow-x-auto">
                     <table className="min-w-full table-auto">

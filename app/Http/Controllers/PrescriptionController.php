@@ -74,8 +74,8 @@ class PrescriptionController extends Controller
    
             DB::commit();
 
-            Session::flash('success', 'Pet saved successfully!');
-            return response()->json(['success' => true]);
+            Session::flash('success', 'Admitted saved successfully!');
+            return redirect()->back();
 
         } catch (Exception $e) {
             Log::error('Error during createOrUpdatePrescription: ' . $e->getMessage(), [
@@ -86,7 +86,7 @@ class PrescriptionController extends Controller
             DB::rollback();
 
             Session::flash('error', 'An error occurred during createOrUpdatePrescription.');
-            return response()->json(['error' => true]);
+            return redirect()->back();
         }
     }
 }

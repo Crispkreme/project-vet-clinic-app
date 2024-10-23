@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -8,8 +8,10 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { MdOutlinePets } from "react-icons/md";
 import { Appointment, AppointmentListProps } from "@/Interfaces";
 import { useTranslation } from 'react-i18next';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
-const CalendarAppointment: React.FC<AppointmentListProps> = ({ appointments }) => {
+const CalendarAppointment: React.FC<AppointmentListProps> = ({ appointments, flash }) => {
     const { t } = useTranslation();
     const [showModal, setShowModal] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
@@ -17,6 +19,15 @@ const CalendarAppointment: React.FC<AppointmentListProps> = ({ appointments }) =
     const toggleModal = () => {
         setShowModal(!showModal);
     };
+
+    useEffect(() => {
+        if(flash.message.success) {
+        toast.success(flash.message.success);
+        }
+        if(flash.message.error) {
+        toast.error(flash.message.error);
+        }
+    }, [flash]);
 
     const booking = appointments.map((appointment: Appointment) => ({
         title: appointment.title,
@@ -26,6 +37,7 @@ const CalendarAppointment: React.FC<AppointmentListProps> = ({ appointments }) =
 
     return (
         <AuthenticatedLayout>
+            <ToastContainer />
             <div className="container mx-auto bg-white p-4 sm:p-6 rounded-2xl dark:bg-gray-600 dark:text-gray-400">
                 <div className="flex items-center justify-between mb-4">
                     <Title>

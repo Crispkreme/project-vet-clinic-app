@@ -24,25 +24,12 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
         name: "",
         breed: "",
         birthday: "",
-        // age: "",
         weight: "",
         status: "",
         medical_history: "",
         id: undefined,
     });
-
     const [birthday, setBirthday] = useState<string | null>(null);
-    // const [age, setAge] = useState<number| null>(null);
-
-    // const handleBirthdayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setBirthday(e.target.value);
-    // }
-
-    // const handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setAge(Number(e.target.value));
-    // }
-
-    
 
     const calculateAge = (birthday: string) => {
         const today = new Date();

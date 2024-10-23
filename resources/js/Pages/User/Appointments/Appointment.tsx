@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -10,8 +10,10 @@ import AppointmentModal from './AppointmentModal';
 import { LuCalendarDays } from "react-icons/lu";
 import { useTranslation } from 'react-i18next';
 import type { Appointment, AppointmentListProps } from "@/Interfaces";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
-const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pets }) => {
+const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pets, flash }) => {
     
     const { t } = useTranslation();
     const [showModal, setShowModal] = useState(false);
@@ -21,6 +23,15 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pe
         setShowModal(!showModal);
     };
 
+    useEffect(() => {
+        if(flash.message.success) {
+        toast.success(flash.message.success);
+        }
+        if(flash.message.error) {
+        toast.error(flash.message.error);
+        }
+    }, [flash]);
+
     const booking = appointments.map((appointment: Appointment) => ({
         title: appointment.title,
         start: `${appointment.appointment_date}T${appointment.appointment_start}`,
@@ -29,6 +40,7 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pe
 
     return (
         <AuthenticatedLayout>
+            <ToastContainer />
             <div className="container mx-auto max-w-full bg-white p-4 sm:p-6 md:p-8 rounded-2xl dark:bg-gray-600 dark:text-gray-400">
                 <div className="mb-4">
                     <div className="flex items-center justify-between">

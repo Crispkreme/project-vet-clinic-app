@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Title from '@/Components/Title';
 import { MdOutlinePets } from 'react-icons/md';
 import AddPet from './AddPet';
 import { Pet, PetListProps } from "@/Interfaces";
 import { useTranslation } from 'react-i18next';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
-const PetList: React.FC<PetListProps> = ({ pets, user }) => {
+const PetList: React.FC<PetListProps> = ({ pets, user, flash }) => {
     const { t } = useTranslation();
 
     const [showModal, setShowModal] = useState(false);
@@ -34,6 +36,15 @@ const PetList: React.FC<PetListProps> = ({ pets, user }) => {
             return `${ageYears} years ${months} months`;
         }
     }
+
+    useEffect(() => {
+        if(flash.message.success) {
+            toast.success(flash.message.success);
+        }
+        if(flash.message.error) {
+            toast.error(flash.message.error);
+        }
+    }, [flash]);
 
     const toggleModal = () => {
         setShowModal(!showModal);
