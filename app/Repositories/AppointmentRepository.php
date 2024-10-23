@@ -36,8 +36,8 @@ class AppointmentRepository implements AppointmentContract
             ->select(
                 'appointments.*',
                 'pets.name as pet_name',
-                'pets.breed',
                 'pets.birthday',
+                'pets.breed',
                 'pets.weight',
                 'pets.status as pet_status'
             )

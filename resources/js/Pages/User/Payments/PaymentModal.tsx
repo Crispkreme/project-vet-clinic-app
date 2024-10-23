@@ -23,37 +23,19 @@ const PaymentModal = ({ selectedPayment, showModal, toggleModal }: PaymentModalP
         status: 'In-Progress',
     });
 
-    // const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    //     e.preventDefault();
-    //     post(route('user.pay.paypal'), {
-    //         onSuccess: (response) => {
-    //             setNotification(response.message); 
-    //             toggleModal();
-    //         },
-    //         onError: (errors) => {
-    //             setNotification(errors.message || "An error occurred."); 
-    //         },
-    //     });
-    // };
-
     const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
         post(route('user.pay.paypal'), {
             onSuccess: (response) => {
-                if (response.props.redirect_url) {
-                    window.location.href = response.props.redirect_url;
-                } else {
-                    setNotification("Payment initiation failed.");
-                }
+                setNotification(response.message); 
                 toggleModal();
             },
             onError: (errors) => {
-                setNotification(errors.message || "An error occurred.");
+                setNotification(errors.message || "An error occurred."); 
             },
         });
     };
     
-
     useEffect(() => {
         if (selectedPayment) {
             setData({

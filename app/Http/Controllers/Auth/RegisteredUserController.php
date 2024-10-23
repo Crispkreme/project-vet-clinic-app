@@ -36,7 +36,9 @@ class RegisteredUserController extends Controller
         DB::beginTransaction();
 
         try {
+
             $request->validate([
+                'usertype' => 'required|string|max:20',
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|lowercase|max:255|unique:'.User::class,
                 'phone_number' => 'required|string|regex:/^\+63\d{10}$/',
@@ -44,6 +46,7 @@ class RegisteredUserController extends Controller
             ]);
             
             $user = User::create([
+                'usertype' => $request->usertype,
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,

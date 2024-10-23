@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\InvoiceContract;
+use App\Mail\HelloPetMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class PaymentController extends Controller
@@ -45,5 +47,13 @@ class PaymentController extends Controller
         return Inertia::render('User/Payments/Payment', [
             'payments' => $payments,
         ]);
+    }
+
+    public function emailTest()
+    {
+        $emailTo = "marvinramos.nutnull@gmail.com";
+        $message = "Sample Message here";
+
+        Mail::to($emailTo)->send(new HelloPetMail($emailTo, $message));
     }
 }
