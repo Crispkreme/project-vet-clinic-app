@@ -54,6 +54,12 @@ export interface AppointmentListProps {
     user?: { id: number };
     doctors: any[];
     pets: any[];
+    flash: {
+        message: {
+            success?: string;
+            error?: string;
+        };
+    };
 }
 
 export interface AppointmentModalProps {
@@ -128,6 +134,12 @@ export interface DashboardProps {
     countCurrent: number;
     allAppointments: number;
     pendingAppointments: number;
+    flash: {
+        message: {
+            success?: string;
+            error?: string;
+        };
+    };
 }
 
 export interface PaymentModalProps {
@@ -173,4 +185,14 @@ export interface CardProps {
     countCurrent: number; 
     title: string;
     icon: ReactNode;
+}
+
+export interface PaymentProps{
+    payments: Invoice[],
+    flash: {
+        message: {
+            success?: string;
+            error?: string;
+        };
+    };
 }

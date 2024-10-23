@@ -1,15 +1,28 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Invoice } from "@/Interfaces";
 import Title from '@/Components/Title';
 import { MdPayment } from "react-icons/md";
 import { useTranslation } from 'react-i18next';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
+import { PaymentProps } from "@/Interfaces";
+import React, { useEffect } from 'react';
 
-const Payment = ({ payments }: { payments: Invoice[] }) => {
+const Payment: React.FC<PaymentProps> = ({ payments, flash }) => {
 
     const { t } = useTranslation();
 
+    useEffect(() => {
+        if(flash.message.success) {
+          toast.success(flash.message.success);
+        }
+        if(flash.message.error) {
+          toast.error(flash.message.error);
+        }
+    }, [flash]);
+
     return (
         <AuthenticatedLayout>
+            <ToastContainer />
             <div className="container mx-auto bg-white p-4 sm:p-6 rounded-2xl dark:bg-gray-600 dark:text-gray-400 mt-2">
                 <div className="flex items-center justify-between mb-4">
                     <Title>

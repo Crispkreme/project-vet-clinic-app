@@ -27,7 +27,6 @@ class PetRepository implements PetContract
              ->select('id', 'name', 'breed', 'birthday', 'weight', 'status', 'medical_history')
             ->get();
     }
-    // 'age', 
 
     public function createOrUpdatePet($data)
     {
@@ -39,7 +38,7 @@ class PetRepository implements PetContract
                 'user_id' => $data['user_id'],
                 'name' => $data['name'],
                 'breed' => $data['breed'],
-                'age' => $data['age'],
+                'birthday' => $data['birthday'],
                 'weight' => $data['weight'],
                 'medical_history' => $data['medical_history'],
                 'status' => $data['status'],

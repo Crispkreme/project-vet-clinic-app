@@ -93,7 +93,7 @@ class AppointmentController extends Controller
             }
 
             Session::flash('error', 'An error occurred during appointment saving.');
-            return redirect()->back()->withErrors(['error' => 'An error occurred during appointment saving.']);
+            return redirect()->back();
         }
     }
 
@@ -134,6 +134,7 @@ class AppointmentController extends Controller
             }
 
             Session::flash('success', 'Appointment admitted successfully!');
+            return redirect()->back();
 
         } catch (Exception $e) {
             Log::error('Error during admitAppointment: ' . $e->getMessage(), [
@@ -148,7 +149,7 @@ class AppointmentController extends Controller
             }
 
             Session::flash('error', 'An error occurred during appointment admitting.');
-            return redirect()->back()->withErrors(['error' => 'An error occurred during appointment admitting.']);
+            return redirect()->back();
         }
     }
 

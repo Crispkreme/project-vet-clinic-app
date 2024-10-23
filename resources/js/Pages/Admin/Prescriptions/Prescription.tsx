@@ -1,36 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Title from '@/Components/Title';
 import { FaRegHospital } from "react-icons/fa6";
 import PrescriptionModal from './PrescriptionModal';
 import type { AppointmentListProps, Appointment } from '@/Interfaces';
 import { useTranslation } from 'react-i18next';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
-const Prescription = ({ appointments, doctors, pets }: AppointmentListProps) => {
+const Prescription: React.FC<AppointmentListProps> =  ({ appointments, doctors, pets, flash }) => {
     const [showModal, setShowModal] = useState(false);
+
     const { t } = useTranslation();
     const [selectedPrescription, setSelectedPrescription] = useState<Appointment | null>(null);
-
     const toggleModal = () => {
         setShowModal((prev) => !prev);
     };
-    
     const openAdmitModal = (appointments: Appointment) => {
         setSelectedPrescription(appointments); 
         setShowModal(true);
     };
-
     const closeModal = () => {
         setShowModal(false); 
         setSelectedPrescription(null); 
     };
-
     const handleDelete = (id: number) => {
         console.log(`Delete prescription with id: ${id}`);
     };
+    useEffect(() => {
+        if(flash.message.success) {
+            toast.success(flash.message.success);
+        }
+        if(flash.message.error) {
+            toast.error(flash.message.error);
+        }
+    }, [flash]);
 
     return (
         <AuthenticatedLayout>
+            <ToastContainer />
             <div className="container mx-auto bg-white p-4 sm:p-6 rounded-2xl dark:bg-gray-600 dark:text-gray-400">
                 <div className="flex items-center justify-between mb-4">
                     <Title>
