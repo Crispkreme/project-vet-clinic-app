@@ -28,5 +28,11 @@
     "End": "End",
     "Notes": "Notes",
     "Enter appointment notes": "Enter appointment notes",
-    "Submit": "Submit"
+    "Submit": "Submit",
+    "Dashboard": "Dashboard",
+    "Pet": "Pet",
+    "Calendar": "Calendar",
+    "Payment": "Payment",
+    "Client": "Client",
+    "Admission": "Admission"
 }

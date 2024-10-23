@@ -74,66 +74,65 @@ const PetList: React.FC<PetListProps> = ({ pets, user, flash }) => {
     return (
         <AuthenticatedLayout>
             <ToastContainer />
-            <div className="container bg-white p-6 rounded-2xl dark:bg-gray-600 dark:text-gray-400">
-                <div className="flex items-center justify-between mb-4">
-                    <button
-                        className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center gap-2"
-                        onClick={() => { setSelectedPet(null); setIsEditing(false); toggleModal(); }}
-                    >
-                        {t('Add Pet')}{" "}
-                        <span>
+            <div className="container mx-auto max-w-full bg-white p-4 sm:p-6 md:p-8 rounded-2xl dark:bg-gray-600 dark:text-gray-400">
+                <div className="mb-4">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <Title>{t('Your Pets')}</Title>
+                            <MdOutlinePets className="text-2xl" />
+                        </div>
+                        <button
+                            className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center gap-2"
+                            onClick={() => { setSelectedPet(null); setIsEditing(false); toggleModal(); }}
+                        >
+                            {t('Add Pet')}
                             <MdOutlinePets />
-                        </span>
-                    </button>
-                    <div className="flex items-center gap-2">
-                        <Title>{t('Your Pets')}{" "}</Title>
-                        <span className="flex justify-end">
-                            <MdOutlinePets />
-                        </span>
+                        </button>
                     </div>
                 </div>
-
-                <table className="table-auto w-full">
-                    <thead>
-                        <tr>
-                            <th>{t('Name')}</th>
-                            <th>{t('Breed')}</th>
-                            <th>{t('Birthday')}</th>
-                            <th>{t('Age')}</th>
-                            <th>{t('Weight')}</th>
-                            <th>{t('Status')}</th>
-                            <th>{t('Actions')}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {petList.map((pet) => (
-                            <tr key={`${pet.id}-${pet.name}`}>
-                                <td className="border px-4 py-2">{pet.name}</td>
-                                <td className="border px-4 py-2">{pet.breed}</td>
-                                <td className="border px-4 py-2">{pet.birthday}</td>
-                                <td className="border px-4 py-2">{calculateAge(pet.birthday)}</td>
-                                <td className="border px-4 py-2">{pet.weight}</td>
-                                <td className="border px-4 py-2">{pet.status}</td>
-                                <td className="border px-4 py-2 flex gap-2">
-                                    <button
-                                        onClick={() => openEditModal(pet)} 
-                                        className="bg-yellow-500 text-white px-2 py-1 rounded-md"
-                                    >
-                                        {t('Update')}
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(pet.id)} 
-                                        className="bg-red-500 text-white px-2 py-1 rounded-md"
-                                    >
-                                        {t('Delete')}
-                                    </button>
-                                </td>
+                <div className="overflow-x-auto mb-6">
+                    <table className="table-auto w-full">
+                        <thead>
+                            <tr>
+                                <th className="px-2 py-1 text-left">{t('Name')}</th>
+                                <th className="px-2 py-1 text-left">{t('Breed')}</th>
+                                <th className="px-2 py-1 text-left">{t('Birthday')}</th>
+                                <th className="px-2 py-1 text-left">{t('Age')}</th>
+                                <th className="px-2 py-1 text-left">{t('Weight')}</th>
+                                <th className="px-2 py-1 text-left">{t('Status')}</th>
+                                <th className="px-2 py-1 text-left">{t('Actions')}</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {petList.map((pet) => (
+                                <tr key={`${pet.id}-${pet.name}`}>
+                                    <td className="border px-2 py-1">{pet.name}</td>
+                                    <td className="border px-2 py-1">{pet.breed}</td>
+                                    <td className="border px-2 py-1">{pet.birthday}</td>
+                                    <td className="border px-2 py-1">{calculateAge(pet.birthday)}</td>
+                                    <td className="border px-2 py-1">{pet.weight}</td>
+                                    <td className="border px-2 py-1">{pet.status}</td>
+                                    <td className="border px-2 py-1 flex gap-2">
+                                        <button
+                                            onClick={() => openEditModal(pet)}
+                                            className="bg-yellow-500 text-white px-2 py-1 rounded-md"
+                                        >
+                                            {t('Update')}
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(pet.id)}
+                                            className="bg-red-500 text-white px-2 py-1 rounded-md"
+                                        >
+                                            {t('Delete')}
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
+    
             {showModal && (
                 <AddPet
                     showModal={showModal}
@@ -144,6 +143,7 @@ const PetList: React.FC<PetListProps> = ({ pets, user, flash }) => {
             )}
         </AuthenticatedLayout>
     );
+    
 };
 
 export default PetList;
