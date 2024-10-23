@@ -28,5 +28,11 @@
     "End": "終了時間のご希望",
     "Notes": "症状や連絡事項など",
     "Enter appointment notes": "必要に応じてご記入ください",
-    "Submit": "送信"
+    "Submit": "送信",
+    "Dashboard": "ダッシュボード",
+    "Pet": "ペット",
+    "Calendar": "カレンダー",
+    "Payment": "支払い",
+    "Client": "クライアント",
+    "Admission": "入場料"
 }

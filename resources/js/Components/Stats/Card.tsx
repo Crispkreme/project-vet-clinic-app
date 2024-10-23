@@ -1,13 +1,10 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
+import { useTranslation } from "react-i18next";
+import { CardProps } from "@/Interfaces";
 
-interface CardProps {
-    countAll: number; 
-    countCurrent: number; 
-    title: string;
-    icon: ReactNode;
-}
-  
 const Card: React.FC<CardProps> = ({ countAll, countCurrent, title, icon }) => {
+
+    const { t } = useTranslation();
 
     return (
         <div className='bg-white p-6 rounded-2xl flex items-center gap-4 dark:bg-gray-600 dark:text-gray-400'>

@@ -1,17 +1,5 @@
-import React from 'react'
-
-interface Badge {
-    text: string;
-    color: string;
-    darkColor: string;
-}
-
-interface LinkItemProps {
-    href: string;
-    icon: React.ElementType;
-    text: string;
-    badge?: Badge; 
-}
+import React from 'react';
+import { LinkItemProps } from "@/Interfaces";
 
 const LinkItem: React.FC<LinkItemProps> = ({ href, icon: Icon, text, badge }) => {
 
