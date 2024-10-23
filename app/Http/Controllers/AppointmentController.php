@@ -97,7 +97,6 @@ class AppointmentController extends Controller
         }
     }
 
-
     public function appointmentList()
     {
         $user = Auth::user();

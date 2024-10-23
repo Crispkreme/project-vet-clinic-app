@@ -27,6 +27,7 @@ class PetRepository implements PetContract
             ->select('id', 'name', 'breed', 'birthday', 'weight', 'status', 'medical_history')
             ->get();
     }
+    // 'age', 
 
     public function createOrUpdatePet($data)
     {

@@ -70,6 +70,9 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     Route::get('/user/paypal/success', [PaypalController::class, 'paypalSuccess'])->name('user.paypal.success');
     Route::get('/user/paypal/cancel', [PaypalController::class, 'paypalCancel'])->name('user.paypal.cancel');
 
+    // EMAIL FUNCTIONALITY
+    Route::get('/user/email', [PaymentController::class, 'emailTest'])->name('user.email');
+
 });
 
 Route::middleware('auth')->group(function () {
