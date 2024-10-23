@@ -3,24 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Title from '@/Components/Title';
 import { MdOutlinePets } from 'react-icons/md';
 import AddPet from './AddPet';
-
-interface Pet {
-    id: number;
-    user_id?: number | null;
-    name: string;
-    breed: string;
-    age: number;
-    weight: number;
-    status: string;
-    medical_history?: string; 
-    created_at: string; 
-    updated_at: string;
-}
-
-interface PetListProps {
-    pets: Pet[];
-    user?: { id: number }; 
-}
+import { Pet, PetListProps } from "@/Interfaces";
 
 const PetList: React.FC<PetListProps> = ({ pets, user }) => {
     const [showModal, setShowModal] = useState(false);

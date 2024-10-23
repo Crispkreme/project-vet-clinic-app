@@ -71,7 +71,6 @@ class PetController extends Controller
             DB::commit();
 
             Session::flash('success', 'Pet saved successfully!');
-            return response()->json(['success' => true]);
 
         } catch (Exception $e) {
             Log::error('Error during petStore: ' . $e->getMessage(), [

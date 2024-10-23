@@ -6,29 +6,7 @@ import { FaRegTrashAlt, FaRegHospital } from "react-icons/fa";
 import { LuClipboardEdit } from "react-icons/lu";
 import { GrFormView } from "react-icons/gr";
 import AppointmentModal from './AppointmentModal';
-
-interface Appointment {
-    id: number;
-    vet_id: number | null;
-    pet_id: number | null;
-    title: string;
-    pet_name: string;
-    vet_name: string;
-    appointment_date: string;
-    appointment_start: string;
-    appointment_end: string;
-    status: 'In-Process' | 'Pending' | 'Confirmed' | 'Cancelled' | 'Completed';
-    notes?: string | null;
-    created_at: string;
-    updated_at: string;
-}  
-
-interface AppointmentListProps {
-    appointments: Appointment[];
-    user?: { id: number }; 
-    doctors: any[];
-    pets: any[]; 
-}
+import type { Appointment, AppointmentListProps } from '@/Interfaces';
 
 const Appointment: React.FC<AppointmentListProps> = ({ appointments, user, doctors, pets }) => {
     const [showModal, setShowModal] = useState(false);

@@ -1,33 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Title from '@/Components/Title';
 import { MdOutlinePets } from 'react-icons/md';
 import AddPet from './AddPet';
+import { useTranslation } from 'react-i18next';
+import { PetListProps, Pet } from "@/Interfaces";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
-interface Pet {
-    id: number;
-    user_id?: number | null;
-    name: string;
-    breed: string;
-    age: number;
-    weight: number;
-    status: string;
-    medical_history?: string; 
-    created_at: string; 
-    updated_at: string;
-}
+const PetList: React.FC<PetListProps> = ({ pets, user, flash }) => {
+    const { t } = useTranslation();
 
-interface PetListProps {
-    pets: Pet[];
-    user?: { id: number }; 
-}
-
-const PetList: React.FC<PetListProps> = ({ pets, user }) => {
     const [showModal, setShowModal] = useState(false);
     const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [petList, setPetList] = useState<Pet[]>(pets);
-
+    
+    useEffect(() => {
+        if(flash.message.success) {
+            toast.success(flash.message.success);
+        }
+        if(flash.message.error) {
+            toast.error(flash.message.error);
+        }
+    }, [flash]);
+    
     const toggleModal = () => {
         setShowModal(!showModal);
     };
@@ -53,20 +50,21 @@ const PetList: React.FC<PetListProps> = ({ pets, user }) => {
 
     return (
         <AuthenticatedLayout>
+            <ToastContainer />
             <div className="container bg-white p-6 rounded-2xl dark:bg-gray-600 dark:text-gray-400">
                 <div className="flex items-center justify-between mb-4">
                     <button
                         className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center gap-2"
                         onClick={() => { setSelectedPet(null); setIsEditing(false); toggleModal(); }}
                     >
-                        Add Pet{" "}
+                        {t('Add Pet')}{" "}
                         <span>
                             <MdOutlinePets />
                         </span>
                     </button>
                     <div className="flex items-center gap-2">
-                        <Title>Your Pets</Title>
-                        <span>
+                        <Title>{t('Your Pets')}{" "}</Title>
+                        <span className="flex justify-end">
                             <MdOutlinePets />
                         </span>
                     </div>
@@ -75,12 +73,12 @@ const PetList: React.FC<PetListProps> = ({ pets, user }) => {
                 <table className="table-auto w-full">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Breed</th>
-                            <th>Age</th>
-                            <th>Weight</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th>{t('Name')}</th>
+                            <th>{t('Breed')}</th>
+                            <th>{t('Age')}</th>
+                            <th>{t('Weight')}</th>
+                            <th>{t('Status')}</th>
+                            <th>{t('Actions')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -96,13 +94,13 @@ const PetList: React.FC<PetListProps> = ({ pets, user }) => {
                                         onClick={() => openEditModal(pet)} 
                                         className="bg-yellow-500 text-white px-2 py-1 rounded-md"
                                     >
-                                        Update
+                                        {t('Update')}
                                     </button>
                                     <button
                                         onClick={() => handleDelete(pet.id)} 
                                         className="bg-red-500 text-white px-2 py-1 rounded-md"
                                     >
-                                        Delete
+                                        {t('Delete')}
                                     </button>
                                 </td>
                             </tr>

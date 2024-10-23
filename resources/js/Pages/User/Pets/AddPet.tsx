@@ -9,29 +9,12 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import Select from "@/Components/Select";
 import Textarea from "@/Components/Textarea";
-import toastr from "toastr";
-
-interface Pet {
-    id: number;
-    user_id: number | null;
-    name: string;
-    breed: string | null;
-    age: number | null;
-    weight: number | null;
-    medical_history: string | null;
-    status: 'Healthy' | 'Due for Vaccination' | 'Under Treatment' | 'Post-Surgery' | 'Needs Medication' | 'In Quarantine' | 'Emergency' | 'Adopted' | 'Lost' | 'Pending Vet Visit' | null;
-    created_at: string;
-    updated_at: string;
-}
-
-interface AddPetProps {
-    showModal: boolean;
-    toggleModal: () => void;
-    selectedPet: Pet | null;
-    isEditing: boolean;
-}
+import { useTranslation } from "react-i18next";
+import { AddPetProps } from "@/Interfaces";
 
 const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, isEditing }) => {
+    const  { t } = useTranslation();
+
     const { props } = usePage();
     const { errors } = props;
     const user = usePage().props.auth.user;
@@ -137,7 +120,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
             <div className="p-6">
 
                 <Title>
-                    {isEditing ? "Edit Pet" : "Add New Pet"}{" "}
+                    {isEditing ? t('Edit Pet') : t('Add New Pet')}{" "}
                     <span>
                         <MdOutlinePets />
                     </span>
@@ -148,7 +131,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                         <input type="hidden" name="id" value={data.id} />
                     )}
                     <div className="mt-2">
-                        <InputLabel htmlFor="name" value="Pet Name" />
+                        <InputLabel htmlFor="name" value={t('Pet Name')}/>
                         <TextInput
                             id="name"
                             name="name"
@@ -162,7 +145,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                         <InputError message={errors.name} className="mt-2" />
                     </div>
                     <div className="mt-2">
-                        <InputLabel htmlFor="breed" value="Pet Breed" />
+                        <InputLabel htmlFor="breed" value={t('Breed')} />
                         <TextInput
                             id="breed"
                             name="breed"
@@ -177,7 +160,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                     </div>
                     <div className="mt-2 flex gap-4">
                         <div className="w-1/2">
-                            <InputLabel htmlFor="age" value="Age" />
+                            <InputLabel htmlFor="age" value={t('Age')} />
                             <TextInput
                                 id="age"
                                 name="age"
@@ -203,7 +186,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                             <InputError message={errors.age} className="mt-2" />
                         </div>
                         <div className="w-1/2">
-                            <InputLabel htmlFor="weight" value="Weight" />
+                            <InputLabel htmlFor="weight" value={t('Weight')} />
                             <TextInput
                                 id="weight"
                                 name="weight"
@@ -220,7 +203,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                         </div>
                     </div>
                     <div className="mt-2">
-                        <InputLabel htmlFor="status" value="Status" />
+                        <InputLabel htmlFor="status" value={t('Status')} />
                         <Select
                             id="status"
                             label=""
@@ -234,14 +217,14 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                     <div className="mb-4">
                         <InputLabel
                             htmlFor="medical_history"
-                            value="Medical History"
+                            value={t('Medical History')}
                         />
                         <Textarea
                             id="medical_history"
                             name="medical_history"
                             value={data.medical_history}
                             onChange={(e) => setData(prevData => ({ ...prevData, medical_history: e.target.value })) }
-                            placeholder="Enter medical history"
+                            placeholder={t('Enter medical history')}
                             label=""
                             disabled={false}
                         />
@@ -256,7 +239,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                         className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
                         disabled={processing}
                     >
-                        {isEditing ? "Update Pet" : "Add Pet"}
+                        {isEditing ? t('Update') : t('Add Pet')}
                     </button>
 
                     {notification && <div className="mt-4 text-green-500">{notification}</div>}

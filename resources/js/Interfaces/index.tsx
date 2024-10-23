@@ -1,11 +1,22 @@
 export interface User {
     id: number;
     name: string;
-    usertype: string;
     email: string;
-    phone_number: string;
+    usertype: string;
+    phone_number?: string | null;
 }
 
+export interface Pet {
+    id: number;
+    user_id?: number | null;
+    name: string;
+    breed?: string | null;
+    age?: number | null;
+    weight?: number | null;
+    medical_history?: string | null;
+    status?: 'Healthy' | 'Due for Vaccination' | 'Under Treatment' | 'Post-Surgery' | 'Needs Medication' | 'In Quarantine' | 'Emergency' | 'Adopted' | 'Lost' | 'Pending Vet Visit';
+}
+  
 export interface UserProps {
     doctors: User[];
 }
@@ -26,6 +37,16 @@ export interface Appointment {
     updated_at: string;
 }
 
+export interface Invoice {
+    id: number;
+    prescription_id: number;
+    total_amount: number;
+    user_name: string;
+    pet_name: string;
+    medical_status: 'Healthy' | 'Due for Vaccination' | 'Under Treatment' | 'Post-Surgery' | 'Needs Medication' | 'In Quarantine' | 'Emergency' | 'Adopted' | 'Lost' | 'Pending Vet Visit';
+    status: 'Pending' | 'Paid' | 'Unpaid' | 'Failed';
+}
+
 export interface AppointmentListProps {
     appointments: Appointment[];
     user?: { id: number };
@@ -33,14 +54,16 @@ export interface AppointmentListProps {
     pets: any[];
 }
 
-export interface Doctor {
-    id: number;
-    name: string;
-}
-
-export interface Pet {
-    id: number;
-    name: string;
+export interface AppointmentModalProps {
+    showModal: boolean;
+    isViewing: boolean;
+    isAdmitting: boolean;
+    isCreating: boolean;
+    isEditing: boolean;
+    toggleModal: () => void;
+    doctors: User[];
+    pets: Pet[];
+    selectedAppointment: any;
 }
 
 export interface Prescription {
@@ -56,7 +79,7 @@ export interface PrescriptionModalProps {
     showModal: boolean;
     toggleModal: () => void;
     selectedPrescription?: Prescription;
-    doctors: Doctor[];
+    doctors: User[];
     pets: Pet[];
 }
 
@@ -75,4 +98,29 @@ export interface DoctorInfo {
     usertype: string;
     phone_number: string;
     email: string;
+}
+
+export interface AddPetProps {
+    showModal: boolean;
+    toggleModal: () => void;
+    selectedPet: Pet | null;
+    isEditing: boolean;
+}
+
+export interface PetListProps {
+    pets: Pet[];
+    user?: { id: number }; 
+}
+
+export interface DashboardProps {
+    pets: Pet[]; 
+    appointments: Appointment[]; 
+    countAll: number;
+    countCurrent: number;
+}
+
+export interface PaymentModalProps {
+    showModal: boolean;
+    toggleModal: () => void;
+    selectedPayment?: Invoice;
 }

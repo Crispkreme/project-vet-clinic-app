@@ -8,26 +8,11 @@ import Textarea from "@/Components/Textarea";
 import InputError from "@/Components/InputError";
 import { useForm, usePage } from "@inertiajs/react";
 import { FormEventHandler } from "react";
-
-interface Doctor {
-    id: number;
-    name: string;
-}
-
-interface Pet {
-    id: number;
-    name: string;
-}
-
-interface AppointmentModalProps {
-    showModal: boolean;
-    toggleModal: () => void;
-    doctors: Doctor[];
-    pets: Pet[];
-    selectedAppointment: any;
-}
+import { useTranslation } from 'react-i18next';
+import { Pet, User, AppointmentModalProps } from "@/Interfaces";
 
 const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment, showModal, toggleModal, doctors, pets }) => {
+    const { t } = useTranslation();
 
     const { props } = usePage();
     const { errors } = props;
@@ -51,7 +36,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment
         { value: "Completed", label: "Completed" },
     ];
 
-    const vetOptions = doctors.map((doctor: Doctor) => ({
+    const vetOptions = doctors.map((doctor: User) => ({
         value: String(doctor.id),
         label: doctor.name
     }));
@@ -79,7 +64,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment
     return (
         <Modal show={showModal} onClose={toggleModal}>
             <div className="p-6">
-                <Title>Add Appointment</Title>
+                <Title>{t('Add Appointment')}</Title>
                 <form onSubmit={handleSubmit}>
                     <div className="hidden">
                         <input
@@ -90,7 +75,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment
                         />
                     </div>
                     <div className="mt-2">
-                        <InputLabel htmlFor="title" value="Title" />
+                        <InputLabel htmlFor="title" value={t('Title')} />
                         <TextInput
                             id="title"
                             name="title"
@@ -105,7 +90,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment
                     </div>
                     <div className="mt-2 flex gap-4">
                         <div className="w-1/2">
-                            <InputLabel htmlFor="pet_id" value="Pet Name" />
+                            <InputLabel htmlFor="pet_id" value={t('Pet Name')} />
                             <Select
                                 label=""
                                 id="pet_id"
@@ -117,7 +102,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment
                             <InputError message={errors.pet_id} className="mt-2" />
                         </div>
                         <div className="w-1/2">
-                            <InputLabel htmlFor="vet_id" value="Doctor Name" />
+                            <InputLabel htmlFor="vet_id" value={t('Doctor Name')} />
                             <Select
                                 label=""
                                 id="vet_id"
@@ -131,7 +116,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment
                     </div>
                     <div className="mt-2 flex gap-4">
                         <div className="w-3/4">
-                            <InputLabel htmlFor="appointment_date" value="Date" />
+                            <InputLabel htmlFor="appointment_date" value={t('Date')} />
                             <TextInput
                                 type="date"
                                 id="appointment_date"
@@ -146,7 +131,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment
                             <InputError message={errors.title} className="mt-2" />
                         </div>
                         <div className="w-3/4">
-                            <InputLabel htmlFor="appointment_start" value="Start" />
+                            <InputLabel htmlFor="appointment_start" value={t('Start')} />
                             <TextInput
                                 type="time"
                                 id="appointment_start"
@@ -161,7 +146,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment
                             <InputError message={errors.title} className="mt-2" />
                         </div>
                         <div className="w-3/4">
-                            <InputLabel htmlFor="appointment_end" value="End" />
+                            <InputLabel htmlFor="appointment_end" value={t('End')} />
                             <TextInput
                                 type="time"
                                 id="appointment_end"
@@ -177,14 +162,15 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment
                         </div>
                     </div>
                     <div className="mb-4">
-                        <InputLabel htmlFor="notes" value="Notes" />
+                        <InputLabel htmlFor="notes" value={t('Notes')} />
                         <Textarea
                             id="notes"
                             name="notes"
                             label=""
+                            disabled={false}
                             value={data.notes}
                             onChange={(e) => setData(prevData => ({ ...prevData, notes: e.target.value }))}
-                            placeholder="Enter appointment notes"
+                            placeholder={t('Enter appointment notes')}
                         />
                         <InputError message={errors.notes} className="mt-2" />
                     </div>
@@ -193,7 +179,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ selectedAppointment
                         className="bg-blue-500 text-white px-4 py-2 rounded-md"
                         disabled={processing}
                     >
-                        Submit
+                        {t('Submit')}
                     </button>
                 </form>
 

@@ -8,29 +8,14 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { MdOutlinePets } from "react-icons/md";
 import AppointmentModal from './AppointmentModal';
 import { LuCalendarDays } from "react-icons/lu";
-
-interface Appointment {
-    id: number;
-    title: string;
-    appointment_date: string; 
-    appointment_start: string;
-    appointment_end: string;  
-    status: string;
-}
-
-interface AppointmentListProps {
-    showModal: boolean;
-    toggleModal: () => void;
-    selectedAppointment: Appointment | null;
-    doctors: any[];
-    pets: any[]; 
-    appointments: any[]; 
-}
+import { useTranslation } from 'react-i18next';
+import type { Appointment, AppointmentListProps } from "@/Interfaces";
 
 const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pets }) => {
     
+    const { t } = useTranslation();
     const [showModal, setShowModal] = useState(false);
-    const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null); // Correct type
+    const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
 
     const toggleModal = () => {
         setShowModal(!showModal);
@@ -53,19 +38,19 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pe
                             toggleModal();
                         }}
                     >
-                        Add Appointment
+                        {t('Add Appointment')}
                         <span className="ml-2">
                             <LuCalendarDays />
                         </span>
                     </button>
-                    <div className="flex items-center gap-2">
-                        <Title>
-                            Appointments
-                            <span className="ml-4">
-                                <MdOutlinePets />
-                            </span>
-                        </Title>
-                    </div>
+                  <div className="flex items-center gap-2">
+                      <Title>
+                          {t('Appointments')}
+                          <span className="ml-4">
+                              <MdOutlinePets />
+                          </span>
+                      </Title>
+                  </div>
                 </div>
                 <div className='mt-2'></div>
                 <FullCalendar
