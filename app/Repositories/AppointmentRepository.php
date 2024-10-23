@@ -38,6 +38,7 @@ class AppointmentRepository implements AppointmentContract
                 'pets.name as pet_name',
                 'pets.breed',
                 'pets.birthday',
+>>>>>>>>> Temporary merge branch 2
                 'pets.weight',
                 'pets.status as pet_status'
             )

@@ -17,7 +17,6 @@ const PetList: React.FC<PetListProps> = ({ pets, user, flash }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [petList, setPetList] = useState<Pet[]>(pets);
 
-    
     const calculateAge = (birthday: string) => {
         const today = new Date();
         const birthDate = new Date(birthday);
@@ -38,16 +37,8 @@ const PetList: React.FC<PetListProps> = ({ pets, user, flash }) => {
             return `${ageYears} years ${months} months`;
         }
     }
-    
-    useEffect(() => {
-        if(flash.message.success) {
-            toast.success(flash.message.success);
-        }
-        if(flash.message.error) {
-            toast.error(flash.message.error);
-        }
-    }, [flash]);
-    
+
+>>>>>>>>> Temporary merge branch 2
     const toggleModal = () => {
         setShowModal(!showModal);
     };
