@@ -1,35 +1,8 @@
 import React, { useState } from 'react';
 import Stats from './Stats/Stats';
-import Doctor from './Doctors/Doctor';
 import PetComponent from './Pets/Pet';
 import Event from './Events/Event';
-
-interface Pet { 
-  id: number;
-  name: string;
-  breed: string;
-  status: string;
-}
-
-interface Appointment {
-  id: number;
-  vet_id: number | null;       
-  pet_id: number | null; 
-  title: string;
-  appointment_date: string;  
-  appointment_start: string;
-  appointment_end: string;
-  status: 'Pending' | 'Confirmed' | 'Cancelled' | 'Completed';
-  notes?: string | null;
-}
-
-interface MainContentProps {
-  pets: Pet[]; 
-  appointments: Appointment[]; 
-  countAll: number;
-  countCurrent: number;
-  usertype: string;
-}
+import { MainContentProps } from "@/Interfaces";
 
 const MainContent: React.FC<MainContentProps> = ({ pets, appointments, countAll, countCurrent, usertype }) => {
   
