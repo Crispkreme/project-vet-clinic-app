@@ -1,18 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Title from '@/Components/Title';
 import { MdOutlinePets } from 'react-icons/md';
 import AddPet from './AddPet';
 import { useTranslation } from 'react-i18next';
 import { PetListProps, Pet } from "@/Interfaces";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
-const PetList: React.FC<PetListProps> = ({ pets, user }) => {
+const PetList: React.FC<PetListProps> = ({ pets, user, flash }) => {
     const { t } = useTranslation();
+    
 
     const [showModal, setShowModal] = useState(false);
     const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [petList, setPetList] = useState<Pet[]>(pets);
+
+    const calculateAge = (birthday: string) => {
+        const today = new Date();
+        const birthDate = new Date(birthday);
+
+        let ageYears = today.getFullYear() - birthDate.getFullYear();
+        const ageMonths = today.getMonth() - birthDate.getMonth();
+        const ageDays = today.getDate() - birthDate.getDate();
+
+        if (ageMonths < 0 || (ageMonths === 0 && ageDays < 0)) {
+            ageYears--;
+        }
+        
+        let months = ageMonths < 0 ? 12 + ageMonths : ageMonths;
+
+        if (ageYears === 0) {
+            return `${months} months`;
+        } else {
+            return `${ageYears} years ${months} months`;
+        }
+    }
+    
+    useEffect(() => {
+        if(flash.message.success) {
+            toast.success(flash.message.success);
+        }
+        if(flash.message.error) {
+            toast.error(flash.message.error);
+        }
+    }, [flash]);
+
 
     const toggleModal = () => {
         setShowModal(!showModal);
@@ -39,6 +73,7 @@ const PetList: React.FC<PetListProps> = ({ pets, user }) => {
 
     return (
         <AuthenticatedLayout>
+            <ToastContainer />
             <div className="container bg-white p-6 rounded-2xl dark:bg-gray-600 dark:text-gray-400">
                 <div className="flex items-center justify-between mb-4">
                     <button
@@ -63,6 +98,7 @@ const PetList: React.FC<PetListProps> = ({ pets, user }) => {
                         <tr>
                             <th>{t('Name')}</th>
                             <th>{t('Breed')}</th>
+                            <th>{t('Birthday')}</th>
                             <th>{t('Age')}</th>
                             <th>{t('Weight')}</th>
                             <th>{t('Status')}</th>
@@ -74,7 +110,8 @@ const PetList: React.FC<PetListProps> = ({ pets, user }) => {
                             <tr key={`${pet.id}-${pet.name}`}>
                                 <td className="border px-4 py-2">{pet.name}</td>
                                 <td className="border px-4 py-2">{pet.breed}</td>
-                                <td className="border px-4 py-2">{pet.age}</td>
+                                <td className="border px-4 py-2">{pet.birthday}</td>
+                                <td className="border px-4 py-2">{calculateAge(pet.birthday)}</td>
                                 <td className="border px-4 py-2">{pet.weight}</td>
                                 <td className="border px-4 py-2">{pet.status}</td>
                                 <td className="border px-4 py-2 flex gap-2">
