@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface User {
     id: number;
     name: string;
@@ -123,4 +125,43 @@ export interface PaymentModalProps {
     showModal: boolean;
     toggleModal: () => void;
     selectedPayment?: Invoice;
+}
+
+export interface MainContentProps {
+    pets: Pet[]; 
+    appointments: Appointment[]; 
+    countAll: number;
+    countCurrent: number;
+    usertype: string;
+}
+
+export interface StatsProps {
+    darkMode: boolean;
+    countAll: number;
+    countCurrent: number;
+    usertype: string;
+}
+
+export interface SidebarProps {
+    isSidebarOpen: boolean;
+}
+
+export interface Badge {
+    text: string;
+    color: string;
+    darkColor: string;
+}
+  
+export interface LinkItemProps {
+    href: string;
+    icon: React.ElementType;
+    text: string;
+    badge?: Badge; 
+}
+
+export interface CardProps {
+    countAll: number; 
+    countCurrent: number; 
+    title: string;
+    icon: ReactNode;
 }
