@@ -126,6 +126,8 @@ export interface DashboardProps {
     appointments: Appointment[]; 
     countAll: number;
     countCurrent: number;
+    allAppointments: number;
+    pendingAppointments: number;
 }
 
 export interface PaymentModalProps {

@@ -6,9 +6,11 @@ import Textarea from "@/Components/Textarea";
 import InputError from "@/Components/InputError";
 import { Inertia } from '@inertiajs/inertia';
 import { PrescriptionModalProps } from '@/Interfaces';
+import { useTranslation } from 'react-i18next';
 
 const PrescriptionModal = ({ showModal, toggleModal, selectedPrescription, doctors = [], pets = []}: PrescriptionModalProps) => {
   
+  const { t } = useTranslation();
   const [id, setId] = useState<number | ''>('');
   const [vetId, setVetId] = useState<number | ''>('');
   const [petId, setPetId] = useState<number | ''>('');
@@ -34,11 +36,11 @@ const PrescriptionModal = ({ showModal, toggleModal, selectedPrescription, docto
   
     if (!vetId || !petId || !diagnosis || !treatmentPlan || !prescribedMedication) {
       const newErrors: { [key: string]: string } = {};
-      if (!vetId) newErrors.vetId = "Doctor is required.";
-      if (!petId) newErrors.petId = "Pet is required.";
-      if (!diagnosis) newErrors.diagnosis = "Diagnosis is required.";
-      if (!treatmentPlan) newErrors.treatmentPlan = "Treatment Plan is required.";
-      if (!prescribedMedication) newErrors.prescribedMedication = "Prescribed Medication is required.";
+      if (!vetId) newErrors.vetId = t('Doctor is required');
+      if (!petId) newErrors.petId = t('Pet is required');
+      if (!diagnosis) newErrors.diagnosis = t('Diagnosis is required');
+      if (!treatmentPlan) newErrors.treatmentPlan = t('Treatment Plan is required');
+      if (!prescribedMedication) newErrors.prescribedMedication = t('Prescribed Medication is required');
       setErrors(newErrors);
       return;
     }
@@ -70,7 +72,7 @@ const PrescriptionModal = ({ showModal, toggleModal, selectedPrescription, docto
         <form onSubmit={handleSubmit}>
           <input type="hidden" value={id}/>
           <div className="mb-4">
-            <InputLabel htmlFor="vetId" value="Doctor" />
+            <InputLabel htmlFor="vetId" value={t('Doctor')} />
             <TextInput
               type="number"
               id="vetId"
@@ -82,7 +84,7 @@ const PrescriptionModal = ({ showModal, toggleModal, selectedPrescription, docto
             <InputError message={errors.vetId} className="mt-2" />
           </div>
           <div className="mb-4">
-            <InputLabel htmlFor="petId" value="Pet" />
+            <InputLabel htmlFor="petId" value={t('Pet')} />
             <TextInput
               type="number"
               id="petId"
@@ -95,7 +97,7 @@ const PrescriptionModal = ({ showModal, toggleModal, selectedPrescription, docto
           </div>
 
           <div className="mb-4">
-            <InputLabel htmlFor="diagnosis" value="Diagnosis" />
+            <InputLabel htmlFor="diagnosis" value={t('Diagnosis')} />
             <Textarea
               id="diagnosis"
               name="diagnosis"
@@ -108,7 +110,7 @@ const PrescriptionModal = ({ showModal, toggleModal, selectedPrescription, docto
           </div>
 
           <div className="mb-4">
-            <InputLabel htmlFor="treatmentPlan" value="Treatment Plan" />
+            <InputLabel htmlFor="treatmentPlan" value={t('Treatment Plan')} />
             <Textarea
               id="treatmentPlan"
               name="treatmentPlan"
@@ -122,7 +124,7 @@ const PrescriptionModal = ({ showModal, toggleModal, selectedPrescription, docto
           </div>
 
           <div className="mb-4">
-            <InputLabel htmlFor="prescribedMedication" value="Prescribed Medication" />
+            <InputLabel htmlFor="prescribedMedication" value={t('Prescribed Medication')} />
             <Textarea
               id="prescribedMedication"
               name="prescribedMedication"
@@ -136,9 +138,9 @@ const PrescriptionModal = ({ showModal, toggleModal, selectedPrescription, docto
           </div>
 
           <div className="flex justify-between">
-            <button type="button" onClick={toggleModal} className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">Cancel</button>
+            <button type="button" onClick={toggleModal} className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">{t('Cancel')}</button>
             <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-              {selectedPrescription ? 'Update' : 'Save'}
+              {selectedPrescription ? t('Update') : t('Save')}
             </button>
           </div>
         </form>

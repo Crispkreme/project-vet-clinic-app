@@ -29,43 +29,42 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pe
 
     return (
         <AuthenticatedLayout>
-            <div className="container bg-white p-6 rounded-2xl dark:bg-gray-600 dark:text-gray-400">
-                <div className="flex items-center justify-between mb-4">
-                    <button
-                        className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center gap-2"
-                        onClick={() => {
-                            setSelectedAppointment(null);
-                            toggleModal();
-                        }}
-                    >
-                        {t('Add Appointment')}
-                        <span className="ml-2">
-                            <LuCalendarDays />
-                        </span>
-                    </button>
-                  <div className="flex items-center gap-2">
-                      <Title>
-                          {t('Appointments')}
-                          <span className="ml-4">
-                              <MdOutlinePets />
-                          </span>
-                      </Title>
-                  </div>
+            <div className="container mx-auto max-w-full bg-white p-4 sm:p-6 md:p-8 rounded-2xl dark:bg-gray-600 dark:text-gray-400">
+                <div className="mb-4">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 mt-2 sm:mt-0">
+                            <Title>{t('Your Pets')}</Title>
+                            <MdOutlinePets className="text-2xl" />
+                        </div>
+                        <button
+                            className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center gap-2"
+                            onClick={() => {
+                                setSelectedAppointment(null);
+                                toggleModal();
+                            }}
+                        >
+                            {t('Add Appointment')}
+                            <span className="ml-2">
+                                <LuCalendarDays />
+                            </span>
+                        </button>
+                    </div>
                 </div>
-                <div className='mt-2'></div>
-                <FullCalendar
-                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                    initialView={'dayGridMonth'}
-                    headerToolbar={{
-                        start: "today, prev, next",
-                        center: "title",
-                        end: "dayGridMonth,timeGridWeek,timeGridDay"
-                    }}
-                    events={booking}
-                    selectable={false}
-                />
+                <div className="mt-5">
+                    <FullCalendar
+                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                        initialView={'dayGridMonth'}
+                        headerToolbar={{
+                            start: "today, prev, next",
+                            center: "title",
+                            end: "dayGridMonth,timeGridWeek,timeGridDay"
+                        }}
+                        events={booking}
+                        selectable={false}
+                    />
+                </div>
             </div>
-
+    
             {showModal && (
                 <AppointmentModal
                     showModal={showModal}
@@ -77,6 +76,7 @@ const Appointment: React.FC<AppointmentListProps> = ({ appointments, doctors, pe
             )}
         </AuthenticatedLayout>
     );
+    
 };
 
 export default Appointment;

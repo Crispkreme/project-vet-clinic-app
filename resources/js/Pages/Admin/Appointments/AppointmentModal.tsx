@@ -13,6 +13,7 @@ import { FiUserCheck } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import { MdPostAdd } from "react-icons/md";
 import { User, Pet, AppointmentModalProps } from "@/Interfaces";
+import { useTranslation } from 'react-i18next';
 
 const AppointmentModal: React.FC<AppointmentModalProps> = ({ 
     selectedAppointment, 
@@ -25,6 +26,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     doctors = [],
     pets = []    
 }) => {
+    const { t } = useTranslation();
     const { props } = usePage();
     const { errors } = props;
     const [notification, setNotification] = useState<string | null>(null);
@@ -74,13 +76,12 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
     };
     
     const statusOptions = [
-        { value: "Pending", label: "Pending" },
-        { value: "Confirmed", label: "Confirmed" },
-        { value: "Cancelled", label: "Cancelled" },
-        { value: "Completed", label: "Completed" },
+        { value: "Pending", label: t('Pending') },
+        { value: "Confirmed", label: t('Confirmed') },
+        { value: "Cancelled", label: t('Cancelled') },
+        { value: "Completed", label: t('Completed') },
     ];
 
-    // Use optional chaining to map doctors and pets
     const vetOptions = doctors?.map((doctor: User) => ({
         value: String(doctor.id),
         label: doctor.name
@@ -121,11 +122,11 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
         <Modal show={showModal} onClose={toggleModal}>
             <div className="p-6">
                 <Title>
-                    {isCreating && 'Create Appointment'}
-                    {isViewing && 'View Appointment'}
-                    {isAdmitting && 'Admit Appointment'}
-                    {isEditing && 'Update Appointment'}
-                    {!isViewing && !isAdmitting && !isEditing && 'Add Appointment'}
+                    {isCreating && t('Create Appointment') }
+                    {isViewing && t('View Appointment')}
+                    {isAdmitting && t('Admit Appointment')}
+                    {isEditing && t('Update Appointment')}
+                    {!isViewing && !isAdmitting && !isEditing && t('Add Appointment') }
                 </Title>
 
                 <form onSubmit={handleSubmit}>
@@ -137,7 +138,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                     )}
 
                     <div className="mt-2">
-                        <InputLabel htmlFor="title" value="Title" />
+                        <InputLabel htmlFor="title" value={t('Title')} />
                         <TextInput
                             id="title"
                             name="title"
@@ -154,7 +155,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
 
                     <div className="mt-2 flex gap-4">
                         <div className="w-1/2">
-                            <InputLabel htmlFor="pet_name" value="Pet Name" />
+                            <InputLabel htmlFor="pet_name" value={t('Pet Name')} />
                             <TextInput
                                 id="pet_name"
                                 name="pet_name"
@@ -167,7 +168,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                         </div>
 
                         <div className="w-1/2">
-                            <InputLabel htmlFor="vet_name" value="Doctor Name" />
+                            <InputLabel htmlFor="vet_name" value={t('Doctor Name')} />
                             <TextInput
                                 id="vet_name"
                                 name="vet_name"
@@ -182,7 +183,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
 
                     <div className="mt-2 flex gap-4">
                         <div className="w-1/3">
-                            <InputLabel htmlFor="appointment_date" value="Date" />
+                            <InputLabel htmlFor="appointment_date" value={t('Date')} />
                             <TextInput
                                 type="date"
                                 id="appointment_date"
@@ -198,7 +199,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                         </div>
 
                         <div className="w-1/3">
-                            <InputLabel htmlFor="appointment_start" value="Start" />
+                            <InputLabel htmlFor="appointment_start" value={t('Start')} />
                             <TextInput
                                 type="time"
                                 id="appointment_start"
@@ -213,7 +214,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                         </div>
 
                         <div className="w-1/3">
-                            <InputLabel htmlFor="appointment_end" value="End" />
+                            <InputLabel htmlFor="appointment_end" value={t('End')} />
                             <TextInput
                                 type="time"
                                 id="appointment_end"
@@ -229,7 +230,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                     </div>
 
                     <div className="mt-2">
-                        <InputLabel htmlFor="status" value="Status" />
+                        <InputLabel htmlFor="status" value={t('Status')} />
                         <Select
                             id="status"
                             label=""
@@ -242,7 +243,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                     </div>
 
                     <div className="mt-2">
-                        <InputLabel htmlFor="notes" value="Notes" />
+                        <InputLabel htmlFor="notes" value={t('Notes')} />
                         <Textarea
                             id="notes"
                             placeholder=''
@@ -263,7 +264,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                                 className="bg-green-500 text-white px-4 py-2 rounded-md inline-flex items-center"
                                 disabled={processing}
                             >
-                                <TbUserPlus className="mr-1" /> Admit
+                                <TbUserPlus className="mr-1" /> {t('Admin')}
                             </button>
                         )}
                         {isCreating && (
@@ -272,7 +273,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                                 className="bg-blue-500 text-white px-4 py-2 rounded-md inline-flex items-center"
                                 disabled={processing}
                             >
-                                <MdPostAdd className="mr-1" /> Create
+                                <MdPostAdd className="mr-1" /> {t('Create')}
                             </button>
                         )}
                         {isEditing && (
@@ -281,7 +282,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                                 className="bg-blue-500 text-white px-4 py-2 rounded-md inline-flex items-center"
                                 disabled={processing}
                             >
-                                <FiUserCheck className="mr-1" /> Update
+                                <FiUserCheck className="mr-1" /> {t('Update')}
                             </button>
                         )}
                         {isViewing && (
@@ -290,7 +291,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                                 className="bg-red-500 text-white px-4 py-2 rounded-md inline-flex items-center"
                                 onClick={toggleModal}
                             >
-                                <FaTimes className="mr-1" /> Close
+                                <FaTimes className="mr-1" /> {t('Close')}
                             </button>
                         )}
                     </div>

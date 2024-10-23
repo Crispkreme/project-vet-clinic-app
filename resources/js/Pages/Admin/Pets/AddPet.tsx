@@ -10,8 +10,11 @@ import TextInput from "@/Components/TextInput";
 import Select from "@/Components/Select";
 import Textarea from "@/Components/Textarea";
 import { AddPetProps } from "@/Interfaces";
+import { useTranslation } from 'react-i18next';
 
 const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, isEditing }) => {
+
+    const { t } = useTranslation();
     const { props } = usePage();
     const { errors } = props;
     const user = usePage().props.auth.user;
@@ -22,6 +25,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
         breed: "",
         age: "",
         weight: "",
+        birthday: "",
         status: "",
         medical_history: "",
         id: undefined,
@@ -66,16 +70,16 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
     };
 
     const statusOptions = [
-        { value: "Healthy", label: "Healthy" },
-        { value: "Due for Vaccination", label: "Due for Vaccination" },
-        { value: "Under Treatment", label: "Under Treatment" },
-        { value: "Post-Surgery", label: "Post-Surgery" },
-        { value: "Needs Medication", label: "Needs Medication" },
-        { value: "In Quarantine", label: "In Quarantine" },
-        { value: "Emergency", label: "Emergency" },
-        { value: "Adopted", label: "Adopted" },
-        { value: "Lost", label: "Lost" },
-        { value: "Pending Vet Visit", label: "Pending Vet Visit" },
+        { value: "Healthy", label: t('Healthy') },
+        { value: "Due for Vaccination", label: t('Due for Vaccination') },
+        { value: "Under Treatment", label: t('Under Treatment') },
+        { value: "Post-Surgery", label: t('Post-Surgery') },
+        { value: "Needs Medication", label: t('Needs Medication') },
+        { value: "In Quarantine", label: t('In Quarantine') },
+        { value: "Emergency", label: t('Emergency') },
+        { value: "Adopted", label: t('Adopted') },
+        { value: "Lost", label: t('Lost') },
+        { value: "Pending Vet Visit", label: t('Pending Vet Visit') },
     ];
 
     useEffect(() => {
@@ -86,7 +90,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                     user_id: selectedPet.user_id || user.id,
                     name: selectedPet.name || "",
                     breed: selectedPet.breed || "",
-                    age: selectedPet.age ? selectedPet.age.toString() : "",
+                    birthday: selectedPet.birthday ? selectedPet.birthday.toString() : "",
                     weight: selectedPet.weight ? selectedPet.weight.toString() : "",
                     status: selectedPet.status || "",
                     medical_history: selectedPet.medical_history || "",
@@ -100,6 +104,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                     age: "",
                     weight: "",
                     status: "",
+                    birthday: "",
                     medical_history: "",
                     id: undefined,
                 });
@@ -128,7 +133,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                         <input type="hidden" name="id" value={data.id} />
                     )}
                     <div className="mt-2">
-                        <InputLabel htmlFor="name" value="Pet Name" />
+                        <InputLabel htmlFor="name" value={t('Pet Name')}/>
                         <TextInput
                             id="name"
                             name="name"
@@ -142,7 +147,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                         <InputError message={errors.name} className="mt-2" />
                     </div>
                     <div className="mt-2">
-                        <InputLabel htmlFor="breed" value="Pet Breed" />
+                        <InputLabel htmlFor="breed" value={t('Breed')} />
                         <TextInput
                             id="breed"
                             name="breed"
@@ -157,33 +162,26 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                     </div>
                     <div className="mt-2 flex gap-4">
                         <div className="w-1/2">
-                            <InputLabel htmlFor="age" value="Age" />
+                            <InputLabel htmlFor="birthday" value={t('Birthday')} />
                             <TextInput
-                                id="age"
-                                name="age"
-                                type="number"
+                                id="birthday"
+                                name="birthday"
+                                type="date"
                                 className="mt-1 block w-full px-3 py-2 border rounded-md"
-                                placeholder="Enter age"
-                                min="0"
-                                max="99"
-                                step="1"
-                                value={data.age}
+                                placeholder="Choose Birthday"
+                                value={data.birthday}
                                 onChange={(e) => {
                                     const value = e.target.value;
 
-                                    if (
-                                        value.length <= 2 && 
-                                        (value === "" || /^\d+$/.test(value)) 
-                                    ) {
-                                        setData(prevData => ({ ...prevData, age: value }));
-                                    }
+                                    setData(prevData => ({ ...prevData, birthday: value }));
+                                    
                                 }}
                             />
 
-                            <InputError message={errors.age} className="mt-2" />
+                            <InputError message={errors.birthday} className="mt-2" />
                         </div>
                         <div className="w-1/2">
-                            <InputLabel htmlFor="weight" value="Weight" />
+                            <InputLabel htmlFor="weight" value={t('Weight(Kg)')} />
                             <TextInput
                                 id="weight"
                                 name="weight"
@@ -200,7 +198,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                         </div>
                     </div>
                     <div className="mt-2">
-                        <InputLabel htmlFor="status" value="Status" />
+                        <InputLabel htmlFor="status" value={t('Status')} />
                         <Select
                             id="status"
                             label=""
@@ -214,16 +212,16 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                     <div className="mb-4">
                         <InputLabel
                             htmlFor="medical_history"
-                            value="Medical History"
+                            value={t('Medical History')}
                         />
                         <Textarea
-                            disabled={false}
                             id="medical_history"
                             name="medical_history"
                             value={data.medical_history}
                             onChange={(e) => setData(prevData => ({ ...prevData, medical_history: e.target.value })) }
-                            placeholder="Enter medical history"
+                            placeholder={t('Enter medical history')}
                             label=""
+                            disabled={false}
                         />
                         <InputError
                             message={errors.medical_history}
@@ -236,7 +234,7 @@ const AddPet: React.FC<AddPetProps> = ({ showModal, toggleModal, selectedPet, is
                         className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
                         disabled={processing}
                     >
-                        {isEditing ? "Update Pet" : "Add Pet"}
+                        {isEditing ? t('Update') : t('Add Pet')}
                     </button>
 
                     {notification && <div className="mt-4 text-green-500">{notification}</div>}

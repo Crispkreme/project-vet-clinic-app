@@ -5,6 +5,7 @@ import TextInput from '@/Components/TextInput';
 import AddProfileModal from '@/Pages/Profile/Partials/AddProfileModal';
 import { Transition } from '@headlessui/react';
 import { Link, useForm, usePage } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 import { FormEventHandler, useState } from 'react';
 import { FaUserPen } from "react-icons/fa6";
 
@@ -17,6 +18,7 @@ export default function UpdateProfileInformation({
     status?: string;
     className?: string;
 }) {
+    const { t } = useTranslation();
     const user = usePage().props.auth.user;
     const [modalOpen, setModalOpen] = useState(false);
     const { data, setData, patch, errors, processing, recentlySuccessful } =
@@ -46,17 +48,17 @@ export default function UpdateProfileInformation({
 
             <header>
                 <h2 className="text-lg font-medium text-gray-900">
-                    Profile Information
+                    {t('Profile Information')}
                 </h2>
 
                 <p className="mt-1 text-sm text-gray-600">
-                    Update your account's profile information and email address.
+                    {t('Update your accounts profile information and email address')}.
                 </p>
             </header>
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel htmlFor="name" value="Name" />
+                    <InputLabel htmlFor="name" value={t('Name')} />
 
                     <TextInput
                         id="name"
@@ -72,7 +74,7 @@ export default function UpdateProfileInformation({
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email" value={t('Email')} />
 
                     <TextInput
                         id="email"
@@ -90,28 +92,27 @@ export default function UpdateProfileInformation({
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>
                         <p className="mt-2 text-sm text-gray-800">
-                            Your email address is unverified.
+                            {t('Your email address is unverified')}.
                             <Link
                                 href={route('verification.send')}
                                 method="post"
                                 as="button"
                                 className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                             >
-                                Click here to re-send the verification email.
+                                {t('Click here to re-send the verification email')}.
                             </Link>
                         </p>
 
                         {status === 'verification-link-sent' && (
                             <div className="mt-2 text-sm font-medium text-green-600">
-                                A new verification link has been sent to your
-                                email address.
+                                {t('A new verification link has been sent to your email address')}.
                             </div>
                         )}
                     </div>
                 )}
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <PrimaryButton disabled={processing}>{t('Save')}</PrimaryButton>
 
                     <Transition
                         show={recentlySuccessful}
@@ -121,7 +122,7 @@ export default function UpdateProfileInformation({
                         leaveTo="opacity-0"
                     >
                         <p className="text-sm text-gray-600">
-                            Saved.
+                            {t('Saved')}.
                         </p>
                     </Transition>
                 </div>

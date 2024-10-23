@@ -7,7 +7,12 @@ export default function Dashboard({ pets, appointments, allAppointments, pending
 
     return (
         <AuthenticatedLayout>
-            <MainContent pets={pets} appointments={appointments} allAppointments={allAppointments} pendingAppointments={pendingAppointments}/>
+            <MainContent 
+                pets={pets} 
+                appointments={appointments} 
+                allAppointments={allAppointments} 
+                pendingAppointments={pendingAppointments}
+            />
             <UserProfile />
         </AuthenticatedLayout>
     );
