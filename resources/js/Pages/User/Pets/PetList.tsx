@@ -8,6 +8,7 @@ import { PetListProps, Pet } from "@/Interfaces";
 
 const PetList: React.FC<PetListProps> = ({ pets, user }) => {
     const { t } = useTranslation();
+    
 
     const [showModal, setShowModal] = useState(false);
     const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
