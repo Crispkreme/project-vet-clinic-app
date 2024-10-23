@@ -11,7 +11,7 @@ export interface Pet {
     user_id?: number | null;
     name: string;
     breed?: string | null;
-    age?: number | null;
+    birthday: string;
     weight?: number | null;
     medical_history?: string | null;
     status?: 'Healthy' | 'Due for Vaccination' | 'Under Treatment' | 'Post-Surgery' | 'Needs Medication' | 'In Quarantine' | 'Emergency' | 'Adopted' | 'Lost' | 'Pending Vet Visit';
@@ -110,6 +110,12 @@ export interface AddPetProps {
 export interface PetListProps {
     pets: Pet[];
     user?: { id: number }; 
+    flash: {
+        message: {
+            success?: string;
+            error?: string;
+        };
+    };
 }
 
 export interface DashboardProps {

@@ -6,7 +6,8 @@ import AddPet from './AddPet';
 import { useTranslation } from 'react-i18next';
 import { PetListProps, Pet } from "@/Interfaces";
 
-const PetList: React.FC<PetListProps> = ({ pets, user }) => {
+const PetList: React.FC<PetListProps> = ({ pets, user, flash }) => {
+    
     const { t } = useTranslation();
 
     const [showModal, setShowModal] = useState(false);
