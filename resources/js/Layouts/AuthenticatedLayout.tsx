@@ -30,11 +30,13 @@ export default function Authenticated({
                     darkMode={darkMode}
                     toogleSidebar={toogleSidebar}
                 />
-                <Sidebar isSidebarOpen={isSidebarOpen} />
-    
-                <main className={`text-gray-500 bg-gray-100 p-4 ${isSidebarOpen ? 'sm:ml-64' : 'ml-0'} flex flex-col lg:flex-row gap-4 translate-all duration-300 mt-14 dark:bg-gray-800`}>
-                    {children}
-                </main>
+                <div className="flex flex-col md:flex-row">
+                    <Sidebar isSidebarOpen={isSidebarOpen} />
+
+                    <main className={`text-gray-500 w-full bg-gray-100 p-4 flex flex-col gap-4 translate-all duration-300 mt-28 md:mt-16 dark:bg-gray-800 md:flex-1`}> {/* col-8 */}
+                        {children}
+                    </main>
+                </div>
             </div>
         </>
     );
