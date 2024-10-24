@@ -1,16 +1,18 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PetController;
-use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaypalController;
+use App\Http\Controllers\PetController;
+use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 
 
 
@@ -45,7 +47,11 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     // DOCTOR
     Route::get('/admin/client/doctor', [UserController::class, 'getClient'])->name('admin.client.doctor');
 
+    // PAYMENT
     Route::get('/admin/payment', [PaymentController::class, 'getPayment'])->name('admin.payment');
+
+    // CHAT
+    Route::get('/admin/message', [ChatController::class, 'viewMessage'])->name('admin.message');
 });
 
 // User routes
@@ -73,6 +79,8 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     // EMAIL FUNCTIONALITY
     Route::get('/user/email', [PaymentController::class, 'emailTest'])->name('user.email');
 
+    // CHAT FUNCTIONALITY
+    Route::get('/user/message', [ChatController::class, 'viewMessage'])->name('user.message');
 });
 
 Route::middleware('auth')->group(function () {

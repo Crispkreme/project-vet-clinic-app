@@ -18,6 +18,7 @@ import {
   FaListAlt
 } from "react-icons/fa";
 import { MdOutlinePets, MdPayment } from "react-icons/md";
+import { LuMessagesSquare } from "react-icons/lu";
 
 const user01 = `${window.location.origin}/assets/user01.png`;
 const user02 = `${window.location.origin}/assets/user02.png`;
@@ -92,6 +93,15 @@ export const getLinks = (userType) => {
       href: userType === 'admin' ? "/admin/payment" : "/user/payment",
       icon: MdPayment,
       text: "Payment",
+      badge: {
+        color: "bg-gray-100 text-gray-800",
+        darkColor: "dark:bg-gray-700 dark:text-gray-300",
+      },
+    },
+    {
+      href: userType === 'admin' ? "/admin/message" : "/user/message",
+      icon: LuMessagesSquare,
+      text: "Message",
       badge: {
         color: "bg-gray-100 text-gray-800",
         darkColor: "dark:bg-gray-700 dark:text-gray-300",
