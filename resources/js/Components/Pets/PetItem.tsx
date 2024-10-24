@@ -1,17 +1,7 @@
 import React from 'react';
-
-interface Pet {
-  id: number;
-  name: string;
-  breed: string;
-  status: string;
-}
+import { PetInfoProps } from "@/Interfaces";
   
-interface PetProps {
-  pet: Pet;  // Change to a single pet object
-}
-  
-const PetItem: React.FC<PetProps> = ({ pet }) => {  // Update prop destructuring
+const PetItem: React.FC<PetInfoProps> = ({ pet }) => {
     return (
         <div className='flex justify-between items-center mb-2'>
             <div className='flex items-center gap-2'>

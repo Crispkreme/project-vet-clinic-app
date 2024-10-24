@@ -109,6 +109,15 @@ export interface DoctorInfo {
     email: string;
 }
 
+export interface PetProps {
+    pets: Pet[];
+    usertype: string;
+}
+
+export interface PetInfoProps {
+    pet: Pet;
+  }
+
 export interface AddPetProps {
     showModal: boolean;
     toggleModal: () => void;
@@ -153,7 +162,6 @@ export interface MainContentProps {
     appointments: Appointment[]; 
     countAll: number;
     countCurrent: number;
-    usertype: string;
 }
 
 export interface StatsProps {

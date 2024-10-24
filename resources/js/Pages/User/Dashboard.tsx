@@ -23,9 +23,10 @@ const Dashboard: React.FC<DashboardProps> = ({ pets, appointments, allAppointmen
             <MainContent 
                 pets={pets} 
                 appointments={appointments} 
-                allAppointments={allAppointments} 
-                pendingAppointments={pendingAppointments}
+                countAll={allAppointments} 
+                countCurrent={pendingAppointments}
             />
+
             <UserProfile />
         </AuthenticatedLayout>
     );

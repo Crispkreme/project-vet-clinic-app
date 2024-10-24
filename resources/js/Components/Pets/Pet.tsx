@@ -1,18 +1,7 @@
 import React from "react";
 import PetItem from "./PetItem";
 import Title from "../Title";
-
-interface Pet {
-    id: number;
-    name: string;
-    breed: string;
-    status: string;
-}
-
-interface PetProps {
-    pets: Pet[];
-    usertype: string;
-}
+import { PetProps } from "@/Interfaces";
 
 const Pet: React.FC<PetProps> = ({ pets, usertype }) => {
     return (

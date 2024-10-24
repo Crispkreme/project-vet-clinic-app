@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import Stats from './Stats/Stats';
 import PetComponent from './Pets/Pet';
+import { usePage } from '@inertiajs/react';
 import Event from './Events/Event';
 import { MainContentProps } from "@/Interfaces";
 
-const MainContent: React.FC<MainContentProps> = ({ pets, appointments, countAll, countCurrent, usertype }) => {
+const MainContent: React.FC<MainContentProps> = ({ pets, appointments, countAll, countCurrent }) => {
   
+  const user = usePage().props.auth.user;
   const [darkMode, setDarkMode] = useState(false);
 
   return (
@@ -15,17 +17,17 @@ const MainContent: React.FC<MainContentProps> = ({ pets, appointments, countAll,
         darkMode={darkMode} 
         countAll={countAll} 
         countCurrent={countCurrent} 
-        usertype={usertype}
+        usertype={user.usertype}
       />
 
       <div className='flex flex-col gap-3 lg:flex-row'>
         <PetComponent 
           pets={pets} 
-          usertype={usertype}
+          usertype={user.usertype}
         />
         <Event 
           appointments={appointments} 
-          usertype={usertype}
+          usertype={user.usertype}
         />
       </div>
     </div>
