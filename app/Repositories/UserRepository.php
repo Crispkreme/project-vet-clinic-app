@@ -28,4 +28,9 @@ class UserRepository implements UserContract
     {
         return $this->model->where('usertype', 'user')->get();
     }
+
+    public function getUserByUserId($id)
+    {
+        return $this->model->findOrFail($id);
+    }
 }
