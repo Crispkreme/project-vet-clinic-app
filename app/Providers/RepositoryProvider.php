@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Contracts\AppointmentContract;
 
 use App\Contracts\InvoiceContract;
-use App\Contracts\MessageContract;
 use App\Contracts\PaypalContract;
 use App\Contracts\PetContract;
 use App\Contracts\PrescriptionContract;
@@ -13,7 +12,6 @@ use App\Contracts\ReceiptContract;
 use App\Contracts\UserContract;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\InvoiceRepository;
-use App\Repositories\MessageRepository;
 use App\Repositories\PaypalRepository;
 use App\Repositories\PetRepository;
 use App\Repositories\PrescriptionRepository;
@@ -31,7 +29,6 @@ class RepositoryProvider extends ServiceProvider
         InvoiceContract::class => InvoiceRepository::class,
         PaypalContract::class => PaypalRepository::class,
         ReceiptContract::class => ReceiptRepository::class,
-        MessageContract::class => MessageRepository::class,
     ];
 
     /**

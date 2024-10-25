@@ -8,8 +8,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen }) => {
 
     const user = usePage().props.auth.user;
     const userType = user.usertype;
-    const userId = user.id;
-    const links = getLinks(userId, userType);
+    const links = getLinks(userType);
 
     return (
         <aside className={`fixed lg:relative top-0 z-40 w-64 h-screen pt-20 bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
