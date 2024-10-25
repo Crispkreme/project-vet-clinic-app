@@ -28,7 +28,7 @@ export default function Welcome({
                     <div className="text-center">
                         <ApplicationLogo style={{ width: '200px', height: '200px', display: 'block', margin: '0 auto' }} />
                         <h1 className="text-3xl font-bold">Welcome to Hello Pets</h1>
-                        <p className="mt-4">explain</p>
+                        {/* <p className="mt-4">explain</p> */}
                         <p className='mt-4'>
                             {auth.user ? (
                                     auth.user.usertype === 'admin' ? (

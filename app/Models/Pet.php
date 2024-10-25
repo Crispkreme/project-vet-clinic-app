@@ -19,6 +19,7 @@ class Pet extends Model
         'weight',
         'medical_history',
         'status',
+        'birthday'
     ];
 
     public function user()
