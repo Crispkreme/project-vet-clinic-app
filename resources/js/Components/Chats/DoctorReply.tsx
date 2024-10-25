@@ -1,6 +1,9 @@
+import { DoctorReplyProps } from "@/Interfaces";
 
-const user02 = `${window.location.origin}/assets/user02.png`;
-const DoctorReply = ({ message }) => {
+const DoctorReply: React.FC<DoctorReplyProps> = ({ message, doctors, picture }) => {
+
+    const doctorProfile = `${window.location.origin}/assets/${picture}`;
+
     return (
         <div className="chat-message">
             <div className="flex items-end justify-end">
@@ -11,7 +14,7 @@ const DoctorReply = ({ message }) => {
                         </span>
                     </div>
                 </div>
-                <img src={user02} className="w-6 h-6 rounded-full order-1" />
+                <img src={doctorProfile} className="w-6 h-6 rounded-full order-1" />
             </div>
         </div>
     );

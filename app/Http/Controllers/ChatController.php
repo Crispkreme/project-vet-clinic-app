@@ -77,12 +77,12 @@ class ChatController extends Controller
         if ($messages) {
             foreach ($messages as $message) {
                 $sentMessages[] = $this->messageContract->chatMessage($message);
-            }
         }
-
+        }
         return Inertia::render('User/Chats/Message', [
             'user' => $userDetails,
             'doctors' => $doctors,
+            'selectedDoctor' => $doctors->where('id', '=', $id)->first(),
             'sentMessages' => $sentMessages,
         ]);
     }
@@ -113,6 +113,7 @@ class ChatController extends Controller
             'user' => $userDetails,
             'owners' => $owners,
             'sentMessages' => $sentMessages,
+            'selectedOwner' => $owners->where('id', '=', $id)->first(),
         ]);
     }
 

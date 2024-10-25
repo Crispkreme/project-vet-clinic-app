@@ -1,9 +1,9 @@
 import { PetInfo } from "@/Interfaces";
 import { GrUserManager } from "react-icons/gr";
 
-const user01 = `${window.location.origin}/assets/user01.png`;
-
 const ClientCard = ({ client }: { client: PetInfo }) => {
+
+    const user01 = `${window.location.origin}/assets/${client.profile}`;
 
     return (
         <div className="card-container">

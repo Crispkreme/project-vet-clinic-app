@@ -26,7 +26,7 @@ const Chat = ({ user, doctors = [] }) => {
           </div>
           <div className="flex-1 p:2 sm:pb-6 justify-between flex flex-col h-screen hidden xl:flex">
 
-            <UserProfile name={user.name}/>
+            <UserProfile name={user.name} profile={user.profile} />
             
             {/* Messages here */}
             <div className="p-[15px] flex flex-col space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">

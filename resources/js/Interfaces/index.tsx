@@ -5,6 +5,7 @@ export interface User {
     name: string;
     email: string;
     usertype: string;
+    profile: string;
     phone_number?: string | null;
 }
 
@@ -99,6 +100,7 @@ export interface PetInfo {
     birthday: string;
     age: number;
     weight: string;
+    profile: string;
 }
 
 export interface DoctorInfo {
@@ -106,6 +108,7 @@ export interface DoctorInfo {
     name: string;
     usertype: string;
     phone_number: string;
+    profile: string;
     email: string;
 }
 
@@ -195,4 +198,58 @@ export interface PaymentProps{
             error?: string;
         };
     };
+}
+
+export interface UserProfileProps {
+    name: string;
+    profile: string;
+}
+
+export interface ChatProfileProps {
+    users: User[];
+}
+
+export interface ReplyProps {
+    message: string;
+}
+
+export interface DoctorReplyProps {
+    message: string;
+    doctors: User[];
+    picture: string;
+}
+
+export interface ChatProps {
+    user: User;
+    owners: User[];
+}
+
+export interface DoctorMessageProps {
+    user: User;
+    owners: User[];
+    flash: {
+        message: {
+            success?: string;
+            error?: string;
+        };
+    };
+    selectedOwner: User,
+    sentMessages: Array<{ id: number; sender: string; message: string }>;
+}
+
+export interface OwnerMessageProps {
+    user: User;
+    doctors: User[];
+    flash: {
+        message: {
+            success?: string;
+            error?: string;
+        };
+    };
+    selectedDoctor: User,
+    sentMessages: Array<{ id: number; sender: string; message: string }>;
+}
+  
+export interface AuthUser {
+    user: { name: string };
 }

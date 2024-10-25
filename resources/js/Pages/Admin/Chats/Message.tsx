@@ -4,47 +4,27 @@ import { FiSend } from "react-icons/fi";
 import ChatProfile from "@/Components/Chats/ChatProfile";
 import UserProfile from "@/Components/Chats/UserProfile";
 import { useForm } from '@inertiajs/react';
-import { usePage } from '@inertiajs/react';
+import { usePage, PageProps } from '@inertiajs/react';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import DoctorReply from '@/Components/Chats/DoctorReply';
 import OwnerReply from '@/Components/Chats/OwnerReply';
+import { DoctorMessageProps, AuthUser } from '@/Interfaces';
 
-interface MessageProps {
-  user: {
-    id: number;
-    name: string;
-    usertype: string;
-  };
-  doctors?: Array<{ id: number; name: string }>;
-  flash: {
-    message: {
-      success?: string;
-      error?: string;
-    };
-  };
-  sentMessages: Array<{
-    id: number;
-    message: string;
-    sender: string;
-  }>;
-}
+const Message: React.FC<DoctorMessageProps> = ({ user, selectedOwner, owners = [], flash, sentMessages }) => {
+  const ownerProfilePicture = owners[0]?.profile || '';
+  const doctorProfilePicture = user.profile;
 
-const Message = ({ user, owners = [], flash, sentMessages }: MessageProps) => {
+  const [messages, setMessages] = useState<Array<{ id: number; sender: string; message: string }>>([]);
+  const owner = usePage<PageProps & { auth: AuthUser }>().props.auth.user;
 
-  const [messages, setMessages] = useState([]);
-
-  const owner = usePage().props.auth.user;
-  const isAdmin = user.usertype;
   const { data, setData, post, reset } = useForm({
     message: '',
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const routeName = 'admin.send.message';
-
     post(route(routeName, user.id), {
       onSuccess: () => reset(),
     });
@@ -72,14 +52,23 @@ const Message = ({ user, owners = [], flash, sentMessages }: MessageProps) => {
             </div>
           </div>
           <div className="flex-1 p:2 sm:pb-6 justify-between flex flex-col h-screen hidden xl:flex">
-            <UserProfile name={user.name} />
+            <UserProfile name={user.name} profile={doctorProfilePicture} />
 
             <div className="p-[15px] flex flex-col space-y-4 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
               {sentMessages.map((sentMessage) => (
-                sentMessage['sender'] !== owner.name ? (
-                  <DoctorReply key={sentMessage.id} message={sentMessage['message']} />
+                sentMessage.sender !== owner.name ? (
+                  <DoctorReply 
+                    key={sentMessage.id} 
+                    message={sentMessage.message} 
+                    picture={doctorProfilePicture}
+                    doctors={owners}
+                  />
                 ) : (
-                  <OwnerReply key={sentMessage.id} message={sentMessage['message']} />
+                  <OwnerReply 
+                    key={sentMessage.id} 
+                    message={sentMessage.message} 
+                    picture={ownerProfilePicture}
+                  />
                 )
               ))}
             </div>
@@ -107,7 +96,6 @@ const Message = ({ user, owners = [], flash, sentMessages }: MessageProps) => {
                 </form>
               </div>
             </div>
-
           </div>
         </div>
       </div>

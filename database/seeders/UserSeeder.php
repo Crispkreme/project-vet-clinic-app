@@ -24,6 +24,7 @@ class UserSeeder extends Seeder
                 'email'    => 'maria.santos@clinic.com',
                 'password' => Hash::make('admin'),
                 'email_verified_at' => now(),
+                'profile' => 'doctor1.jpg',
             ],
             [
                 'name'     => 'Dr. Juan Reyes',
@@ -32,6 +33,7 @@ class UserSeeder extends Seeder
                 'email'    => 'juan.reyes@clinic.com',
                 'password' => Hash::make('admin'),
                 'email_verified_at' => now(),
+                'profile' => 'doctor4.jpg',
             ],
             [
                 'name'     => 'Dr. Anna Cruz',
@@ -40,6 +42,7 @@ class UserSeeder extends Seeder
                 'email'    => 'anna.cruz@clinic.com',
                 'password' => Hash::make('admin'),
                 'email_verified_at' => now(),
+                'profile' => 'doctor2.jpg',
             ],
             [
                 'name'     => 'Dr. Roberto Garcia',
@@ -48,6 +51,7 @@ class UserSeeder extends Seeder
                 'email'    => 'roberto.garcia@clinic.com',
                 'password' => Hash::make('admin'),
                 'email_verified_at' => now(),
+                'profile' => 'doctor3.jpg',
             ],
             [
                 'name'     => 'Dr. Liza Flores',
@@ -56,6 +60,7 @@ class UserSeeder extends Seeder
                 'email'    => 'liza.flores@clinic.com',
                 'password' => Hash::make('admin'),
                 'email_verified_at' => now(),
+                'profile' => 'doctor5.jpg',
             ],
             [
                 'name'     => 'Tomomi Nagasu',
@@ -64,6 +69,7 @@ class UserSeeder extends Seeder
                 'email'    => 'user@user.com',
                 'password' => Hash::make('user'),
                 'email_verified_at' => now(),
+                'profile' => 'user02.png',
             ],
         ];
         

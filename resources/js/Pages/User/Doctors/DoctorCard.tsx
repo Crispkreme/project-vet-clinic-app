@@ -2,9 +2,10 @@ import { TbDeviceMobileMessage } from "react-icons/tb";
 import { MdOutlineMarkAsUnread } from "react-icons/md";
 import { DoctorInfo } from "@/Interfaces";
 
-const user01 = `${window.location.origin}/assets/user01.png`;
-
 const DoctorCard = ({ doctor }: { doctor: DoctorInfo }) => {
+
+    const user01 = `${window.location.origin}/assets/${doctor.profile}`;
+
     return (
         <div className="card-container">
             <div className="card max-w-[270px] w-full bg-white rounded-lg p-4 flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 h-[450px]"> {/* Increased height */}

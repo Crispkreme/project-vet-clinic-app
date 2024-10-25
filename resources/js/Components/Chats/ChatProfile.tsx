@@ -1,21 +1,19 @@
 import { IoMdSearch } from "react-icons/io";
 import { usePage } from '@inertiajs/react';
 import UserChat from "@/Components/Chats/UserChat";
+import { ChatProfileProps } from "@/Interfaces";
 
-const user01 = `${window.location.origin}/assets/user01.png`;
-const user02 = `${window.location.origin}/assets/user02.png`;
+const ChatProfile: React.FC<ChatProfileProps> = ({ users }) => {
 
-
-const ChatProfile = ({ users }) => {
-    console.log(users);
-    const user = usePage().props.auth.user;
+    const userCredential = usePage().props.auth.user;
+    const profilePicture = `${window.location.origin}/assets/${userCredential.profile}`;
 
     return (
         <>
             <div className="relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-red-500 mb-4">
                 <div className="flex-shrink-0">
                     <img
-                        src={user01}
+                        src={profilePicture}
                         alt="doctor"
                         className="h-12 w-12 rounded-full"
                     />
@@ -24,9 +22,9 @@ const ChatProfile = ({ users }) => {
                     <a href="#" className="focus:outline-none">
                         <span className="absolute inset-0" />
                         <p className="text-sm font-bold text-red-600">
-                            {user.name}
+                            {userCredential.name}
                         </p>
-                        <p className="text-sm text-gray-500 truncate">{user.usertype}</p>
+                        <p className="text-sm text-gray-500 truncate">{userCredential.usertype}</p>
                     </a>
                 </div>
             </div>
@@ -45,9 +43,8 @@ const ChatProfile = ({ users }) => {
             </div>
 
             {users.map((user) => (
-                <UserChat user={user} />
+                <UserChat key={user.id} user={user} />
             ))}
-            
         </>
     );
 };

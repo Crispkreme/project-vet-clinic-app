@@ -1,7 +1,11 @@
+import { ReplyProps } from "@/Interfaces";
+import { usePage } from '@inertiajs/react';
 
-const OwnerReply = ({ message }) => {
+const OwnerReply: React.FC<ReplyProps> = ({ message }) => {
+    
+    const userCredential = usePage().props.auth.user;
+    const profilePicture = `${window.location.origin}/assets/${userCredential.profile}`;
 
-    const user02 = `${window.location.origin}/assets/user02.png`;
 
     return (
         <div className="chat-message">
@@ -13,7 +17,7 @@ const OwnerReply = ({ message }) => {
                         </span>
                     </div>
                 </div>
-                <img src={user02} className="w-6 h-6 rounded-full order-1" />
+                <img src={profilePicture} className="w-6 h-6 rounded-full order-1" alt="Owner profile" />
             </div>
         </div>
     );
