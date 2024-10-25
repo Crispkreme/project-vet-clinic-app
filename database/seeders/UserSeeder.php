@@ -18,10 +18,42 @@ class UserSeeder extends Seeder
         $faker = Faker::create();
         $users = [
             [
-                'name'     => 'Marvin Ramos',
+                'name'     => 'Dr. Maria Santos',
                 'usertype' => 'admin',
                 'phone_number' => '+63' . $faker->numerify('9#########'),
-                'email'    => 'admin@admin.com',
+                'email'    => 'maria.santos@clinic.com',
+                'password' => Hash::make('admin'),
+                'email_verified_at' => now(),
+            ],
+            [
+                'name'     => 'Dr. Juan Reyes',
+                'usertype' => 'admin',
+                'phone_number' => '+63' . $faker->numerify('9#########'),
+                'email'    => 'juan.reyes@clinic.com',
+                'password' => Hash::make('admin'),
+                'email_verified_at' => now(),
+            ],
+            [
+                'name'     => 'Dr. Anna Cruz',
+                'usertype' => 'admin',
+                'phone_number' => '+63' . $faker->numerify('9#########'),
+                'email'    => 'anna.cruz@clinic.com',
+                'password' => Hash::make('admin'),
+                'email_verified_at' => now(),
+            ],
+            [
+                'name'     => 'Dr. Roberto Garcia',
+                'usertype' => 'admin',
+                'phone_number' => '+63' . $faker->numerify('9#########'),
+                'email'    => 'roberto.garcia@clinic.com',
+                'password' => Hash::make('admin'),
+                'email_verified_at' => now(),
+            ],
+            [
+                'name'     => 'Dr. Liza Flores',
+                'usertype' => 'admin',
+                'phone_number' => '+63' . $faker->numerify('9#########'),
+                'email'    => 'liza.flores@clinic.com',
                 'password' => Hash::make('admin'),
                 'email_verified_at' => now(),
             ],
@@ -34,6 +66,7 @@ class UserSeeder extends Seeder
                 'email_verified_at' => now(),
             ],
         ];
+        
 
         DB::table('users')->insert($users);
     }

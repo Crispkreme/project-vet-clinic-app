@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             PetSeeder::class,
             AppointmentSeeder::class,
+            ChatSeeder::class,
         ]);
     }
 }

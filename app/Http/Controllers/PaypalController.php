@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Contracts\InvoiceContract;
 use App\Contracts\PaypalContract;
 use App\Contracts\ReceiptContract;
-use Exception;
+use App\Mail\PaymentConfirmationMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-use Inertia\Inertia;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+
+use Exception;
 
 class PaypalController extends Controller
 {
@@ -56,13 +60,19 @@ class PaypalController extends Controller
     
     public function paypalSuccess(Request $request)
     {   
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $provider->getAccessToken(); 
         $response = $provider->capturePaymentOrder($request->token);
         
         if (isset($response['status']) && !empty($response['status'])) {
-            
+
             DB::beginTransaction();
 
             try {
@@ -89,6 +99,11 @@ class PaypalController extends Controller
                 if ($request->wantsJson()) {
                     return response()->json(['success' => true]);
                 }
+
+                $emailTo = $user->email;
+                $message = "Payment Received Successfully";
+
+                Mail::to($emailTo)->send(new PaymentConfirmationMail($emailTo, $message));
 
                 Session::flash('success', 'Payment successfully created!');
                 return redirect()->back();

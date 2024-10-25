@@ -31,11 +31,10 @@ class PetSeeder extends Seeder
 
         for ($i = 0; $i < 10; $i++) {
             DB::table('pets')->insert([
-                'user_id' => 2, 
+                'user_id' => 6, 
                 'name' => $faker->name,  
                 'breed' => $faker->word,  
                 'birthday' => $faker->dateTimeBetween('-12 years', '-1 month')->format('Y-m-d'),
-                // 'age' => $faker->numberBetween(1, 15),  
                 'weight' => $faker->numberBetween(5, 50),  
                 'medical_history' => $faker->sentence, 
                 'status' => $faker->randomElement($statusOptions), 

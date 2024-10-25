@@ -264,7 +264,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({
                                 className="bg-green-500 text-white px-4 py-2 rounded-md inline-flex items-center"
                                 disabled={processing}
                             >
-                                <TbUserPlus className="mr-1" /> {t('Admin')}
+                                <TbUserPlus className="mr-1" /> {t('Admit')}
                             </button>
                         )}
                         {isCreating && (

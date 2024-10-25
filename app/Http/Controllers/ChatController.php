@@ -143,8 +143,6 @@ class ChatController extends Controller
             broadcast(new MessageSentEvent($message))->toOthers();
             
             DB::commit();
-
-            Session::flash('success', 'Message sent!');
             return redirect()->back();
 
         } catch (Exception $e) {
