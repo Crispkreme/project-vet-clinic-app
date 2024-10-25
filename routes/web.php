@@ -51,9 +51,7 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/admin/payment', [PaymentController::class, 'getPayment'])->name('admin.payment');
 
     // CHAT
-    Route::get('/admin/message/{id}', [ChatController::class, 'viewMessage'])->name('admin.message');
-    Route::get('/admin/owner/message/{id}', [ChatController::class, 'viewOwnerMessage'])->name('admin.owner.message');
-    Route::post('/admin/send/message/{id}', [ChatController::class, 'sentMessage'])->name('admin.send.message');
+    Route::get('/admin/message', [ChatController::class, 'viewMessage'])->name('admin.message');
 });
 
 // User routes
@@ -82,9 +80,7 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
     Route::get('/user/email', [PaymentController::class, 'emailTest'])->name('user.email');
 
     // CHAT FUNCTIONALITY
-    Route::get('/user/message/{id}', [ChatController::class, 'viewMessage'])->name('user.message');
-    Route::get('/user/doctor/message/{id}', [ChatController::class, 'viewDoctorMessage'])->name('user.doctor.message');
-    Route::post('/user/send/message/{id}', [ChatController::class, 'sentMessage'])->name('user.send.message');
+    Route::get('/user/message', [ChatController::class, 'viewMessage'])->name('user.message');
 });
 
 Route::middleware('auth')->group(function () {

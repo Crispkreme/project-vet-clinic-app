@@ -60,7 +60,7 @@ export const links = [
   },
 ];
 
-export const getLinks = (userId, userType) => {
+export const getLinks = (userType) => {
   const links = [
     {
       href: userType === 'admin' ? "/admin/dashboard" : "/user/dashboard",
@@ -99,7 +99,7 @@ export const getLinks = (userId, userType) => {
       },
     },
     {
-      href: userType === 'admin' ? `/admin/message/${userId}` : `/user/message/${userId}`,
+      href: userType === 'admin' ? "/admin/message" : "/user/message",
       icon: LuMessagesSquare,
       text: "Message",
       badge: {
