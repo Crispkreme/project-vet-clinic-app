@@ -325,6 +325,6 @@ class ChatSeeder extends Seeder
             ],
         ];
         
-        DB::table('chats')->insert($chats);
+        DB::table('messages')->insert($chats);
     }
 }
